@@ -1,0 +1,2374 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | NovaMart</title>
+
+<style>
+:root {
+    --primary: #5b4bdb;
+    --primary-dark: #4535bd;
+    --secondary: #ff8a3d;
+    --background: #f5f6fb;
+    --surface: #ffffff;
+    --text: #20243a;
+    --muted: #747b91;
+    --border: #e7e9f2;
+    --success: #16865c;
+    --danger: #d63e51;
+    --warning: #a7650c;
+    --shadow: 0 8px 25px rgba(30,35,80,.06);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.site-header {
+    height: 76px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--primary);
+}
+
+.logo span {
+    color: var(--secondary);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.store-link {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.admin-badge {
+    background: #eceaff;
+    color: var(--primary);
+    padding: 9px 12px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.logout-button {
+    border: 0;
+    background: #fff0f1;
+    color: var(--danger);
+    padding: 9px 13px;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.app-layout {
+    min-height: calc(100vh - 76px);
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr);
+}
+
+.sidebar {
+    background: #20243a;
+    color: white;
+    padding: 26px 15px;
+}
+
+.sidebar-label {
+    color: #9298b3;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    padding: 0 12px;
+    margin: 10px 0;
+}
+
+.sidebar-nav {
+    display: grid;
+    gap: 6px;
+}
+
+.sidebar-nav button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 13px 12px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #c5c9da;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.sidebar-nav button:hover,
+.sidebar-nav button.active {
+    background: #37334f;
+    color: white;
+}
+
+.sidebar-nav button.active {
+    box-shadow: inset 3px 0 var(--secondary);
+}
+
+.sidebar-icon {
+    width: 22px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.sidebar-note {
+    margin-top: 35px;
+    padding: 15px;
+    background: #2d324b;
+    border-radius: 12px;
+    color: #c5c9da;
+    font-size: 11px;
+}
+
+.sidebar-note strong {
+    display: block;
+    color: white;
+    margin-bottom: 6px;
+}
+
+.main-content {
+    padding: 30px;
+    min-width: 0;
+}
+
+.page-section {
+    display: none;
+}
+
+.page-section.active {
+    display: block;
+}
+
+.page-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.page-heading h1 {
+    font-size: 28px;
+    letter-spacing: -.7px;
+}
+
+.page-heading p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.eyebrow {
+    display: inline-block;
+    color: var(--primary);
+    background: #eceaff;
+    padding: 5px 10px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-bottom: 9px;
+}
+
+.primary-button {
+    background: var(--primary);
+    color: white;
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 15px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.primary-button:hover {
+    background: var(--primary-dark);
+}
+
+.secondary-button {
+    background: #eceaff;
+    color: var(--primary);
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 13px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.danger-button {
+    background: #fff0f1;
+    color: var(--danger);
+    border: 0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 21px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.stat-icon {
+    width: 37px;
+    height: 37px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    background: #eceaff;
+    font-size: 18px;
+}
+
+.stat-value {
+    font-size: 27px;
+    font-weight: 800;
+    margin-top: 13px;
+    overflow-wrap: anywhere;
+}
+
+.stat-caption {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+    min-width: 0;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.panel-heading h2 {
+    font-size: 17px;
+}
+
+.panel-heading p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th {
+    text-align: left;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    padding: 12px;
+    background: #f8f9fc;
+    white-space: nowrap;
+}
+
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.product-name {
+    font-weight: 800;
+}
+
+.product-subtitle {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.status {
+    display: inline-block;
+    border-radius: 30px;
+    padding: 5px 9px;
+    background: #eceaff;
+    color: var(--primary);
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.status.delivered,
+.status.active {
+    background: #e9f8f0;
+    color: var(--success);
+}
+
+.status.cancelled,
+.status.inactive {
+    background: #fff0f1;
+    color: var(--danger);
+}
+
+.status.pending {
+    background: #fff4df;
+    color: var(--warning);
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 17px;
+}
+
+.field,
+.select-field,
+.textarea-field {
+    padding: 11px 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    outline: none;
+    background: white;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.field:focus,
+.select-field:focus,
+.textarea-field:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(91,75,219,.08);
+}
+
+.search-field {
+    flex: 1;
+    min-width: 190px;
+}
+
+.filters .select-field {
+    min-width: 145px;
+}
+
+.action-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.table-select {
+    padding: 7px;
+    max-width: 150px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: white;
+    font-size: 11px;
+}
+
+.empty-table {
+    text-align: center;
+    padding: 35px 15px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.chart-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+.chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 13px;
+    height: 230px;
+    padding: 20px 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.chart-bar-wrap {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
+.chart-bar {
+    width: min(40px, 75%);
+    background: linear-gradient(180deg, #8a7df4, #5b4bdb);
+    border-radius: 8px 8px 0 0;
+    min-height: 3px;
+    transition: height .3s;
+}
+
+.chart-bar-label {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+.chart-bar-value {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.category-list {
+    display: grid;
+    gap: 18px;
+}
+
+.category-row {
+    display: grid;
+    gap: 7px;
+}
+
+.category-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.progress-track {
+    height: 8px;
+    background: #f0f1f7;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 20px;
+    background: var(--primary);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+
+.form-group .field,
+.form-group .select-field,
+.form-group .textarea-field {
+    width: 100%;
+}
+
+.form-group textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.notice {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 9px;
+    font-size: 12px;
+    margin-bottom: 16px;
+}
+
+.notice.show {
+    display: block;
+}
+
+.notice.success {
+    background: #e9f8f0;
+    color: var(--success);
+}
+
+.notice.error {
+    background: #fff0f1;
+    color: var(--danger);
+}
+
+.product-management-grid {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(25,28,48,.72);
+    z-index: 500;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    width: 100%;
+    max-width: 430px;
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 20px 70px rgba(0,0,0,.2);
+}
+
+.login-card h1 {
+    font-size: 25px;
+    margin-bottom: 7px;
+}
+
+.login-card > p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 22px;
+}
+
+.login-card .form-group {
+    margin-bottom: 16px;
+}
+
+.login-card .primary-button {
+    width: 100%;
+    padding: 13px;
+}
+
+.demo-credentials {
+    margin-top: 18px;
+    padding: 13px;
+    background: #fff8ed;
+    color: #805324;
+    border: 1px solid #ffe3be;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.login-error {
+    color: var(--danger);
+    font-size: 12px;
+    margin-bottom: 12px;
+    display: none;
+}
+
+.login-error.show {
+    display: block;
+}
+
+.dashboard-footer {
+    text-align: center;
+    padding: 20px 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.mobile-sidebar-toggle {
+    display: none;
+    border: 0;
+    background: #eceaff;
+    color: var(--primary);
+    padding: 10px 12px;
+    border-radius: 9px;
+    font-weight: 800;
+}
+
+@media (max-width: 1150px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-management-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 850px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+        padding: 18px;
+    }
+
+    .sidebar.open {
+        display: block;
+    }
+
+    .mobile-sidebar-toggle {
+        display: inline-block;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .site-header {
+        padding: 0 18px;
+    }
+}
+
+@media (max-width: 550px) {
+    .main-content {
+        padding: 14px;
+    }
+
+    .site-header {
+        height: 66px;
+        padding: 0 13px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .store-link {
+        display: none;
+    }
+
+    .admin-badge {
+        padding: 7px;
+        font-size: 10px;
+    }
+
+    .logout-button {
+        padding: 7px;
+        font-size: 10px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .panel {
+        padding: 16px 12px;
+    }
+
+    .login-card {
+        padding: 23px;
+    }
+
+    .page-heading h1 {
+        font-size: 24px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a class="logo" href="index.html">Nova<span>Mart</span></a>
+
+    <div class="header-right">
+        <button class="mobile-sidebar-toggle" id="sidebarToggle"
+                type="button">☰ Menu</button>
+        <a class="store-link" href="index.html">View Store ↗</a>
+        <span class="admin-badge">ADMIN PANEL</span>
+        <button class="logout-button" id="logoutButton"
+                type="button">Sign Out</button>
+    </div>
+</header>
+
+<div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-label">Workspace</div>
+
+        <nav class="sidebar-nav" id="sidebarNav">
+            <button class="active" data-section="overview">
+                <span class="sidebar-icon">▦</span> Overview
+            </button>
+            <button data-section="orders">
+                <span class="sidebar-icon">📦</span> Orders
+            </button>
+            <button data-section="products">
+                <span class="sidebar-icon">🛍️</span> Products
+            </button>
+            <button data-section="customers">
+                <span class="sidebar-icon">👥</span> Customers
+            </button>
+            <button data-section="analytics">
+                <span class="sidebar-icon">📈</span> Analytics
+            </button>
+        </nav>
+
+        <div class="sidebar-label" style="margin-top:28px">Store</div>
+
+        <nav class="sidebar-nav">
+            <button data-link="products.html">
+                <span class="sidebar-icon">🌐</span> Visit Store
+            </button>
+            <button data-link="track-order.html">
+                <span class="sidebar-icon">🚚</span> Track Order
+            </button>
+            <button data-link="account.html">
+                <span class="sidebar-icon">⚙️</span> Customer Account
+            </button>
+        </nav>
+
+        <div class="sidebar-note">
+            <strong>⚠ Demo administration</strong>
+            Data is stored in your browser. This panel is not protected by a real server-side authentication system.
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <!-- OVERVIEW -->
+        <section class="page-section active" id="section-overview">
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">Store overview</span>
+                    <h1>Dashboard</h1>
+                    <p>Welcome to your NovaMart store administration panel.</p>
+                </div>
+                <button class="primary-button" id="refreshDashboard">
+                    ↻ Refresh Data
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Products</span>
+                        <span class="stat-icon">🛍️</span>
+                    </div>
+                    <div class="stat-value" id="statProducts">0</div>
+                    <div class="stat-caption">Products in your catalogue</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Orders</span>
+                        <span class="stat-icon">📦</span>
+                    </div>
+                    <div class="stat-value" id="statOrders">0</div>
+                    <div class="stat-caption">Saved demo orders</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Customers</span>
+                        <span class="stat-icon">👥</span>
+                    </div>
+                    <div class="stat-value" id="statCustomers">0</div>
+                    <div class="stat-caption">Registered demo accounts</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Order Revenue</span>
+                        <span class="stat-icon">₹</span>
+                    </div>
+                    <div class="stat-value" id="statRevenue">₹0</div>
+                    <div class="stat-caption">Sum of saved order totals</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Recent Orders</h2>
+                        <p>Latest orders recorded in this browser.</p>
+                    </div>
+                    <button class="secondary-button"
+                            data-goto="orders">View All Orders</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrdersTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Catalogue Snapshot</h2>
+                        <p>Recently added or updated products.</p>
+                    </div>
+                    <button class="secondary-button"
+                            data-goto="products">Manage Products</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Availability</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentProductsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORDERS -->
+        <section class="page-section" id="section-orders">
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">Order management</span>
+                    <h1>Orders</h1>
+                    <p>Search orders and update their demo delivery status.</p>
+                </div>
+                <button class="secondary-button" id="exportOrders">
+                    ↓ Export Orders CSV
+                </button>
+            </div>
+
+            <div class="panel">
+                <div class="filters">
+                    <input class="field search-field" id="orderSearch"
+                           type="search"
+                           placeholder="Search order ID, email or customer">
+
+                    <select class="select-field" id="orderStatusFilter">
+                        <option value="">All statuses</option>
+                        <option value="Order Placed">Order Placed</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Out for Delivery">Out for Delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+
+                    <button class="secondary-button"
+                            id="clearOrderFilters">Clear Filters</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Order Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Update Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS -->
+        <section class="page-section" id="section-products">
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">Catalogue management</span>
+                    <h1>Products</h1>
+                    <p>Add, edit, search and remove demo catalogue entries.</p>
+                </div>
+                <button class="secondary-button" id="resetProducts">
+                    Restore Demo Catalogue
+                </button>
+            </div>
+
+            <div id="productNotice" class="notice"></div>
+
+            <div class="product-management-grid">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2 id="productFormTitle">Add Product</h2>
+                            <p>Product details for your demo store.</p>
+                        </div>
+                    </div>
+
+                    <form id="productForm">
+                        <input type="hidden" id="editProductId">
+
+                        <div class="form-group">
+                            <label for="productName">Product Name *</label>
+                            <input class="field" id="productName"
+                                   required maxlength="100"
+                                   placeholder="Enter product name">
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="productPrice">Price (₹) *</label>
+                                <input class="field" id="productPrice"
+                                       type="number" min="0.01" step="0.01"
+                                       required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productCategory">Category *</label>
+                                <input class="field" id="productCategory"
+                                       required maxlength="60"
+                                       placeholder="Electronics">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productImage">Image URL</label>
+                            <input class="field" id="productImage"
+                                   type="url"
+                                   placeholder="https://example.com/image.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productDescription">Description</label>
+                            <textarea class="textarea-field"
+                                      id="productDescription"
+                                      maxlength="1000"
+                                      placeholder="Describe this product"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productStock">Stock Quantity</label>
+                            <input class="field" id="productStock"
+                                   type="number" min="0" step="1" value="10">
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="primary-button" type="submit"
+                                    id="saveProductButton">
+                                Save Product
+                            </button>
+                            <button class="secondary-button" type="button"
+                                    id="cancelEditButton">
+                                Clear Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Product Catalogue</h2>
+                            <p id="productCountText">0 products</p>
+                        </div>
+                    </div>
+
+                    <div class="filters">
+                        <input class="field search-field"
+                               id="productSearch"
+                               type="search"
+                               placeholder="Search products or categories">
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CUSTOMERS -->
+        <section class="page-section" id="section-customers">
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">Customer directory</span>
+                    <h1>Customers</h1>
+                    <p>Review registered demo accounts and their order history.</p>
+                </div>
+                <button class="secondary-button" id="exportCustomers">
+                    ↓ Export Customers CSV
+                </button>
+            </div>
+
+            <div class="panel">
+                <div class="filters">
+                    <input class="field search-field" id="customerSearch"
+                           type="search"
+                           placeholder="Search customer name or email">
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Registered</th>
+                                <th>Orders</th>
+                                <th>Order Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANALYTICS -->
+        <section class="page-section" id="section-analytics">
+            <div class="page-heading">
+                <div>
+                    <span class="eyebrow">Store insights</span>
+                    <h1>Analytics</h1>
+                    <p>Simple statistics based on orders saved in this browser.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Average Order Value</div>
+                    <div class="stat-value" id="averageOrderValue">₹0</div>
+                    <div class="stat-caption">Across all saved orders</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Delivered Orders</div>
+                    <div class="stat-value" id="deliveredOrders">0</div>
+                    <div class="stat-caption">Marked delivered</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Pending Orders</div>
+                    <div class="stat-value" id="pendingOrders">0</div>
+                    <div class="stat-caption">Not delivered or cancelled</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Catalogue Categories</div>
+                    <div class="stat-value" id="categoryCount">0</div>
+                    <div class="stat-caption">Distinct product categories</div>
+                </div>
+            </div>
+
+            <div class="chart-layout">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Orders by Month</h2>
+                            <p>Order count for the latest six months.</p>
+                        </div>
+                    </div>
+                    <div class="chart-bars" id="monthlyChart"></div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Product Categories</h2>
+                            <p>Products in each category.</p>
+                        </div>
+                    </div>
+                    <div class="category-list" id="categoryChart"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="dashboard-footer">
+            NovaMart Admin · Demo application · No real payments are processed.
+        </div>
+    </main>
+</div>
+
+<!-- DEMO ADMIN LOGIN -->
+<div class="login-overlay" id="loginOverlay">
+    <form class="login-card" id="adminLoginForm">
+        <a class="logo" href="index.html">Nova<span>Mart</span></a>
+        <h1 style="margin-top:22px">Admin Sign In</h1>
+        <p>Sign in to access the NovaMart demo administration dashboard.</p>
+
+        <div class="login-error" id="loginError">
+            Incorrect demo admin credentials.
+        </div>
+
+        <div class="form-group">
+            <label for="adminEmail">Admin Email</label>
+            <input class="field" id="adminEmail" type="email"
+                   required autocomplete="username"
+                   placeholder="admin@novamart.test">
+        </div>
+
+        <div class="form-group">
+            <label for="adminPassword">Password</label>
+            <input class="field" id="adminPassword" type="password"
+                   required autocomplete="current-password"
+                   placeholder="Enter admin password">
+        </div>
+
+        <button class="primary-button" type="submit">
+            Sign In to Dashboard
+        </button>
+
+        <div class="demo-credentials">
+            <strong>Demo credentials</strong><br>
+            Email: admin@novamart.test<br>
+            Password: Admin123
+        </div>
+
+        <p style="margin:18px 0 0;font-size:11px">
+            This is a client-side demo login, not production security.
+        </p>
+    </form>
+</div>
+
+<script>
+"use strict";
+
+/*
+ * NovaMart admin dashboard.
+ *
+ * Data storage:
+ * novamartProducts
+ * novamartOrders
+ * novamartUsers
+ * novamartAdminSession
+ *
+ * This page is a local front-end demo. It is not secure for a
+ * real online store because browser storage and JavaScript can
+ * be inspected or changed by the user.
+ */
+
+const STORAGE = {
+    products: "novamartProducts",
+    orders: "novamartOrders",
+    users: "novamartUsers",
+    session: "novamartAdminSession"
+};
+
+const ADMIN = {
+    email: "admin@novamart.test",
+    password: "Admin123"
+};
+
+const DEFAULT_PRODUCTS = [
+    {
+        id: "NM001",
+        name: "Wireless Headphones",
+        category: "Electronics",
+        price: 2499,
+        image: "https://placehold.co/500x400?text=Headphones",
+        description: "Comfortable wireless headphones for everyday listening.",
+        stock: 24
+    },
+    {
+        id: "NM002",
+        name: "Smart Watch",
+        category: "Electronics",
+        price: 3299,
+        image: "https://placehold.co/500x400?text=Smart+Watch",
+        description: "A stylish smart watch for daily activity tracking.",
+        stock: 18
+    },
+    {
+        id: "NM003",
+        name: "Cotton T-Shirt",
+        category: "Fashion",
+        price: 599,
+        image: "https://placehold.co/500x400?text=T-Shirt",
+        description: "Soft cotton everyday T-shirt.",
+        stock: 50
+    },
+    {
+        id: "NM004",
+        name: "Running Shoes",
+        category: "Fashion",
+        price: 2199,
+        image: "https://placehold.co/500x400?text=Running+Shoes",
+        description: "Lightweight shoes designed for daily activity.",
+        stock: 16
+    },
+    {
+        id: "NM005",
+        name: "Travel Backpack",
+        category: "Accessories",
+        price: 1299,
+        image: "https://placehold.co/500x400?text=Backpack",
+        description: "A versatile backpack for work and travel.",
+        stock: 20
+    },
+    {
+        id: "NM006",
+        name: "Ceramic Coffee Mug",
+        category: "Home",
+        price: 349,
+        image: "https://placehold.co/500x400?text=Coffee+Mug",
+        description: "A reusable ceramic mug for hot drinks.",
+        stock: 40
+    },
+    {
+        id: "NM007",
+        name: "Desk Lamp",
+        category: "Home",
+        price: 899,
+        image: "https://placehold.co/500x400?text=Desk+Lamp",
+        description: "Modern desk lamp for reading and work.",
+        stock: 14
+    },
+    {
+        id: "NM008",
+        name: "Portable Speaker",
+        category: "Electronics",
+        price: 1799,
+        image: "https://placehold.co/500x400?text=Speaker",
+        description: "Portable speaker for music on the go.",
+        stock: 12
+    },
+    {
+        id: "NM009",
+        name: "Water Bottle",
+        category: "Accessories",
+        price: 499,
+        image: "https://placehold.co/500x400?text=Water+Bottle",
+        description: "Reusable bottle for daily hydration.",
+        stock: 35
+    },
+    {
+        id: "NM010",
+        name: "Notebook Set",
+        category: "Stationery",
+        price: 299,
+        image: "https://placehold.co/500x400?text=Notebook",
+        description: "A set of notebooks for planning and writing.",
+        stock: 60
+    }
+];
+
+let products = [];
+let orders = [];
+let users = [];
+let currentSection = "overview";
+
+const $ = function (id) {
+    return document.getElementById(id);
+};
+
+/* Safe localStorage reader. */
+function readStorage(key, fallback) {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw === null ? fallback : JSON.parse(raw);
+    } catch (error) {
+        console.warn("Could not read storage:", key, error);
+        return fallback;
+    }
+}
+
+/* Safe localStorage writer. */
+function writeStorage(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+    } catch (error) {
+        console.error("Could not save storage:", key, error);
+        alert("Unable to save changes. Browser storage may be full or disabled.");
+        return false;
+    }
+}
+
+/* HTML rendering helper: use textContent for user-controlled data. */
+function node(tag, className, text) {
+    const element = document.createElement(tag);
+
+    if (className) {
+        element.className = className;
+    }
+
+    if (text !== undefined && text !== null) {
+        element.textContent = String(text);
+    }
+
+    return element;
+}
+
+/* Indian currency formatting. */
+function money(value) {
+    const amount = Number(value);
+
+    return "₹" + (Number.isFinite(amount) ? amount : 0)
+        .toLocaleString("en-IN", {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+        });
+}
+
+/* Readable date formatting. */
+function dateText(value) {
+    if (!value) return "—";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) return "—";
+
+    return date.toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+    });
+}
+
+/* Normalize text used in search fields. */
+function normalize(value) {
+    return String(value || "").trim().toLowerCase();
+}
+
+/* Get order identifier regardless of common field naming. */
+function orderId(order) {
+    return String(order.id || order.orderId || order.orderID || "UNKNOWN");
+}
+
+/* Resolve customer email from an order. */
+function orderEmail(order) {
+    return normalize(
+        order.email ||
+        order.customerEmail ||
+        (order.customer && order.customer.email) ||
+        ""
+    );
+}
+
+/* Resolve customer display name. */
+function orderCustomerName(order) {
+    return (
+        order.customerName ||
+        (order.customer && order.customer.name) ||
+        order.name ||
+        orderEmail(order) ||
+        "Guest Customer"
+    );
+}
+
+/* Resolve the total from common order structures. */
+function orderTotal(order) {
+    return Number(
+        order.total !== undefined
+            ? order.total
+            : order.grandTotal !== undefined
+                ? order.grandTotal
+                : 0
+    ) || 0;
+}
+
+/* Status class used for visual labels. */
+function statusClass(status) {
+    const value = normalize(status);
+
+    if (value.includes("deliver")) return "delivered";
+    if (value.includes("cancel")) return "cancelled";
+    if (value.includes("pending") || value.includes("placed")) {
+        return "pending";
+    }
+
+    return "";
+}
+
+/* Build a status label. */
+function statusBadge(status) {
+    return node("span", "status " + statusClass(status), status || "Order Placed");
+}
+
+/* Initialize local demo catalogue if missing. */
+function initializeCatalogue() {
+    const saved = readStorage(STORAGE.products, null);
+
+    if (Array.isArray(saved)) {
+        products = saved;
+        return;
+    }
+
+    products = DEFAULT_PRODUCTS.map(function (product) {
+        return { ...product };
+    });
+
+    writeStorage(STORAGE.products, products);
+}
+
+/* Load the latest saved data. */
+function loadData() {
+    products = readStorage(STORAGE.products, []);
+    orders = readStorage(STORAGE.orders, []);
+    users = readStorage(STORAGE.users, []);
+
+    if (!Array.isArray(products)) products = [];
+    if (!Array.isArray(orders)) orders = [];
+    if (!Array.isArray(users)) users = [];
+}
+
+/* Display a notice in the product section. */
+function showProductNotice(message, type) {
+    const notice = $("productNotice");
+    notice.textContent = message;
+    notice.className = "notice show " + type;
+
+    window.setTimeout(function () {
+        notice.className = "notice";
+    }, 4500);
+}
+
+/* LOGIN */
+
+/* Display the dashboard after demo authentication. */
+function showDashboard() {
+    $("loginOverlay").classList.add("hidden");
+    $("logoutButton").classList.remove("hidden");
+    refreshAll();
+}
+
+/* Validate demo admin credentials. */
+$("adminLoginForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const email = normalize($("adminEmail").value);
+    const password = $("adminPassword").value;
+
+    if (email !== ADMIN.email || password !== ADMIN.password) {
+        $("loginError").classList.add("show");
+        return;
+    }
+
+    $("loginError").classList.remove("show");
+
+    writeStorage(STORAGE.session, {
+        email: ADMIN.email,
+        signedInAt: new Date().toISOString()
+    });
+
+    showDashboard();
+});
+
+/* Sign out. */
+$("logoutButton").addEventListener("click", function () {
+    localStorage.removeItem(STORAGE.session);
+    $("loginOverlay").classList.remove("hidden");
+    $("adminPassword").value = "";
+});
+
+/* Restore demo admin session for convenience. */
+function restoreAdminSession() {
+    const session = readStorage(STORAGE.session, null);
+
+    if (session && session.email === ADMIN.email) {
+        showDashboard();
+    } else {
+        $("loginOverlay").classList.remove("hidden");
+    }
+}
+
+/* SIDEBAR NAVIGATION */
+
+function openSection(name) {
+    currentSection = name;
+
+    document.querySelectorAll(".page-section").forEach(function (section) {
+        section.classList.toggle(
+            "active",
+            section.id === "section-" + name
+        );
+    });
+
+    document.querySelectorAll("#sidebarNav button[data-section]")
+        .forEach(function (button) {
+            button.classList.toggle(
+                "active",
+                button.dataset.section === name
+            );
+        });
+
+    $("sidebar").classList.remove("open");
+
+    if (name === "overview") renderOverview();
+    if (name === "orders") renderOrders();
+    if (name === "products") renderProducts();
+    if (name === "customers") renderCustomers();
+    if (name === "analytics") renderAnalytics();
+}
+
+$("sidebarNav").addEventListener("click", function (event) {
+    const button = event.target.closest("button[data-section]");
+
+    if (!button) return;
+
+    openSection(button.dataset.section);
+});
+
+document.querySelectorAll("[data-goto]").forEach(function (button) {
+    button.addEventListener("click", function () {
+        openSection(button.dataset.goto);
+    });
+});
+
+document.querySelectorAll("[data-link]").forEach(function (button) {
+    button.addEventListener("click", function () {
+        window.location.href = button.dataset.link;
+    });
+});
+
+$("sidebarToggle").addEventListener("click", function () {
+    $("sidebar").classList.toggle("open");
+});
+
+/* DASHBOARD STATISTICS */
+
+function renderStats() {
+    $("statProducts").textContent = products.length;
+    $("statOrders").textContent = orders.length;
+    $("statCustomers").textContent = users.length;
+
+    const revenue = orders.reduce(function (sum, order) {
+        return sum + orderTotal(order);
+    }, 0);
+
+    $("statRevenue").textContent = money(revenue);
+}
+
+function renderRecentOrders() {
+    const tbody = $("recentOrdersTable");
+    tbody.replaceChildren();
+
+    const recent = [...orders]
+        .sort(function (a, b) {
+            return new Date(b.createdAt || b.date || 0) -
+                new Date(a.createdAt || a.date || 0);
+        })
+        .slice(0, 6);
+
+    if (!recent.length) {
+        const row = node("tr");
+        const cell = node("td", "empty-table", "No orders have been recorded yet.");
+        cell.colSpan = 5;
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+    }
+
+    recent.forEach(function (order) {
+        const row = node("tr");
+
+        row.appendChild(node("td", "product-name", orderId(order)));
+        row.appendChild(node("td", "", orderCustomerName(order)));
+        row.appendChild(node("td", "", dateText(order.createdAt || order.date)));
+        row.appendChild(node("td", "", money(orderTotal(order))));
+
+        const statusCell = node("td");
+        statusCell.appendChild(statusBadge(order.status || "Order Placed"));
+        row.appendChild(statusCell);
+
+        tbody.appendChild(row);
+    });
+}
+
+function renderRecentProducts() {
+    const tbody = $("recentProductsTable");
+    tbody.replaceChildren();
+
+    products.slice(-6).reverse().forEach(function (product) {
+        const row = node("tr");
+
+        const nameCell = node("td");
+        nameCell.appendChild(node("div", "product-name", product.name));
+        nameCell.appendChild(
+            node("div", "product-subtitle", product.id || "Product")
+        );
+
+        row.appendChild(nameCell);
+        row.appendChild(node("td", "", product.category || "General"));
+        row.appendChild(node("td", "", money(product.price)));
+
+        const stock = Number(product.stock);
+
+        row.appendChild(
+            node(
+                "td",
+                "",
+                stock <= 0 ? "Out of stock" : stock <= 5 ? "Low stock" : "In stock"
+            )
+        );
+
+        tbody.appendChild(row);
+    });
+
+    if (!products.length) {
+        const row = node("tr");
+        const cell = node("td", "empty-table", "No products available.");
+        cell.colSpan = 4;
+        row.appendChild(cell);
+        tbody.appendChild(row);
+    }
+}
+
+function renderOverview() {
+    renderStats();
+    renderRecentOrders();
+    renderRecentProducts();
+}
+
+/* ORDER MANAGEMENT */
+
+function renderOrders() {
+    const tbody = $("ordersTable");
+    tbody.replaceChildren();
+
+    const query = normalize($("orderSearch").value);
+    const selectedStatus = $("orderStatusFilter").value;
+
+    const filtered = orders.filter(function (order) {
+        const haystack = [
+            orderId(order),
+            orderEmail(order),
+            orderCustomerName(order)
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = !query || haystack.includes(query);
+        const matchesStatus = !selectedStatus ||
+            String(order.status || "Order Placed") === selectedStatus;
+
+        return matchesSearch && matchesStatus;
+    }).sort(function (a, b) {
+        return new Date(b.createdAt || b.date || 0) -
+            new Date(a.createdAt || a.date || 0);
+    });
+
+    if (!filtered.length) {
+        const row = node("tr");
+        const cell = node("td", "empty-table", "No matching orders found.");
+        cell.colSpan = 6;
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+    }
+
+    filtered.forEach(function (order) {
+        const row = node("tr");
+
+        row.appendChild(node("td", "product-name", orderId(order)));
+        row.appendChild(node("td", "", orderCustomerName(order)));
+        row.appendChild(node("td", "", dateText(order.createdAt || order.date)));
+        row.appendChild(node("td", "", money(orderTotal(order))));
+
+        const statusCell = node("td");
+        statusCell.appendChild(statusBadge(order.status || "Order Placed"));
+        row.appendChild(statusCell);
+
+        const actionCell = node("td");
+        const select = node("select", "table-select");
+
+        select.dataset.orderId = orderId(order);
+
+        [
+            "Order Placed",
+            "Processing",
+            "Shipped",
+            "Out for Delivery",
+            "Delivered",
+            "Cancelled"
+        ].forEach(function (status) {
+            const option = node("option", "", status);
+            option.value = status;
+            option.selected = (order.status || "Order Placed") === status;
+            select.appendChild(option);
+        });
+
+        select.addEventListener("change", function () {
+            updateOrderStatus(select.dataset.orderId, select.value);
+        });
+
+        actionCell.appendChild(select);
+        row.appendChild(actionCell);
+        tbody.appendChild(row);
+    });
+}
+
+/*
+ * Persist status updates under the existing order ID.
+ * The tracking page reads the same novamartOrders key.
+ */
+function updateOrderStatus(id, newStatus) {
+    const index = orders.findIndex(function (order) {
+        return orderId(order) === id;
+    });
+
+    if (index === -1) {
+        alert("That order could not be found.");
+        return;
+    }
+
+    orders[index].status = newStatus;
+    orders[index].updatedAt = new Date().toISOString();
+
+    if (!writeStorage(STORAGE.orders, orders)) return;
+
+    loadData();
+    refreshAll();
+    openSection("orders");
+}
+
+$("orderSearch").addEventListener("input", renderOrders);
+$("orderStatusFilter").addEventListener("change", renderOrders);
+
+$("clearOrderFilters").addEventListener("click", function () {
+    $("orderSearch").value = "";
+    $("orderStatusFilter").value = "";
+    renderOrders();
+});
+
+/* CSV EXPORT HELPERS */
+
+function csvEscape(value) {
+    const text = String(value == null ? "" : value);
+    return '"' + text.replace(/"/g, '""') + '"';
+}
+
+function downloadCSV(filename, rows) {
+    const content = rows.map(function (row) {
+        return row.map(csvEscape).join(",");
+    }).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + content], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+}
+
+$("exportOrders").addEventListener("click", function () {
+    const rows = [
+        ["Order ID", "Customer", "Email", "Date", "Total", "Status"]
+    ];
+
+    orders.forEach(function (order) {
+        rows.push([
+            orderId(order),
+            orderCustomerName(order),
+            orderEmail(order),
+            dateText(order.createdAt || order.date),
+            orderTotal(order),
+            order.status || "Order Placed"
+        ]);
+    });
+
+    downloadCSV("novamart-orders.csv", rows);
+});
+
+/* PRODUCT MANAGEMENT */
+
+function renderProducts() {
+    const tbody = $("productsTable");
+    tbody.replaceChildren();
+
+    const query = normalize($("productSearch").value);
+
+    const filtered = products.filter(function (product) {
+        return normalize(
+            product.name + " " + product.category + " " + product.id
+        ).includes(query);
+    });
+
+    $("productCountText").textContent =
+        filtered.length + " product(s) shown";
+
+    if (!filtered.length) {
+        const row = node("tr");
+        const cell = node("td", "empty-table", "No products found.");
+        cell.colSpan = 5;
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+    }
+
+    filtered.forEach(function (product) {
+        const row = node("tr");
+
+        const nameCell = node("td");
+        nameCell.appendChild(node("div", "product-name", product.name));
+        nameCell.appendChild(
+            node("div", "product-subtitle", product.id || "")
+        );
+
+        row.appendChild(nameCell);
+        row.appendChild(node("td", "", product.category || "General"));
+        row.appendChild(node("td", "", money(product.price)));
+        row.appendChild(
+            node("td", "", String(Number(product.stock) || 0))
+        );
+
+        const actions = node("td");
+        const actionRow = node("div", "action-row");
+
+        const editButton = node("button", "secondary-button", "Edit");
+        editButton.type = "button";
+        editButton.addEventListener("click", function () {
+            editProduct(product.id);
+        });
+
+        const deleteButton = node("button", "danger-button", "Delete");
+        deleteButton.type = "button";
+        deleteButton.addEventListener("click", function () {
+            deleteProduct(product.id);
+        });
+
+        actionRow.appendChild(editButton);
+        actionRow.appendChild(deleteButton);
+        actions.appendChild(actionRow);
+        row.appendChild(actions);
+
+        tbody.appendChild(row);
+    });
+}
+
+function clearProductForm() {
+    $("productForm").reset();
+    $("editProductId").value = "";
+    $("productStock").value = "10";
+    $("productFormTitle").textContent = "Add Product";
+    $("saveProductButton").textContent = "Save Product";
+}
+
+function editProduct(id) {
+    const product = products.find(function (item) {
+        return String(item.id) === String(id);
+    });
+
+    if (!product) return;
+
+    $("editProductId").value = product.id;
+    $("productName").value = product.name || "";
+    $("productPrice").value = product.price || "";
+    $("productCategory").value = product.category || "";
+    $("productImage").value = product.image || "";
+    $("productDescription").value = product.description || "";
+    $("productStock").value = Number(product.stock) || 0;
+
+    $("productFormTitle").textContent = "Edit Product";
+    $("saveProductButton").textContent = "Update Product";
+
+    $("productForm").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+function deleteProduct(id) {
+    const product = products.find(function (item) {
+        return String(item.id) === String(id);
+    });
+
+    if (!product) return;
+
+    const confirmed = confirm(
+        'Delete "' + product.name + '" from the demo catalogue?'
+    );
+
+    if (!confirmed) return;
+
+    products = products.filter(function (item) {
+        return String(item.id) !== String(id);
+    });
+
+    if (!writeStorage(STORAGE.products, products)) return;
+
+    loadData();
+    clearProductForm();
+    refreshAll();
+    showProductNotice("Product deleted successfully.", "success");
+}
+
+$("productForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const editId = $("editProductId").value;
+    const name = $("productName").value.trim();
+    const category = $("productCategory").value.trim();
+    const price = Number($("productPrice").value);
+    const stock = Number($("productStock").value);
+    const image = $("productImage").value.trim();
+    const description = $("productDescription").value.trim();
+
+    if (!name || !category || !Number.isFinite(price) || price <= 0) {
+        showProductNotice(
+            "Enter a product name, category and valid positive price.",
+            "error"
+        );
+        return;
+    }
+
+    if (!Number.isInteger(stock) || stock < 0) {
+        showProductNotice(
+            "Stock must be a whole number greater than or equal to zero.",
+            "error"
+        );
+        return;
+    }
+
+    if (editId) {
+        const index = products.findIndex(function (item) {
+            return String(item.id) === String(editId);
+        });
+
+        if (index === -1) {
+            showProductNotice("Product not found.", "error");
+            return;
+        }
+
+        products[index] = {
+            ...products[index],
+            name: name,
+            category: category,
+            price: price,
+            stock: stock,
+            image: image,
+            description: description
+        };
+    } else {
+        products.push({
+            id: "NM" + Date.now(),
+            name: name,
+            category: category,
+            price: price,
+            stock: stock,
+            image: image,
+            description: description
+        });
+    }
+
+    if (!writeStorage(STORAGE.products, products)) return;
+
+    loadData();
+    clearProductForm();
+    refreshAll();
+
+    showProductNotice(
+        editId ? "Product updated successfully." : "Product added successfully.",
+        "success"
+    );
+});
+
+$("cancelEditButton").addEventListener("click", clearProductForm);
+$("productSearch").addEventListener("input", renderProducts);
+
+/* Restore the built-in demo catalogue. */
+$("resetProducts").addEventListener("click", function () {
+    const confirmed = confirm(
+        "Restore the default 10 demo products? Your current product catalogue will be replaced."
+    );
+
+    if (!confirmed) return;
+
+    products = DEFAULT_PRODUCTS.map(function (product) {
+        return { ...product };
+    });
+
+    if (!writeStorage(STORAGE.products, products)) return;
+
+    loadData();
+    clearProductForm();
+    refreshAll();
+
+    showProductNotice(
+        "The default demo catalogue has been restored.",
+        "success"
+    );
+});
+
+/* CUSTOMER MANAGEMENT */
+
+function renderCustomers() {
+    const tbody = $("customersTable");
+    tbody.replaceChildren();
+
+    const query = normalize($("customerSearch").value);
+
+    const filtered = users.filter(function (user) {
+        return normalize(user.name + " " + user.email).includes(query);
+    });
+
+    if (!filtered.length) {
+        const row = node("tr");
+        const cell = node("td", "empty-table", "No matching customers found.");
+        cell.colSpan = 5;
+        row.appendChild(cell);
+        tbody.appendChild(row);
+        return;
+    }
+
+    filtered.forEach(function (user) {
+        const userEmail = normalize(user.email);
+
+        const userOrders = orders.filter(function (order) {
+            return orderEmail(order) === userEmail;
+        });
+
+        const totalSpent = userOrders.reduce(function (sum, order) {
+            return sum + orderTotal(order);
+        }, 0);
+
+        const row = node("tr");
+
+        row.appendChild(node("td", "product-name", user.name || "Customer"));
+        row.appendChild(node("td", "", user.email || ""));
+        row.appendChild(node("td", "", dateText(user.createdAt)));
+        row.appendChild(node("td", "", String(userOrders.length)));
+        row.appendChild(node("td", "", money(totalSpent)));
+
+        tbody.appendChild(row);
+    });
+}
+
+$("customerSearch").addEventListener("input", renderCustomers);
+
+$("exportCustomers").addEventListener("click", function () {
+    const rows = [
+        ["Name", "Email", "Registered Date", "Order Count", "Order Value"]
+    ];
+
+    users.forEach(function (user) {
+        const email = normalize(user.email);
+
+        const userOrders = orders.filter(function (order) {
+            return orderEmail(order) === email;
+        });
+
+        const total = userOrders.reduce(function (sum, order) {
+            return sum + orderTotal(order);
+        }, 0);
+
+        rows.push([
+            user.name || "",
+            user.email || "",
+            dateText(user.createdAt),
+            userOrders.length,
+            total
+        ]);
+    });
+
+    downloadCSV("novamart-customers.csv", rows);
+});
+
+/* ANALYTICS */
+
+function renderAnalytics() {
+    const revenue = orders.reduce(function (sum, order) {
+        return sum + orderTotal(order);
+    }, 0);
+
+    const average = orders.length ? revenue / orders.length : 0;
+
+    const delivered = orders.filter(function (order) {
+        return normalize(order.status).includes("deliver") &&
+            !normalize(order.status).includes("out for delivery");
+    }).length;
+
+    const cancelled = orders.filter(function (order) {
+        return normalize(order.status).includes("cancel");
+    }).length;
+
+    const pending = Math.max(0, orders.length - delivered - cancelled);
+
+    const categories = {};
+
+    products.forEach(function (product) {
+        const category = product.category || "General";
+        categories[category] = (categories[category] || 0) + 1;
+    });
+
+    $("averageOrderValue").textContent = money(average);
+    $("deliveredOrders").textContent = String(delivered);
+    $("pendingOrders").textContent = String(pending);
+    $("categoryCount").textContent = String(Object.keys(categories).length);
+
+    renderMonthlyChart();
+    renderCategoryChart(categories);
+}
+
+function renderMonthlyChart() {
+    const container = $("monthlyChart");
+    container.replaceChildren();
+
+    const now = new Date();
+    const months = [];
+
+    for (let i = 5; i >= 0; i--) {
+        const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+
+        months.push({
+            year: date.getFullYear(),
+            month: date.getMonth(),
+            label: date.toLocaleDateString("en-IN", { month: "short" }),
+            count: 0
+        });
+    }
+
+    orders.forEach(function (order) {
+        const date = new Date(order.createdAt || order.date || "");
+
+        if (Number.isNaN(date.getTime())) return;
+
+        const month = months.find(function (item) {
+            return item.year === date.getFullYear() &&
+                item.month === date.getMonth();
+        });
+
+        if (month) month.count++;
+    });
+
+    const max = Math.max(1, ...months.map(function (item) {
+        return item.count;
+    }));
+
+    months.forEach(function (item) {
+        const wrap = node("div", "chart-bar-wrap");
+
+        wrap.appendChild(
+            node("span", "chart-bar-value", String(item.count))
+        );
+
+        const bar = node("div", "chart-bar");
+        bar.style.height = Math.max(3, item.count / max * 150) + "px";
+        bar.title = item.count + " orders";
+
+        wrap.appendChild(bar);
+        wrap.appendChild(node("span", "chart-bar-label", item.label));
+
+        container.appendChild(wrap);
+    });
+}
+
+function renderCategoryChart(categories) {
+    const container = $("categoryChart");
+    container.replaceChildren();
+
+    const entries = Object.entries(categories)
+        .sort(function (a, b) {
+            return b[1] - a[1];
+        });
+
+    if (!entries.length) {
+        container.appendChild(
+            node("p", "empty-table", "No category data available.")
+        );
+        return;
+    }
+
+    const max = Math.max(1, ...entries.map(function (entry) {
+        return entry[1];
+    }));
+
+    entries.forEach(function (entry) {
+        const row = node("div", "category-row");
+        const heading = node("div", "category-heading");
+
+        heading.appendChild(node("span", "", entry[0]));
+        heading.appendChild(node("strong", "", String(entry[1])));
+
+        const track = node("div", "progress-track");
+        const bar = node("div", "progress-bar");
+
+        bar.style.width = (entry[1] / max * 100) + "%";
+
+        track.appendChild(bar);
+        row.appendChild(heading);
+        row.appendChild(track);
+        container.appendChild(row);
+    });
+}
+
+/* REFRESH */
+
+function refreshAll() {
+    loadData();
+    renderStats();
+    renderRecentOrders();
+    renderRecentProducts();
+    renderOrders();
+    renderProducts();
+    renderCustomers();
+    renderAnalytics();
+}
+
+$("refreshDashboard").addEventListener("click", function () {
+    refreshAll();
+});
+
+/* Keep other open tabs reasonably synchronized. */
+window.addEventListener("storage", function (event) {
+    if (Object.values(STORAGE).includes(event.key)) {
+        refreshAll();
+    }
+});
+
+/* INITIALIZATION */
+
+function initialize() {
+    initializeCatalogue();
+    loadData();
+
+    $("logoutButton").classList.remove("hidden");
+
+    refreshAll();
+    restoreAdminSession();
+}
+
+initialize();
+</script>
+
+</body>
+</html>

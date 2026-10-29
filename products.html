@@ -1,0 +1,5245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Explore 50 products at NovaMart. Filter categories, search products, compare prices, and shop your favorites."
+    >
+
+    <title>All Products | NovaMart</title>
+
+    <style>
+        /* =========================================
+           1. GLOBAL VARIABLES
+        ========================================= */
+
+        :root {
+            --primary: #5b4bdb;
+            --primary-dark: #4335b8;
+            --primary-light: #eeeaff;
+
+            --secondary: #ff8a4c;
+            --success: #16875b;
+            --danger: #dc3545;
+
+            --dark: #19172b;
+            --text: #55536a;
+            --muted: #89879a;
+
+            --background: #f8f8fc;
+            --surface: #ffffff;
+            --border: #e9e7f2;
+
+            --shadow-sm:
+                0 4px 15px rgba(28, 23, 65, 0.05);
+
+            --shadow-md:
+                0 12px 35px rgba(28, 23, 65, 0.09);
+
+            --shadow-lg:
+                0 20px 55px rgba(28, 23, 65, 0.14);
+
+            --radius-sm: 10px;
+            --radius-md: 18px;
+            --radius-lg: 28px;
+
+            --container: 1200px;
+            --transition: 0.25s ease;
+        }
+
+        /* =========================================
+           2. RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 150px;
+        }
+
+        body {
+            font-family:
+                Inter,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            background: var(--background);
+            color: var(--dark);
+
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: min(
+                var(--container),
+                calc(100% - 40px)
+            );
+
+            margin-inline: auto;
+        }
+
+        .section {
+            padding: 50px 0 80px;
+        }
+
+        .visually-hidden {
+            position: absolute;
+
+            width: 1px;
+            height: 1px;
+
+            padding: 0;
+            margin: -1px;
+
+            overflow: hidden;
+
+            clip: rect(0, 0, 0, 0);
+
+            white-space: nowrap;
+
+            border: 0;
+        }
+
+        :focus-visible {
+            outline: 3px solid rgba(91, 75, 219, 0.5);
+            outline-offset: 3px;
+        }
+
+        /* =========================================
+           3. ANNOUNCEMENT BAR
+        ========================================= */
+
+        .announcement {
+            padding: 10px 20px;
+
+            background: var(--dark);
+            color: white;
+
+            text-align: center;
+
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        .announcement strong {
+            color: #ffd2b8;
+        }
+
+        /* =========================================
+           4. HEADER
+        ========================================= */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border-bottom: 1px solid var(--border);
+
+            backdrop-filter: blur(18px);
+        }
+
+        .header-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+
+            min-height: 82px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+
+            flex-shrink: 0;
+        }
+
+        .brand-icon {
+            display: grid;
+            place-items: center;
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #8d7dff
+                );
+
+            color: white;
+
+            font-size: 1.35rem;
+            font-weight: 900;
+
+            box-shadow:
+                0 7px 18px rgba(91, 75, 219, 0.25);
+        }
+
+        .brand-name {
+            font-size: 1.45rem;
+            font-weight: 900;
+
+            letter-spacing: -0.8px;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .header-search {
+            display: flex;
+            align-items: center;
+
+            width: min(390px, 35vw);
+            height: 46px;
+
+            padding: 0 15px;
+
+            background: #f6f5fb;
+
+            border: 1px solid transparent;
+            border-radius: 12px;
+
+            transition: var(--transition);
+        }
+
+        .header-search:focus-within {
+            background: white;
+
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 4px rgba(91, 75, 219, 0.08);
+        }
+
+        .header-search span {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .header-search input {
+            width: 100%;
+
+            background: transparent;
+
+            border: none;
+            outline: none;
+
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            min-height: 44px;
+            padding: 0 12px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            color: var(--dark);
+
+            font-size: 0.85rem;
+            font-weight: 700;
+
+            transition: var(--transition);
+        }
+
+        .header-action:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .cart-count {
+            display: grid;
+            place-items: center;
+
+            min-width: 21px;
+            height: 21px;
+
+            padding: 0 5px;
+
+            background: var(--primary);
+            color: white;
+
+            border-radius: 50px;
+
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .mobile-menu-button {
+            display: none;
+
+            width: 43px;
+            height: 43px;
+
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            font-size: 1.3rem;
+        }
+
+        /* =========================================
+           5. NAVIGATION
+        ========================================= */
+
+        .navigation {
+            border-top: 1px solid #f1eff7;
+        }
+
+        .navigation-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 35px;
+
+            min-height: 48px;
+        }
+
+        .navigation a {
+            position: relative;
+
+            color: var(--text);
+
+            font-size: 0.86rem;
+            font-weight: 650;
+
+            transition: var(--transition);
+        }
+
+        .navigation a:hover,
+        .navigation a.active {
+            color: var(--primary);
+        }
+
+        .navigation a.active::after {
+            content: "";
+
+            position: absolute;
+
+            bottom: -15px;
+            left: 0;
+
+            width: 100%;
+            height: 3px;
+
+            border-radius: 5px;
+
+            background: var(--primary);
+        }
+
+        /* =========================================
+           6. BUTTONS
+        ========================================= */
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 9px;
+
+            min-height: 46px;
+            padding: 0 20px;
+
+            border: 1px solid transparent;
+            border-radius: 12px;
+
+            font-size: 0.87rem;
+            font-weight: 750;
+
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+
+            box-shadow:
+                0 8px 20px rgba(91, 75, 219, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: white;
+
+            border-color: var(--border);
+
+            color: var(--dark);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* =========================================
+           7. PAGE BANNER
+        ========================================= */
+
+        .page-banner {
+            position: relative;
+
+            padding: 45px 0;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #eeeaff,
+                    #faf8ff
+                );
+
+            border-bottom: 1px solid #e7e1ff;
+        }
+
+        .page-banner::after {
+            content: "✦";
+
+            position: absolute;
+
+            right: 8%;
+            top: -105px;
+
+            color: rgba(91, 75, 219, 0.07);
+
+            font-size: 19rem;
+            line-height: 1;
+
+            pointer-events: none;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+
+            color: var(--muted);
+
+            font-size: 0.82rem;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb .separator {
+            color: #b8b3d2;
+        }
+
+        .page-banner-content {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        .page-banner h1 {
+            font-size: clamp(2.1rem, 4vw, 3.2rem);
+
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+
+            font-weight: 900;
+        }
+
+        .page-banner p {
+            max-width: 600px;
+
+            margin-top: 13px;
+
+            color: var(--text);
+
+            font-size: 0.95rem;
+        }
+
+        .banner-stat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 18px 22px;
+
+            background: white;
+
+            border: 1px solid #e5e0ff;
+            border-radius: 16px;
+
+            box-shadow: var(--shadow-sm);
+        }
+
+        .banner-stat-icon {
+            display: grid;
+            place-items: center;
+
+            width: 46px;
+            height: 46px;
+
+            background: var(--primary-light);
+
+            border-radius: 13px;
+
+            font-size: 1.4rem;
+        }
+
+        .banner-stat strong {
+            display: block;
+
+            font-size: 1.3rem;
+            font-weight: 900;
+        }
+
+        .banner-stat span {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 0.75rem;
+        }
+
+        /* =========================================
+           8. SHOP LAYOUT
+        ========================================= */
+
+        .shop-layout {
+            display: grid;
+
+            grid-template-columns: 260px minmax(0, 1fr);
+
+            align-items: start;
+
+            gap: 28px;
+        }
+
+        /* =========================================
+           9. FILTER SIDEBAR
+        ========================================= */
+
+        .filter-sidebar {
+            position: sticky;
+            top: 155px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 19px;
+
+            overflow: hidden;
+        }
+
+        .filter-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 21px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-heading h2 {
+            font-size: 1.05rem;
+            font-weight: 850;
+        }
+
+        .reset-button {
+            background: transparent;
+
+            border: none;
+
+            color: var(--primary);
+
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .reset-button:hover {
+            text-decoration: underline;
+        }
+
+        .filter-group {
+            padding: 22px 21px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-group:last-child {
+            border-bottom: none;
+        }
+
+        .filter-group h3 {
+            margin-bottom: 17px;
+
+            font-size: 0.91rem;
+            font-weight: 850;
+        }
+
+        .category-options {
+            display: grid;
+            gap: 13px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            color: var(--text);
+
+            font-size: 0.84rem;
+
+            cursor: pointer;
+        }
+
+        .filter-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            cursor: pointer;
+        }
+
+        .filter-option input {
+            width: 16px;
+            height: 16px;
+
+            accent-color: var(--primary);
+
+            cursor: pointer;
+        }
+
+        .category-count {
+            color: #aaa6bb;
+
+            font-size: 0.76rem;
+        }
+
+        .price-filter-value {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 13px;
+
+            font-size: 0.8rem;
+        }
+
+        .price-filter-value strong {
+            color: var(--primary);
+        }
+
+        .price-range {
+            width: 100%;
+
+            accent-color: var(--primary);
+
+            cursor: pointer;
+        }
+
+        .price-range-labels {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 10px;
+
+            color: var(--muted);
+
+            font-size: 0.72rem;
+        }
+
+        .rating-options {
+            display: grid;
+            gap: 13px;
+        }
+
+        .rating-option {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            color: var(--text);
+
+            font-size: 0.83rem;
+
+            cursor: pointer;
+        }
+
+        .rating-option input {
+            width: 16px;
+            height: 16px;
+
+            accent-color: var(--primary);
+        }
+
+        .rating-stars {
+            color: #f4a623;
+
+            letter-spacing: 1px;
+        }
+
+        .stock-option {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            color: var(--text);
+
+            font-size: 0.83rem;
+
+            cursor: pointer;
+        }
+
+        .stock-option input {
+            width: 16px;
+            height: 16px;
+
+            accent-color: var(--primary);
+        }
+
+        /* =========================================
+           10. SHOP TOOLBAR
+        ========================================= */
+
+        .shop-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 17px 19px;
+
+            margin-bottom: 20px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 15px;
+        }
+
+        .results-text {
+            color: var(--text);
+
+            font-size: 0.85rem;
+        }
+
+        .results-text strong {
+            color: var(--dark);
+            font-weight: 850;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+        .sort-select {
+            min-height: 40px;
+
+            padding: 0 32px 0 12px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+
+            color: var(--dark);
+
+            font-size: 0.82rem;
+
+            outline: none;
+        }
+
+        .sort-select:focus {
+            border-color: var(--primary);
+        }
+
+        .mobile-filter-button {
+            display: none;
+        }
+
+        /* =========================================
+           11. ACTIVE FILTER CHIPS
+        ========================================= */
+
+        .active-filters {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 20px;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 7px 11px;
+
+            background: var(--primary-light);
+
+            border: 1px solid #ded7ff;
+            border-radius: 8px;
+
+            color: var(--primary);
+
+            font-size: 0.76rem;
+            font-weight: 750;
+        }
+
+        .filter-chip button {
+            background: transparent;
+
+            border: none;
+
+            color: var(--primary);
+
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .clear-chip-button {
+            padding: 7px 5px;
+
+            background: transparent;
+
+            border: none;
+
+            color: var(--muted);
+
+            font-size: 0.76rem;
+            font-weight: 750;
+        }
+
+        .clear-chip-button:hover {
+            color: var(--danger);
+        }
+
+        /* =========================================
+           12. PRODUCT GRID
+        ========================================= */
+
+        .product-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            gap: 19px;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            transition:
+                transform var(--transition),
+                box-shadow var(--transition),
+                border-color var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+
+            border-color: #ded8ff;
+
+            box-shadow: var(--shadow-md);
+        }
+
+        .product-image {
+            position: relative;
+
+            display: grid;
+            place-items: center;
+
+            height: 205px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f8f7ff,
+                    #efedff
+                );
+        }
+
+        .product-emoji {
+            display: grid;
+            place-items: center;
+
+            width: 118px;
+            height: 118px;
+
+            background: rgba(255, 255, 255, 0.7);
+
+            border-radius: 50%;
+
+            font-size: 4rem;
+
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-emoji {
+            transform: scale(1.12) rotate(-5deg);
+        }
+
+        .product-badge {
+            position: absolute;
+
+            top: 12px;
+            left: 12px;
+
+            padding: 5px 8px;
+
+            background: var(--primary);
+
+            border-radius: 7px;
+
+            color: white;
+
+            font-size: 0.62rem;
+            font-weight: 850;
+
+            letter-spacing: 0.2px;
+        }
+
+        .product-badge.sale {
+            background: var(--secondary);
+        }
+
+        .product-badge.new {
+            background: var(--success);
+        }
+
+        .wishlist-button {
+            position: absolute;
+
+            top: 10px;
+            right: 10px;
+
+            display: grid;
+            place-items: center;
+
+            width: 34px;
+            height: 34px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 50%;
+
+            color: var(--text);
+
+            font-size: 1rem;
+
+            transition: var(--transition);
+        }
+
+        .wishlist-button:hover,
+        .wishlist-button.active {
+            background: #fff0f2;
+
+            border-color: #ffd0d7;
+
+            color: #e44764;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            padding: 16px;
+        }
+
+        .product-category {
+            color: var(--muted);
+
+            font-size: 0.68rem;
+            font-weight: 800;
+
+            letter-spacing: 0.65px;
+            text-transform: uppercase;
+        }
+
+        .product-name {
+            min-height: 44px;
+
+            margin-top: 7px;
+
+            color: var(--dark);
+
+            font-size: 0.96rem;
+            font-weight: 850;
+
+            line-height: 1.4;
+        }
+
+        .product-name a:hover {
+            color: var(--primary);
+        }
+
+        .product-description {
+            display: -webkit-box;
+
+            min-height: 38px;
+
+            margin-top: 8px;
+
+            overflow: hidden;
+
+            color: var(--muted);
+
+            font-size: 0.76rem;
+            line-height: 1.5;
+
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
+
+            margin-top: 11px;
+
+            color: #f4a623;
+
+            font-size: 0.76rem;
+        }
+
+        .product-rating span {
+            color: var(--muted);
+
+            font-size: 0.7rem;
+        }
+
+        .product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 8px;
+
+            margin-top: auto;
+            padding-top: 15px;
+        }
+
+        .product-price {
+            color: var(--dark);
+
+            font-size: 1.13rem;
+            font-weight: 900;
+        }
+
+        .old-price {
+            display: block;
+
+            color: #a4a1b1;
+
+            font-size: 0.72rem;
+            font-weight: 500;
+
+            text-decoration: line-through;
+        }
+
+        .add-cart-button {
+            display: grid;
+            place-items: center;
+
+            flex-shrink: 0;
+
+            width: 40px;
+            height: 40px;
+
+            background: var(--primary);
+
+            border: none;
+            border-radius: 11px;
+
+            color: white;
+
+            font-size: 1.2rem;
+
+            transition: var(--transition);
+        }
+
+        .add-cart-button:hover {
+            background: var(--primary-dark);
+
+            transform: scale(1.06);
+        }
+
+        .add-cart-button:disabled {
+            background: #c5c1d8;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+        .stock-status {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 5px;
+
+            margin-top: 11px;
+
+            font-size: 0.71rem;
+            font-weight: 750;
+        }
+
+        .stock-status.in-stock {
+            color: var(--success);
+        }
+
+        .stock-status.out-of-stock {
+            color: var(--danger);
+        }
+
+        /* =========================================
+           13. EMPTY RESULTS
+        ========================================= */
+
+        .empty-state {
+            display: none;
+
+            padding: 65px 20px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 18px;
+
+            text-align: center;
+        }
+
+        .empty-state.visible {
+            display: block;
+        }
+
+        .empty-icon {
+            display: grid;
+            place-items: center;
+
+            width: 85px;
+            height: 85px;
+
+            margin: 0 auto 20px;
+
+            background: var(--primary-light);
+
+            border-radius: 25px;
+
+            font-size: 2.6rem;
+        }
+
+        .empty-state h2 {
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .empty-state p {
+            max-width: 430px;
+
+            margin: 12px auto 22px;
+
+            color: var(--muted);
+
+            font-size: 0.9rem;
+        }
+
+        /* =========================================
+           14. PAGINATION
+        ========================================= */
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 38px;
+        }
+
+        .page-button {
+            display: grid;
+            place-items: center;
+
+            min-width: 42px;
+            height: 42px;
+
+            padding: 0 12px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 11px;
+
+            color: var(--text);
+
+            font-size: 0.84rem;
+            font-weight: 750;
+
+            transition: var(--transition);
+        }
+
+        .page-button:hover {
+            border-color: var(--primary);
+
+            color: var(--primary);
+        }
+
+        .page-button.active {
+            background: var(--primary);
+
+            border-color: var(--primary);
+
+            color: white;
+        }
+
+        .page-button:disabled {
+            opacity: 0.4;
+
+            cursor: not-allowed;
+        }
+
+        /* =========================================
+           15. SERVICE STRIP
+        ========================================= */
+
+        .service-strip {
+            padding: 32px 0;
+
+            background: white;
+
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .service-grid {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+        }
+
+        .service-icon {
+            display: grid;
+            place-items: center;
+
+            flex-shrink: 0;
+
+            width: 43px;
+            height: 43px;
+
+            background: var(--primary-light);
+
+            border-radius: 13px;
+
+            font-size: 1.2rem;
+        }
+
+        .service-item h3 {
+            font-size: 0.84rem;
+            font-weight: 850;
+        }
+
+        .service-item p {
+            margin-top: 3px;
+
+            color: var(--muted);
+
+            font-size: 0.73rem;
+        }
+
+        /* =========================================
+           16. FOOTER
+        ========================================= */
+
+        .site-footer {
+            padding-top: 60px;
+
+            background: white;
+        }
+
+        .footer-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.6fr
+                1fr
+                1fr
+                1fr;
+
+            gap: 40px;
+
+            padding-bottom: 45px;
+        }
+
+        .footer-about {
+            max-width: 320px;
+        }
+
+        .footer-about p {
+            margin-top: 18px;
+
+            color: var(--muted);
+
+            font-size: 0.86rem;
+            line-height: 1.9;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 18px;
+
+            font-size: 0.95rem;
+            font-weight: 850;
+        }
+
+        .footer-column ul {
+            display: grid;
+            gap: 12px;
+        }
+
+        .footer-column a {
+            color: var(--muted);
+
+            font-size: 0.84rem;
+
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 23px 0;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-bottom p {
+            color: var(--muted);
+
+            font-size: 0.8rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+        .payment-methods span {
+            padding: 6px 9px;
+
+            background: #f8f7fc;
+
+            border: 1px solid var(--border);
+            border-radius: 6px;
+
+            color: var(--text);
+
+            font-size: 0.65rem;
+            font-weight: 800;
+        }
+
+        /* =========================================
+           17. TOAST NOTIFICATIONS
+        ========================================= */
+
+        .toast-container {
+            position: fixed;
+
+            right: 22px;
+            bottom: 22px;
+
+            z-index: 3000;
+
+            display: grid;
+            gap: 10px;
+
+            width: min(360px, calc(100% - 44px));
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 16px 18px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--success);
+            border-radius: 13px;
+
+            box-shadow: var(--shadow-lg);
+
+            animation: toast-in 0.25s ease;
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast-icon {
+            font-size: 1.2rem;
+        }
+
+        .toast-message {
+            color: var(--dark);
+
+            font-size: 0.86rem;
+            font-weight: 700;
+        }
+
+        @keyframes toast-in {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================================
+           18. TABLET RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1100px) {
+            .header-main {
+                gap: 15px;
+            }
+
+            .header-search {
+                width: 270px;
+            }
+
+            .navigation-inner {
+                gap: 25px;
+            }
+
+            .shop-layout {
+                grid-template-columns: 230px minmax(0, 1fr);
+
+                gap: 20px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .product-image {
+                height: 220px;
+            }
+
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* =========================================
+           19. MOBILE RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 760px) {
+            .container {
+                width: calc(100% - 28px);
+            }
+
+            .announcement {
+                font-size: 0.72rem;
+            }
+
+            .header-main {
+                min-height: 72px;
+
+                gap: 10px;
+            }
+
+            .brand {
+                gap: 8px;
+            }
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+
+                border-radius: 11px;
+            }
+
+            .brand-name {
+                font-size: 1.22rem;
+            }
+
+            .header-search {
+                display: none;
+            }
+
+            .header-actions {
+                gap: 7px;
+            }
+
+            .header-action {
+                min-height: 40px;
+
+                padding: 0 9px;
+
+                font-size: 0.78rem;
+            }
+
+            .action-label {
+                display: none;
+            }
+
+            .mobile-menu-button {
+                display: inline-flex;
+            }
+
+            .navigation-inner {
+                display: none;
+
+                align-items: stretch;
+                flex-direction: column;
+
+                gap: 0;
+
+                padding: 10px 0 18px;
+            }
+
+            .navigation-inner.open {
+                display: flex;
+            }
+
+            .navigation a {
+                padding: 12px 6px;
+
+                border-bottom: 1px solid var(--border);
+            }
+
+            .navigation a.active::after {
+                display: none;
+            }
+
+            .page-banner {
+                padding: 35px 0;
+            }
+
+            .page-banner-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .banner-stat {
+                padding: 14px 17px;
+            }
+
+            .section {
+                padding: 30px 0 55px;
+            }
+
+            .shop-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-sidebar {
+                position: static;
+
+                display: none;
+            }
+
+            .filter-sidebar.open {
+                display: block;
+            }
+
+            .filter-group {
+                padding: 17px;
+            }
+
+            .filter-heading {
+                padding: 17px;
+            }
+
+            .mobile-filter-button {
+                display: inline-flex;
+            }
+
+            .shop-toolbar {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 13px;
+
+                padding: 15px;
+            }
+
+            .toolbar-actions {
+                width: 100%;
+
+                justify-content: space-between;
+            }
+
+            .sort-select {
+                max-width: 185px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+
+                gap: 12px;
+            }
+
+            .product-image {
+                height: 165px;
+            }
+
+            .product-emoji {
+                width: 95px;
+                height: 95px;
+
+                font-size: 3.3rem;
+            }
+
+            .product-info {
+                padding: 12px;
+            }
+
+            .product-name {
+                min-height: 40px;
+
+                font-size: 0.86rem;
+            }
+
+            .product-description {
+                font-size: 0.72rem;
+            }
+
+            .product-price {
+                font-size: 0.98rem;
+            }
+
+            .product-rating {
+                gap: 4px;
+
+                font-size: 0.7rem;
+            }
+
+            .product-rating span {
+                font-size: 0.65rem;
+            }
+
+            .add-cart-button {
+                width: 36px;
+                height: 36px;
+            }
+
+            .product-badge {
+                top: 8px;
+                left: 8px;
+
+                padding: 5px 6px;
+
+                font-size: 0.56rem;
+            }
+
+            .wishlist-button {
+                top: 7px;
+                right: 7px;
+
+                width: 29px;
+                height: 29px;
+            }
+
+            .service-grid {
+                gap: 22px 15px;
+            }
+
+            .service-item {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 9px;
+            }
+
+            .footer-grid {
+                gap: 30px 20px;
+            }
+
+            .footer-about {
+                grid-column: 1 / -1;
+            }
+
+            .footer-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        /* =========================================
+           20. SMALL MOBILE
+        ========================================= */
+
+        @media (max-width: 390px) {
+            .brand-name {
+                font-size: 1.08rem;
+            }
+
+            .brand-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .header-main {
+                gap: 6px;
+            }
+
+            .header-actions {
+                gap: 5px;
+            }
+
+            .header-action {
+                padding: 0 7px;
+            }
+
+            .product-image {
+                height: 145px;
+            }
+
+            .product-bottom {
+                gap: 5px;
+            }
+
+            .product-price {
+                font-size: 0.88rem;
+            }
+
+            .add-cart-button {
+                width: 32px;
+                height: 32px;
+            }
+
+            .sort-select {
+                max-width: 160px;
+
+                font-size: 0.75rem;
+            }
+
+            .page-button {
+                min-width: 36px;
+                height: 36px;
+            }
+        }
+
+        /* =========================================
+           21. REDUCED MOTION
+        ========================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         ANNOUNCEMENT
+    ========================================== -->
+
+    <div class="announcement">
+        ✨ Welcome to NovaMart —
+        <strong>Free shipping on orders over $100</strong>
+        · Shop smarter today!
+    </div>
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="site-header">
+
+        <div class="container">
+
+            <div class="header-main">
+
+                <a href="index.html" class="brand">
+                    <span class="brand-icon">N</span>
+
+                    <span class="brand-name">
+                        Nova<span>Mart</span>
+                    </span>
+                </a>
+
+
+                <form
+                    class="header-search"
+                    id="headerSearchForm"
+                    role="search"
+                >
+                    <label
+                        class="visually-hidden"
+                        for="headerSearch"
+                    >
+                        Search products
+                    </label>
+
+                    <span aria-hidden="true">⌕</span>
+
+                    <input
+                        type="search"
+                        id="headerSearch"
+                        placeholder="Search products..."
+                    >
+                </form>
+
+
+                <div class="header-actions">
+
+                    <a
+                        href="account.html"
+                        class="header-action"
+                    >
+                        <span aria-hidden="true">♙</span>
+                        <span class="action-label">Account</span>
+                    </a>
+
+                    <a
+                        href="cart.html"
+                        class="header-action"
+                    >
+                        <span aria-hidden="true">🛒</span>
+                        <span class="action-label">Cart</span>
+
+                        <span
+                            class="cart-count"
+                            id="cartCount"
+                        >
+                            0
+                        </span>
+                    </a>
+
+                    <button
+                        type="button"
+                        class="mobile-menu-button"
+                        id="mobileMenuButton"
+                        aria-label="Toggle navigation"
+                        aria-expanded="false"
+                    >
+                        ☰
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <nav
+            class="navigation"
+            aria-label="Main navigation"
+        >
+            <div
+                class="container navigation-inner"
+                id="navigationInner"
+            >
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="products.html" class="active">
+                    All Products
+                </a>
+
+                <a href="products.html?category=Electronics">
+                    Electronics
+                </a>
+
+                <a href="products.html?category=Fashion">
+                    Fashion
+                </a>
+
+                <a href="products.html?category=Home">
+                    Home & Living
+                </a>
+
+                <a href="track-order.html">
+                    Track Order
+                </a>
+
+                <a href="account.html">
+                    My Account
+                </a>
+            </div>
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================
+         PAGE BANNER
+    ========================================== -->
+
+    <section class="page-banner">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+
+                <span class="separator">/</span>
+
+                <span>All Products</span>
+            </div>
+
+
+            <div class="page-banner-content">
+
+                <div>
+
+                    <h1>
+                        Find your next
+                        <span style="color: var(--primary);">
+                            favorite.
+                        </span>
+                    </h1>
+
+                    <p>
+                        Explore electronics, fashion, home essentials,
+                        beauty, sports, and accessories. Use our filters
+                        to find the right product for you.
+                    </p>
+
+                </div>
+
+
+                <div class="banner-stat">
+
+                    <div class="banner-stat-icon">
+                        🛍️
+                    </div>
+
+                    <div>
+                        <strong id="catalogCount">50</strong>
+
+                        <span>Demo products to explore</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SHOP SECTION
+    ========================================== -->
+
+    <main class="section" id="shop">
+
+        <div class="container">
+
+            <div class="shop-layout">
+
+
+                <!-- =================================
+                     FILTER SIDEBAR
+                ================================== -->
+
+                <aside
+                    class="filter-sidebar"
+                    id="filterSidebar"
+                    aria-label="Product filters"
+                >
+
+                    <div class="filter-heading">
+
+                        <h2>Filters</h2>
+
+                        <button
+                            type="button"
+                            class="reset-button"
+                            id="resetFilters"
+                        >
+                            Reset all
+                        </button>
+
+                    </div>
+
+
+                    <!-- Category Filter -->
+
+                    <div class="filter-group">
+
+                        <h3>Categories</h3>
+
+                        <div
+                            class="category-options"
+                            id="categoryOptions"
+                        >
+
+                            <!-- Generated by JavaScript -->
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Price Filter -->
+
+                    <div class="filter-group">
+
+                        <h3>Maximum Price</h3>
+
+                        <div class="price-filter-value">
+
+                            <span>Up to</span>
+
+                            <strong id="priceFilterValue">
+                                $250.00
+                            </strong>
+
+                        </div>
+
+                        <input
+                            type="range"
+                            class="price-range"
+                            id="priceRange"
+                            min="0"
+                            max="250"
+                            step="5"
+                            value="250"
+                            aria-label="Maximum product price"
+                        >
+
+                        <div class="price-range-labels">
+                            <span>$0</span>
+                            <span>$250+</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Rating Filter -->
+
+                    <div class="filter-group">
+
+                        <h3>Minimum Rating</h3>
+
+                        <div class="rating-options">
+
+                            <label class="rating-option">
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="0"
+                                    checked
+                                >
+
+                                <span>All ratings</span>
+                            </label>
+
+
+                            <label class="rating-option">
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="4"
+                                >
+
+                                <span class="rating-stars">
+                                    ★★★★
+                                </span>
+
+                                <span>& up</span>
+                            </label>
+
+
+                            <label class="rating-option">
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value="4.5"
+                                >
+
+                                <span class="rating-stars">
+                                    ★★★★★
+                                </span>
+
+                                <span>4.5 & up</span>
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Availability Filter -->
+
+                    <div class="filter-group">
+
+                        <h3>Availability</h3>
+
+                        <label class="stock-option">
+
+                            <input
+                                type="checkbox"
+                                id="inStockOnly"
+                            >
+
+                            <span>In-stock products only</span>
+
+                        </label>
+
+                    </div>
+
+                </aside>
+
+
+                <!-- =================================
+                     PRODUCT CONTENT
+                ================================== -->
+
+                <section
+                    class="shop-content"
+                    aria-label="Product results"
+                >
+
+                    <!-- Toolbar -->
+
+                    <div class="shop-toolbar">
+
+                        <p
+                            class="results-text"
+                            id="resultsText"
+                            aria-live="polite"
+                        >
+                            Showing
+                            <strong>50</strong>
+                            products
+                        </p>
+
+
+                        <div class="toolbar-actions">
+
+                            <button
+                                type="button"
+                                class="btn btn-outline mobile-filter-button"
+                                id="mobileFilterButton"
+                                aria-expanded="false"
+                            >
+                                ☷ Filters
+                            </button>
+
+
+                            <label
+                                class="visually-hidden"
+                                for="sortSelect"
+                            >
+                                Sort products
+                            </label>
+
+                            <select
+                                id="sortSelect"
+                                class="sort-select"
+                            >
+                                <option value="featured">
+                                    Sort: Featured
+                                </option>
+
+                                <option value="price-low">
+                                    Price: Low to High
+                                </option>
+
+                                <option value="price-high">
+                                    Price: High to Low
+                                </option>
+
+                                <option value="rating">
+                                    Highest Rated
+                                </option>
+
+                                <option value="name">
+                                    Name: A to Z
+                                </option>
+
+                                <option value="newest">
+                                    Newest First
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Active Filter Chips -->
+
+                    <div
+                        class="active-filters"
+                        id="activeFilters"
+                        aria-label="Active filters"
+                    ></div>
+
+
+                    <!-- Product Grid -->
+
+                    <div
+                        class="product-grid"
+                        id="productGrid"
+                    >
+
+                        <!-- Product cards generated by JavaScript -->
+
+                    </div>
+
+
+                    <!-- Empty State -->
+
+                    <div
+                        class="empty-state"
+                        id="emptyState"
+                    >
+
+                        <div class="empty-icon">
+                            🔎
+                        </div>
+
+                        <h2>No products found</h2>
+
+                        <p>
+                            We couldn't find products matching your
+                            current search and filters. Try a different
+                            search term or reset your filters.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="emptyResetButton"
+                        >
+                            Clear Filters
+                        </button>
+
+                    </div>
+
+
+                    <!-- Pagination -->
+
+                    <nav
+                        class="pagination"
+                        id="pagination"
+                        aria-label="Product pages"
+                    ></nav>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================
+         SERVICE STRIP
+    ========================================== -->
+
+    <section class="service-strip">
+
+        <div class="container">
+
+            <div class="service-grid">
+
+                <article class="service-item">
+
+                    <div class="service-icon">
+                        🚚
+                    </div>
+
+                    <div>
+                        <h3>Delivery Information</h3>
+                        <p>Explore our demo order flow</p>
+                    </div>
+
+                </article>
+
+
+                <article class="service-item">
+
+                    <div class="service-icon">
+                        🔒
+                    </div>
+
+                    <div>
+                        <h3>Demo Checkout</h3>
+                        <p>No real payment processing</p>
+                    </div>
+
+                </article>
+
+
+                <article class="service-item">
+
+                    <div class="service-icon">
+                        ↩️
+                    </div>
+
+                    <div>
+                        <h3>Easy Returns</h3>
+                        <p>Sample store policy</p>
+                    </div>
+
+                </article>
+
+
+                <article class="service-item">
+
+                    <div class="service-icon">
+                        💬
+                    </div>
+
+                    <div>
+                        <h3>Customer Support</h3>
+                        <p>Explore the demo store</p>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="site-footer">
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-about">
+
+                    <a href="index.html" class="brand">
+
+                        <span class="brand-icon">N</span>
+
+                        <span class="brand-name">
+                            Nova<span>Mart</span>
+                        </span>
+
+                    </a>
+
+                    <p>
+                        Discover a modern demo shopping experience
+                        with product browsing, a shopping cart,
+                        simulated checkout, and order tracking.
+                    </p>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Explore</h3>
+
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+
+                        <li>
+                            <a href="products.html">All Products</a>
+                        </li>
+
+                        <li>
+                            <a href="products.html?category=Electronics">
+                                Electronics
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="products.html?category=Fashion">
+                                Fashion
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="products.html?category=Home">
+                                Home & Living
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Your Account</h3>
+
+                    <ul>
+                        <li>
+                            <a href="account.html">
+                                Sign In / Register
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="cart.html">
+                                Shopping Cart
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="checkout.html">
+                                Checkout
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="track-order.html">
+                                Track Order
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Store Tools</h3>
+
+                    <ul>
+                        <li>
+                            <a href="track-order.html">
+                                Order Tracking
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="account.html#orders">
+                                Order History
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="admin.html">
+                                Demo Admin Panel
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="index.html#featured">
+                                Featured Products
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <p>
+                    © <span id="currentYear"></span>
+                    NovaMart. Educational demo project.
+                </p>
+
+                <div class="payment-methods">
+                    <span>VISA</span>
+                    <span>MASTER CARD</span>
+                    <span>UPI DEMO</span>
+                    <span>COD DEMO</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================
+         TOAST CONTAINER
+    ========================================== -->
+
+    <div
+        class="toast-container"
+        id="toastContainer"
+        aria-live="polite"
+        aria-atomic="true"
+    ></div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+        "use strict";
+
+
+        /* =========================================
+           1. STORAGE CONFIGURATION
+        ========================================= */
+
+        const STORAGE_KEYS = {
+            cart: "novamart_cart",
+            wishlist: "novamart_wishlist"
+        };
+
+
+        /* =========================================
+           2. PRODUCT DATABASE
+
+           IDs 1-8 match the products on index.html.
+
+           The remaining products extend the catalog
+           to 50 unique demo products.
+        ========================================= */
+
+        const PRODUCTS = [
+
+            {
+                id: 1,
+                name: "Wireless Headphones",
+                category: "Electronics",
+                price: 59.99,
+                oldPrice: 79.99,
+                rating: 4.8,
+                reviews: 124,
+                emoji: "🎧",
+                badge: "BESTSELLER",
+                stock: 24,
+                description:
+                    "Comfortable wireless headphones for music, calls and everyday listening.",
+                featured: true,
+                created: 50
+            },
+
+            {
+                id: 2,
+                name: "Smart Watch Pro",
+                category: "Electronics",
+                price: 89.99,
+                oldPrice: 119.99,
+                rating: 4.7,
+                reviews: 98,
+                emoji: "⌚",
+                badge: "POPULAR",
+                stock: 18,
+                description:
+                    "A stylish smart watch for everyday activity and notifications.",
+                featured: true,
+                created: 49
+            },
+
+            {
+                id: 3,
+                name: "Classic Cotton T-Shirt",
+                category: "Fashion",
+                price: 19.99,
+                oldPrice: 24.99,
+                rating: 4.5,
+                reviews: 72,
+                emoji: "👕",
+                badge: "NEW",
+                stock: 45,
+                description:
+                    "A versatile cotton T-shirt designed for everyday comfort.",
+                featured: true,
+                created: 48
+            },
+
+            {
+                id: 4,
+                name: "Everyday Sneakers",
+                category: "Fashion",
+                price: 64.99,
+                oldPrice: 84.99,
+                rating: 4.6,
+                reviews: 86,
+                emoji: "👟",
+                badge: "SALE",
+                stock: 16,
+                description:
+                    "Versatile everyday sneakers with a comfortable fit.",
+                featured: true,
+                created: 47
+            },
+
+            {
+                id: 5,
+                name: "Modern Table Lamp",
+                category: "Home",
+                price: 34.99,
+                oldPrice: 44.99,
+                rating: 4.4,
+                reviews: 51,
+                emoji: "💡",
+                badge: "",
+                stock: 22,
+                description:
+                    "A modern table lamp for a warm and inviting room.",
+                featured: false,
+                created: 46
+            },
+
+            {
+                id: 6,
+                name: "Minimal Backpack",
+                category: "Accessories",
+                price: 39.99,
+                oldPrice: 49.99,
+                rating: 4.7,
+                reviews: 64,
+                emoji: "🎒",
+                badge: "POPULAR",
+                stock: 19,
+                description:
+                    "A practical backpack for commuting, work and travel.",
+                featured: true,
+                created: 45
+            },
+
+            {
+                id: 7,
+                name: "Hydrating Face Serum",
+                category: "Beauty",
+                price: 24.99,
+                oldPrice: 29.99,
+                rating: 4.3,
+                reviews: 38,
+                emoji: "🧴",
+                badge: "",
+                stock: 28,
+                description:
+                    "A lightweight beauty product for a simple self-care routine.",
+                featured: false,
+                created: 44
+            },
+
+            {
+                id: 8,
+                name: "Fitness Yoga Mat",
+                category: "Sports",
+                price: 29.99,
+                oldPrice: 39.99,
+                rating: 4.6,
+                reviews: 57,
+                emoji: "🧘",
+                badge: "SALE",
+                stock: 31,
+                description:
+                    "A comfortable exercise mat for stretching and home workouts.",
+                featured: true,
+                created: 43
+            },
+
+            {
+                id: 9,
+                name: "Bluetooth Speaker",
+                category: "Electronics",
+                price: 44.99,
+                oldPrice: 59.99,
+                rating: 4.5,
+                reviews: 83,
+                emoji: "🔊",
+                badge: "SALE",
+                stock: 21,
+                description:
+                    "Portable wireless speaker for music at home or outdoors.",
+                featured: false,
+                created: 42
+            },
+
+            {
+                id: 10,
+                name: "Mechanical Keyboard",
+                category: "Electronics",
+                price: 74.99,
+                oldPrice: 89.99,
+                rating: 4.8,
+                reviews: 112,
+                emoji: "⌨️",
+                badge: "POPULAR",
+                stock: 14,
+                description:
+                    "A responsive mechanical keyboard for work and gaming.",
+                featured: false,
+                created: 41
+            },
+
+            {
+                id: 11,
+                name: "Wireless Mouse",
+                category: "Electronics",
+                price: 24.99,
+                oldPrice: 34.99,
+                rating: 4.4,
+                reviews: 76,
+                emoji: "🖱️",
+                badge: "",
+                stock: 35,
+                description:
+                    "A compact wireless mouse with comfortable everyday handling.",
+                featured: false,
+                created: 40
+            },
+
+            {
+                id: 12,
+                name: "Portable Power Bank",
+                category: "Electronics",
+                price: 32.99,
+                oldPrice: 42.99,
+                rating: 4.6,
+                reviews: 94,
+                emoji: "🔋",
+                badge: "SALE",
+                stock: 27,
+                description:
+                    "A portable charging companion for compatible devices.",
+                featured: false,
+                created: 39
+            },
+
+            {
+                id: 13,
+                name: "USB-C Hub",
+                category: "Electronics",
+                price: 27.99,
+                oldPrice: 35.99,
+                rating: 4.3,
+                reviews: 48,
+                emoji: "🔌",
+                badge: "",
+                stock: 17,
+                description:
+                    "A compact connectivity hub for compatible computers.",
+                featured: false,
+                created: 38
+            },
+
+            {
+                id: 14,
+                name: "HD Webcam",
+                category: "Electronics",
+                price: 49.99,
+                oldPrice: 64.99,
+                rating: 4.5,
+                reviews: 66,
+                emoji: "📷",
+                badge: "",
+                stock: 12,
+                description:
+                    "A desktop webcam for video meetings and online classes.",
+                featured: false,
+                created: 37
+            },
+
+            {
+                id: 15,
+                name: "Phone Stand",
+                category: "Electronics",
+                price: 14.99,
+                oldPrice: 19.99,
+                rating: 4.2,
+                reviews: 42,
+                emoji: "📱",
+                badge: "",
+                stock: 39,
+                description:
+                    "A handy stand for viewing your compatible smartphone.",
+                featured: false,
+                created: 36
+            },
+
+            {
+                id: 16,
+                name: "Classic Denim Jeans",
+                category: "Fashion",
+                price: 49.99,
+                oldPrice: 64.99,
+                rating: 4.6,
+                reviews: 103,
+                emoji: "👖",
+                badge: "POPULAR",
+                stock: 23,
+                description:
+                    "Classic denim jeans designed for versatile everyday outfits.",
+                featured: false,
+                created: 35
+            },
+
+            {
+                id: 17,
+                name: "Casual Hoodie",
+                category: "Fashion",
+                price: 42.99,
+                oldPrice: 54.99,
+                rating: 4.7,
+                reviews: 91,
+                emoji: "🧥",
+                badge: "SALE",
+                stock: 26,
+                description:
+                    "A comfortable casual hoodie for relaxed days.",
+                featured: false,
+                created: 34
+            },
+
+            {
+                id: 18,
+                name: "Leather Wallet",
+                category: "Accessories",
+                price: 29.99,
+                oldPrice: 39.99,
+                rating: 4.5,
+                reviews: 59,
+                emoji: "👛",
+                badge: "",
+                stock: 32,
+                description:
+                    "A compact everyday wallet with a timeless design.",
+                featured: false,
+                created: 33
+            },
+
+            {
+                id: 19,
+                name: "Classic Sunglasses",
+                category: "Accessories",
+                price: 22.99,
+                oldPrice: 31.99,
+                rating: 4.4,
+                reviews: 67,
+                emoji: "🕶️",
+                badge: "SALE",
+                stock: 20,
+                description:
+                    "Classic sunglasses for a versatile everyday look.",
+                featured: false,
+                created: 32
+            },
+
+            {
+                id: 20,
+                name: "Everyday Wristwatch",
+                category: "Accessories",
+                price: 54.99,
+                oldPrice: 69.99,
+                rating: 4.6,
+                reviews: 74,
+                emoji: "⌚",
+                badge: "",
+                stock: 15,
+                description:
+                    "A timeless wristwatch for casual and smart outfits.",
+                featured: false,
+                created: 31
+            },
+
+            {
+                id: 21,
+                name: "Travel Duffel Bag",
+                category: "Accessories",
+                price: 47.99,
+                oldPrice: 59.99,
+                rating: 4.5,
+                reviews: 62,
+                emoji: "🧳",
+                badge: "",
+                stock: 11,
+                description:
+                    "A practical bag for short trips and weekend travel.",
+                featured: false,
+                created: 30
+            },
+
+            {
+                id: 22,
+                name: "Ceramic Coffee Mug",
+                category: "Home",
+                price: 12.99,
+                oldPrice: 16.99,
+                rating: 4.7,
+                reviews: 133,
+                emoji: "☕",
+                badge: "POPULAR",
+                stock: 48,
+                description:
+                    "A simple ceramic mug for your favorite hot drinks.",
+                featured: false,
+                created: 29
+            },
+
+            {
+                id: 23,
+                name: "Decorative Cushion",
+                category: "Home",
+                price: 18.99,
+                oldPrice: 24.99,
+                rating: 4.4,
+                reviews: 44,
+                emoji: "🛋️",
+                badge: "",
+                stock: 25,
+                description:
+                    "A decorative cushion to refresh your living space.",
+                featured: false,
+                created: 28
+            },
+
+            {
+                id: 24,
+                name: "Wall Clock",
+                category: "Home",
+                price: 26.99,
+                oldPrice: 34.99,
+                rating: 4.5,
+                reviews: 53,
+                emoji: "🕰️",
+                badge: "",
+                stock: 13,
+                description:
+                    "A decorative wall clock for a home or office.",
+                featured: false,
+                created: 27
+            },
+
+            {
+                id: 25,
+                name: "Indoor Plant Pot",
+                category: "Home",
+                price: 16.99,
+                oldPrice: 21.99,
+                rating: 4.6,
+                reviews: 61,
+                emoji: "🪴",
+                badge: "NEW",
+                stock: 30,
+                description:
+                    "A decorative planter for indoor plants and greenery.",
+                featured: false,
+                created: 26
+            },
+
+            {
+                id: 26,
+                name: "Soft Throw Blanket",
+                category: "Home",
+                price: 36.99,
+                oldPrice: 46.99,
+                rating: 4.8,
+                reviews: 87,
+                emoji: "🧶",
+                badge: "POPULAR",
+                stock: 18,
+                description:
+                    "A soft throw blanket for relaxing on cooler evenings.",
+                featured: false,
+                created: 25
+            },
+
+            {
+                id: 27,
+                name: "Desk Organizer",
+                category: "Home",
+                price: 21.99,
+                oldPrice: 27.99,
+                rating: 4.3,
+                reviews: 35,
+                emoji: "🗂️",
+                badge: "",
+                stock: 0,
+                description:
+                    "A practical organizer for keeping your desk tidy.",
+                featured: false,
+                created: 24
+            },
+
+            {
+                id: 28,
+                name: "Scented Candle",
+                category: "Home",
+                price: 17.99,
+                oldPrice: 23.99,
+                rating: 4.6,
+                reviews: 79,
+                emoji: "🕯️",
+                badge: "",
+                stock: 34,
+                description:
+                    "A decorative scented candle for a cozy atmosphere.",
+                featured: false,
+                created: 23
+            },
+
+            {
+                id: 29,
+                name: "Gentle Face Cleanser",
+                category: "Beauty",
+                price: 15.99,
+                oldPrice: 19.99,
+                rating: 4.4,
+                reviews: 58,
+                emoji: "🧴",
+                badge: "",
+                stock: 26,
+                description:
+                    "A gentle cleanser for a simple daily skincare routine.",
+                featured: false,
+                created: 22
+            },
+
+            {
+                id: 30,
+                name: "Daily Moisturizer",
+                category: "Beauty",
+                price: 21.99,
+                oldPrice: 27.99,
+                rating: 4.7,
+                reviews: 82,
+                emoji: "🫙",
+                badge: "POPULAR",
+                stock: 19,
+                description:
+                    "A daily moisturizer for a comfortable skincare routine.",
+                featured: false,
+                created: 21
+            },
+
+            {
+                id: 31,
+                name: "Makeup Brush Set",
+                category: "Beauty",
+                price: 28.99,
+                oldPrice: 36.99,
+                rating: 4.5,
+                reviews: 64,
+                emoji: "🖌️",
+                badge: "SALE",
+                stock: 14,
+                description:
+                    "A collection of brushes for everyday makeup application.",
+                featured: false,
+                created: 20
+            },
+
+            {
+                id: 32,
+                name: "Compact Travel Mirror",
+                category: "Beauty",
+                price: 11.99,
+                oldPrice: 15.99,
+                rating: 4.2,
+                reviews: 31,
+                emoji: "🪞",
+                badge: "",
+                stock: 41,
+                description:
+                    "A compact mirror that fits conveniently into a bag.",
+                featured: false,
+                created: 19
+            },
+
+            {
+                id: 33,
+                name: "Sports Water Bottle",
+                category: "Sports",
+                price: 18.99,
+                oldPrice: 24.99,
+                rating: 4.6,
+                reviews: 95,
+                emoji: "🥤",
+                badge: "POPULAR",
+                stock: 37,
+                description:
+                    "A reusable bottle for workouts and everyday hydration.",
+                featured: false,
+                created: 18
+            },
+
+            {
+                id: 34,
+                name: "Resistance Bands",
+                category: "Sports",
+                price: 16.99,
+                oldPrice: 22.99,
+                rating: 4.5,
+                reviews: 71,
+                emoji: "🏋️",
+                badge: "",
+                stock: 29,
+                description:
+                    "Resistance bands for a variety of home exercises.",
+                featured: false,
+                created: 17
+            },
+
+            {
+                id: 35,
+                name: "Adjustable Dumbbells",
+                category: "Sports",
+                price: 79.99,
+                oldPrice: 99.99,
+                rating: 4.7,
+                reviews: 88,
+                emoji: "🏋️‍♂️",
+                badge: "SALE",
+                stock: 8,
+                description:
+                    "Adjustable workout weights for home fitness sessions.",
+                featured: false,
+                created: 16
+            },
+
+            {
+                id: 36,
+                name: "Running Cap",
+                category: "Sports",
+                price: 14.99,
+                oldPrice: 19.99,
+                rating: 4.3,
+                reviews: 40,
+                emoji: "🧢",
+                badge: "",
+                stock: 0,
+                description:
+                    "A lightweight cap for running and outdoor activities.",
+                featured: false,
+                created: 15
+            },
+
+            {
+                id: 37,
+                name: "Yoga Block Set",
+                category: "Sports",
+                price: 19.99,
+                oldPrice: 25.99,
+                rating: 4.6,
+                reviews: 56,
+                emoji: "🧘",
+                badge: "",
+                stock: 17,
+                description:
+                    "Support blocks for stretching and yoga practice.",
+                featured: false,
+                created: 14
+            },
+
+            {
+                id: 38,
+                name: "Laptop Sleeve",
+                category: "Accessories",
+                price: 25.99,
+                oldPrice: 32.99,
+                rating: 4.7,
+                reviews: 68,
+                emoji: "💻",
+                badge: "",
+                stock: 22,
+                description:
+                    "A protective sleeve for carrying a compatible laptop.",
+                featured: false,
+                created: 13
+            },
+
+            {
+                id: 39,
+                name: "Compact Umbrella",
+                category: "Accessories",
+                price: 19.99,
+                oldPrice: 26.99,
+                rating: 4.4,
+                reviews: 47,
+                emoji: "☂️",
+                badge: "",
+                stock: 16,
+                description:
+                    "A compact umbrella for changing weather conditions.",
+                featured: false,
+                created: 12
+            },
+
+            {
+                id: 40,
+                name: "Travel Neck Pillow",
+                category: "Accessories",
+                price: 23.99,
+                oldPrice: 29.99,
+                rating: 4.5,
+                reviews: 52,
+                emoji: "🛫",
+                badge: "",
+                stock: 20,
+                description:
+                    "A travel pillow designed for additional neck support.",
+                featured: false,
+                created: 11
+            },
+
+            {
+                id: 41,
+                name: "Graphic Sweatshirt",
+                category: "Fashion",
+                price: 38.99,
+                oldPrice: 49.99,
+                rating: 4.6,
+                reviews: 77,
+                emoji: "👚",
+                badge: "SALE",
+                stock: 15,
+                description:
+                    "A relaxed graphic sweatshirt for casual outfits.",
+                featured: false,
+                created: 10
+            },
+
+            {
+                id: 42,
+                name: "Classic Baseball Cap",
+                category: "Fashion",
+                price: 17.99,
+                oldPrice: 22.99,
+                rating: 4.3,
+                reviews: 43,
+                emoji: "🧢",
+                badge: "",
+                stock: 28,
+                description:
+                    "A classic baseball cap for everyday casual style.",
+                featured: false,
+                created: 9
+            },
+
+            {
+                id: 43,
+                name: "Casual Canvas Shoes",
+                category: "Fashion",
+                price: 45.99,
+                oldPrice: 59.99,
+                rating: 4.5,
+                reviews: 69,
+                emoji: "👞",
+                badge: "",
+                stock: 12,
+                description:
+                    "Versatile canvas shoes for everyday wear.",
+                featured: false,
+                created: 8
+            },
+
+            {
+                id: 44,
+                name: "Minimalist Desk Mat",
+                category: "Home",
+                price: 22.99,
+                oldPrice: 28.99,
+                rating: 4.6,
+                reviews: 54,
+                emoji: "🖥️",
+                badge: "",
+                stock: 24,
+                description:
+                    "A desk mat to create a comfortable workspace.",
+                featured: false,
+                created: 7
+            },
+
+            {
+                id: 45,
+                name: "LED Desk Light",
+                category: "Home",
+                price: 31.99,
+                oldPrice: 39.99,
+                rating: 4.7,
+                reviews: 73,
+                emoji: "💡",
+                badge: "POPULAR",
+                stock: 13,
+                description:
+                    "A modern desk light for work and study spaces.",
+                featured: false,
+                created: 6
+            },
+
+            {
+                id: 46,
+                name: "Wireless Earbuds",
+                category: "Electronics",
+                price: 69.99,
+                oldPrice: 89.99,
+                rating: 4.8,
+                reviews: 145,
+                emoji: "🎶",
+                badge: "BESTSELLER",
+                stock: 32,
+                description:
+                    "Compact wireless earbuds for compatible devices.",
+                featured: false,
+                created: 5
+            },
+
+            {
+                id: 47,
+                name: "Digital Alarm Clock",
+                category: "Electronics",
+                price: 26.99,
+                oldPrice: 34.99,
+                rating: 4.4,
+                reviews: 46,
+                emoji: "⏰",
+                badge: "",
+                stock: 0,
+                description:
+                    "A digital alarm clock for your bedside table.",
+                featured: false,
+                created: 4
+            },
+
+            {
+                id: 48,
+                name: "Insulated Travel Tumbler",
+                category: "Home",
+                price: 24.99,
+                oldPrice: 31.99,
+                rating: 4.7,
+                reviews: 92,
+                emoji: "🥤",
+                badge: "POPULAR",
+                stock: 21,
+                description:
+                    "A reusable travel tumbler for drinks on the go.",
+                featured: false,
+                created: 3
+            },
+
+            {
+                id: 49,
+                name: "Premium Notebook",
+                category: "Accessories",
+                price: 13.99,
+                oldPrice: 17.99,
+                rating: 4.5,
+                reviews: 61,
+                emoji: "📓",
+                badge: "NEW",
+                stock: 40,
+                description:
+                    "A premium notebook for notes, plans and ideas.",
+                featured: false,
+                created: 2
+            },
+
+            {
+                id: 50,
+                name: "Compact Bluetooth Keyboard",
+                category: "Electronics",
+                price: 39.99,
+                oldPrice: 49.99,
+                rating: 4.6,
+                reviews: 84,
+                emoji: "⌨️",
+                badge: "NEW",
+                stock: 19,
+                description:
+                    "A compact Bluetooth keyboard for compatible devices.",
+                featured: false,
+                created: 1
+            }
+
+        ];
+
+
+        /* =========================================
+           3. APPLICATION STATE
+        ========================================= */
+
+        const state = {
+            search: "",
+            category: "",
+            maxPrice: 250,
+            minRating: 0,
+            inStockOnly: false,
+            sort: "featured",
+            page: 1,
+            pageSize: 12
+        };
+
+
+        /* =========================================
+           4. DOM REFERENCES
+        ========================================= */
+
+        const elements = {
+            productGrid:
+                document.getElementById("productGrid"),
+
+            categoryOptions:
+                document.getElementById("categoryOptions"),
+
+            priceRange:
+                document.getElementById("priceRange"),
+
+            priceFilterValue:
+                document.getElementById("priceFilterValue"),
+
+            sortSelect:
+                document.getElementById("sortSelect"),
+
+            resultsText:
+                document.getElementById("resultsText"),
+
+            activeFilters:
+                document.getElementById("activeFilters"),
+
+            pagination:
+                document.getElementById("pagination"),
+
+            emptyState:
+                document.getElementById("emptyState"),
+
+            filterSidebar:
+                document.getElementById("filterSidebar"),
+
+            mobileFilterButton:
+                document.getElementById("mobileFilterButton"),
+
+            resetFilters:
+                document.getElementById("resetFilters"),
+
+            emptyResetButton:
+                document.getElementById("emptyResetButton"),
+
+            inStockOnly:
+                document.getElementById("inStockOnly"),
+
+            cartCount:
+                document.getElementById("cartCount"),
+
+            currentYear:
+                document.getElementById("currentYear"),
+
+            headerSearchForm:
+                document.getElementById("headerSearchForm"),
+
+            headerSearch:
+                document.getElementById("headerSearch"),
+
+            toastContainer:
+                document.getElementById("toastContainer")
+        };
+
+
+        /* =========================================
+           5. STORAGE HELPERS
+        ========================================= */
+
+        function readStorage(key, fallback = []) {
+            try {
+                const raw = localStorage.getItem(key);
+
+                if (raw === null) {
+                    return fallback;
+                }
+
+                const value = JSON.parse(raw);
+
+                return value ?? fallback;
+
+            } catch (error) {
+                console.warn(
+                    "Storage read failed:",
+                    key,
+                    error
+                );
+
+                return fallback;
+            }
+        }
+
+
+        function writeStorage(key, value) {
+            try {
+                localStorage.setItem(
+                    key,
+                    JSON.stringify(value)
+                );
+
+                return true;
+
+            } catch (error) {
+                console.error(
+                    "Storage write failed:",
+                    key,
+                    error
+                );
+
+                showToast(
+                    "Unable to save changes in browser storage.",
+                    "error"
+                );
+
+                return false;
+            }
+        }
+
+
+        /* =========================================
+           6. PRICE FORMATTING
+        ========================================= */
+
+        function formatPrice(value) {
+            return new Intl.NumberFormat(
+                "en-US",
+                {
+                    style: "currency",
+                    currency: "USD"
+                }
+            ).format(Number(value) || 0);
+        }
+
+
+        /* =========================================
+           7. TOAST NOTIFICATIONS
+        ========================================= */
+
+        function showToast(message, type = "success") {
+            const container = elements.toastContainer;
+
+            const toast =
+                document.createElement("div");
+
+            toast.className = "toast";
+
+            if (type === "error") {
+                toast.classList.add("error");
+            }
+
+            const icon =
+                document.createElement("span");
+
+            icon.className = "toast-icon";
+
+            icon.textContent =
+                type === "error" ? "⚠️" : "✓";
+
+            const text =
+                document.createElement("span");
+
+            text.className = "toast-message";
+
+            text.textContent = message;
+
+            toast.append(icon, text);
+
+            container.appendChild(toast);
+
+            window.setTimeout(() => {
+                toast.remove();
+            }, 3200);
+        }
+
+
+        /* =========================================
+           8. CART FUNCTIONS
+        ========================================= */
+
+        function getCart() {
+            const cart = readStorage(
+                STORAGE_KEYS.cart,
+                []
+            );
+
+            return Array.isArray(cart) ? cart : [];
+        }
+
+
+        function saveCart(cart) {
+            return writeStorage(
+                STORAGE_KEYS.cart,
+                cart
+            );
+        }
+
+
+        function updateCartCount() {
+            const cart = getCart();
+
+            const count = cart.reduce(
+                (total, item) => {
+                    return total +
+                        Math.max(
+                            0,
+                            Number(item.quantity) || 0
+                        );
+                },
+                0
+            );
+
+            elements.cartCount.textContent = count;
+        }
+
+
+        function addToCart(productId) {
+            const product = PRODUCTS.find(
+                item => item.id === Number(productId)
+            );
+
+            if (!product) {
+                showToast(
+                    "Product not found.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (product.stock <= 0) {
+                showToast(
+                    "This product is currently out of stock.",
+                    "error"
+                );
+
+                return;
+            }
+
+            const cart = getCart();
+
+            const existingItem = cart.find(
+                item => Number(item.id) === product.id
+            );
+
+            if (existingItem) {
+                const currentQuantity =
+                    Number(existingItem.quantity) || 0;
+
+                if (currentQuantity >= product.stock) {
+                    showToast(
+                        "No additional stock is available.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                existingItem.quantity = currentQuantity + 1;
+
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    emoji: product.emoji,
+                    category: product.category,
+                    quantity: 1
+                });
+            }
+
+            if (!saveCart(cart)) {
+                return;
+            }
+
+            updateCartCount();
+
+            showToast(
+                product.name + " added to your cart."
+            );
+        }
+
+
+        /* =========================================
+           9. WISHLIST FUNCTIONS
+        ========================================= */
+
+        function getWishlist() {
+            const wishlist = readStorage(
+                STORAGE_KEYS.wishlist,
+                []
+            );
+
+            return Array.isArray(wishlist)
+                ? wishlist.map(Number)
+                : [];
+        }
+
+
+        function toggleWishlist(productId, button) {
+            const id = Number(productId);
+
+            let wishlist = getWishlist();
+
+            const exists = wishlist.includes(id);
+
+            if (exists) {
+                wishlist = wishlist.filter(
+                    item => item !== id
+                );
+
+            } else {
+                wishlist.push(id);
+            }
+
+            if (!writeStorage(
+                STORAGE_KEYS.wishlist,
+                wishlist
+            )) {
+                return;
+            }
+
+            button.classList.toggle(
+                "active",
+                !exists
+            );
+
+            button.textContent =
+                exists ? "♡" : "♥";
+
+            showToast(
+                exists
+                    ? "Removed from your wishlist."
+                    : "Added to your wishlist."
+            );
+        }
+
+
+        /* =========================================
+           10. CATEGORY HELPERS
+        ========================================= */
+
+        function getCategories() {
+            return [
+                ...new Set(
+                    PRODUCTS.map(product => product.category)
+                )
+            ].sort(
+                (a, b) => a.localeCompare(b)
+            );
+        }
+
+
+        function countCategoryProducts(category) {
+            return PRODUCTS.filter(
+                product => product.category === category
+            ).length;
+        }
+
+
+        /* =========================================
+           11. RENDER CATEGORY FILTERS
+        ========================================= */
+
+        function renderCategoryFilters() {
+            const container = elements.categoryOptions;
+
+            container.replaceChildren();
+
+            const categories = getCategories();
+
+            categories.forEach(category => {
+                const row =
+                    document.createElement("div");
+
+                row.className = "filter-option";
+
+
+                const label =
+                    document.createElement("label");
+
+
+                const input =
+                    document.createElement("input");
+
+                input.type = "radio";
+
+                input.name = "category";
+
+                input.value = category;
+
+                input.checked =
+                    state.category === category;
+
+
+                input.addEventListener("change", () => {
+                    state.category = category;
+
+                    state.page = 1;
+
+                    renderCategoryFilters();
+
+                    renderProducts();
+                });
+
+
+                const text =
+                    document.createElement("span");
+
+                text.textContent = category;
+
+
+                label.append(input, text);
+
+
+                const count =
+                    document.createElement("span");
+
+                count.className = "category-count";
+
+                count.textContent =
+                    countCategoryProducts(category);
+
+
+                row.append(label, count);
+
+                container.appendChild(row);
+            });
+
+
+            // Add an "All categories" option.
+
+            const allRow =
+                document.createElement("div");
+
+            allRow.className = "filter-option";
+
+
+            const allLabel =
+                document.createElement("label");
+
+
+            const allInput =
+                document.createElement("input");
+
+            allInput.type = "radio";
+
+            allInput.name = "category";
+
+            allInput.value = "";
+
+            allInput.checked = !state.category;
+
+
+            allInput.addEventListener("change", () => {
+                state.category = "";
+
+                state.page = 1;
+
+                renderCategoryFilters();
+
+                renderProducts();
+            });
+
+
+            const allText =
+                document.createElement("span");
+
+            allText.textContent = "All categories";
+
+
+            allLabel.append(allInput, allText);
+
+
+            const allCount =
+                document.createElement("span");
+
+            allCount.className = "category-count";
+
+            allCount.textContent = PRODUCTS.length;
+
+
+            allRow.append(allLabel, allCount);
+
+            container.prepend(allRow);
+        }
+
+
+        /* =========================================
+           12. SEARCH AND FILTER LOGIC
+        ========================================= */
+
+        function getFilteredProducts() {
+            let products = [...PRODUCTS];
+
+
+            // Search by product name, description,
+            // or category.
+
+            if (state.search) {
+                const query =
+                    state.search.toLowerCase();
+
+                products = products.filter(product => {
+                    return (
+                        product.name.toLowerCase().includes(query) ||
+                        product.description.toLowerCase().includes(query) ||
+                        product.category.toLowerCase().includes(query)
+                    );
+                });
+            }
+
+
+            // Category filter.
+
+            if (state.category) {
+                products = products.filter(
+                    product =>
+                        product.category === state.category
+                );
+            }
+
+
+            // Maximum price filter.
+
+            products = products.filter(
+                product => product.price <= state.maxPrice
+            );
+
+
+            // Minimum rating filter.
+
+            products = products.filter(
+                product => product.rating >= state.minRating
+            );
+
+
+            // Stock filter.
+
+            if (state.inStockOnly) {
+                products = products.filter(
+                    product => product.stock > 0
+                );
+            }
+
+
+            // Sorting.
+
+            switch (state.sort) {
+
+                case "price-low":
+
+                    products.sort(
+                        (a, b) => a.price - b.price
+                    );
+
+                    break;
+
+
+                case "price-high":
+
+                    products.sort(
+                        (a, b) => b.price - a.price
+                    );
+
+                    break;
+
+
+                case "rating":
+
+                    products.sort(
+                        (a, b) => b.rating - a.rating
+                    );
+
+                    break;
+
+
+                case "name":
+
+                    products.sort(
+                        (a, b) =>
+                            a.name.localeCompare(b.name)
+                    );
+
+                    break;
+
+
+                case "newest":
+
+                    products.sort(
+                        (a, b) => a.created - b.created
+                    );
+
+                    break;
+
+
+                case "featured":
+
+                default:
+
+                    products.sort((a, b) => {
+                        if (a.featured && !b.featured) {
+                            return -1;
+                        }
+
+                        if (!a.featured && b.featured) {
+                            return 1;
+                        }
+
+                        return a.id - b.id;
+                    });
+
+                    break;
+            }
+
+            return products;
+        }
+
+
+        /* =========================================
+           13. CREATE PRODUCT CARD
+        ========================================= */
+
+        function createProductCard(product) {
+            const card =
+                document.createElement("article");
+
+            card.className = "product-card";
+
+
+            // Product image.
+
+            const image =
+                document.createElement("div");
+
+            image.className = "product-image";
+
+
+            const emoji =
+                document.createElement("span");
+
+            emoji.className = "product-emoji";
+
+            emoji.textContent = product.emoji;
+
+            emoji.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            image.appendChild(emoji);
+
+
+            // Product badge.
+
+            if (product.badge) {
+                const badge =
+                    document.createElement("span");
+
+                badge.className = "product-badge";
+
+                badge.textContent = product.badge;
+
+                if (product.badge === "SALE") {
+                    badge.classList.add("sale");
+                }
+
+                if (product.badge === "NEW") {
+                    badge.classList.add("new");
+                }
+
+                image.appendChild(badge);
+            }
+
+
+            // Wishlist button.
+
+            const wishlistButton =
+                document.createElement("button");
+
+            wishlistButton.type = "button";
+
+            wishlistButton.className = "wishlist-button";
+
+            wishlistButton.setAttribute(
+                "aria-label",
+                "Toggle wishlist for " + product.name
+            );
+
+            const isWishlisted =
+                getWishlist().includes(product.id);
+
+            wishlistButton.textContent =
+                isWishlisted ? "♥" : "♡";
+
+            if (isWishlisted) {
+                wishlistButton.classList.add("active");
+            }
+
+            wishlistButton.addEventListener(
+                "click",
+                () => toggleWishlist(
+                    product.id,
+                    wishlistButton
+                )
+            );
+
+            image.appendChild(wishlistButton);
+
+
+            // Product information.
+
+            const info =
+                document.createElement("div");
+
+            info.className = "product-info";
+
+
+            const category =
+                document.createElement("span");
+
+            category.className = "product-category";
+
+            category.textContent = product.category;
+
+
+            const name =
+                document.createElement("h2");
+
+            name.className = "product-name";
+
+
+            const nameLink =
+                document.createElement("a");
+
+            nameLink.href =
+                "product-details.html?id=" + product.id;
+
+            nameLink.textContent = product.name;
+
+            name.appendChild(nameLink);
+
+
+            const description =
+                document.createElement("p");
+
+            description.className = "product-description";
+
+            description.textContent =
+                product.description;
+
+
+            const rating =
+                document.createElement("div");
+
+            rating.className = "product-rating";
+
+
+            const stars =
+                document.createElement("strong");
+
+            stars.textContent = "★★★★★";
+
+
+            const ratingText =
+                document.createElement("span");
+
+            ratingText.textContent =
+                product.rating +
+                " (" +
+                product.reviews +
+                " reviews)";
+
+
+            rating.append(stars, ratingText);
+
+
+            // Stock information.
+
+            const stockStatus =
+                document.createElement("div");
+
+            stockStatus.className = "stock-status";
+
+
+            if (product.stock > 0) {
+                stockStatus.classList.add("in-stock");
+
+                stockStatus.textContent =
+                    "● In stock";
+
+            } else {
+                stockStatus.classList.add("out-of-stock");
+
+                stockStatus.textContent =
+                    "● Out of stock";
+            }
+
+
+            // Price block.
+
+            const bottom =
+                document.createElement("div");
+
+            bottom.className = "product-bottom";
+
+
+            const priceBlock =
+                document.createElement("div");
+
+
+            const price =
+                document.createElement("div");
+
+            price.className = "product-price";
+
+            price.textContent =
+                formatPrice(product.price);
+
+            priceBlock.appendChild(price);
+
+
+            if (product.oldPrice > product.price) {
+                const oldPrice =
+                    document.createElement("span");
+
+                oldPrice.className = "old-price";
+
+                oldPrice.textContent =
+                    formatPrice(product.oldPrice);
+
+                priceBlock.appendChild(oldPrice);
+            }
+
+
+            // Add to cart button.
+
+            const addButton =
+                document.createElement("button");
+
+            addButton.type = "button";
+
+            addButton.className = "add-cart-button";
+
+            addButton.textContent =
+                product.stock > 0 ? "+" : "×";
+
+            addButton.disabled =
+                product.stock <= 0;
+
+            addButton.setAttribute(
+                "aria-label",
+                product.stock > 0
+                    ? "Add " + product.name + " to cart"
+                    : product.name + " is out of stock"
+            );
+
+            addButton.addEventListener(
+                "click",
+                () => addToCart(product.id)
+            );
+
+
+            bottom.append(priceBlock, addButton);
+
+
+            info.append(
+                category,
+                name,
+                description,
+                rating,
+                stockStatus,
+                bottom
+            );
+
+
+            card.append(image, info);
+
+            return card;
+        }
+
+
+        /* =========================================
+           14. RENDER PRODUCTS
+        ========================================= */
+
+        function renderProducts() {
+            const allFilteredProducts =
+                getFilteredProducts();
+
+
+            const totalProducts =
+                allFilteredProducts.length;
+
+
+            const totalPages = Math.max(
+                1,
+                Math.ceil(
+                    totalProducts / state.pageSize
+                )
+            );
+
+
+            // Keep current page within valid bounds.
+
+            if (state.page > totalPages) {
+                state.page = totalPages;
+            }
+
+
+            const startIndex =
+                (state.page - 1) * state.pageSize;
+
+
+            const endIndex = Math.min(
+                startIndex + state.pageSize,
+                totalProducts
+            );
+
+
+            const visibleProducts =
+                allFilteredProducts.slice(
+                    startIndex,
+                    endIndex
+                );
+
+
+            // Update result summary.
+
+            elements.resultsText.replaceChildren();
+
+
+            const resultText =
+                document.createElement("span");
+
+
+            if (totalProducts === 0) {
+                resultText.textContent =
+                    "No products found.";
+
+            } else {
+                resultText.append(
+                    document.createTextNode("Showing ")
+                );
+
+
+                const count =
+                    document.createElement("strong");
+
+                count.textContent =
+                    (startIndex + 1) +
+                    "-" +
+                    endIndex;
+
+                resultText.appendChild(count);
+
+
+                resultText.append(
+                    document.createTextNode(
+                        " of " + totalProducts + " products"
+                    )
+                );
+            }
+
+
+            elements.resultsText.appendChild(resultText);
+
+
+            // Render product cards.
+
+            elements.productGrid.replaceChildren();
+
+            const fragment =
+                document.createDocumentFragment();
+
+
+            visibleProducts.forEach(product => {
+                fragment.appendChild(
+                    createProductCard(product)
+                );
+            });
+
+
+            elements.productGrid.appendChild(fragment);
+
+
+            // Empty state.
+
+            const isEmpty = totalProducts === 0;
+
+            elements.emptyState.classList.toggle(
+                "visible",
+                isEmpty
+            );
+
+
+            elements.productGrid.style.display =
+                isEmpty ? "none" : "grid";
+
+
+            // Pagination.
+
+            renderPagination(totalPages, totalProducts);
+
+
+            // Active filter chips.
+
+            renderActiveFilters();
+        }
+
+
+        /* =========================================
+           15. PAGINATION
+        ========================================= */
+
+        function renderPagination(totalPages, totalProducts) {
+            const container = elements.pagination;
+
+            container.replaceChildren();
+
+            if (totalProducts === 0 || totalPages <= 1) {
+                return;
+            }
+
+
+            // Previous button.
+
+            const previousButton =
+                document.createElement("button");
+
+            previousButton.type = "button";
+
+            previousButton.className = "page-button";
+
+            previousButton.textContent = "←";
+
+            previousButton.setAttribute(
+                "aria-label",
+                "Previous page"
+            );
+
+            previousButton.disabled =
+                state.page === 1;
+
+            previousButton.addEventListener("click", () => {
+                if (state.page > 1) {
+                    state.page--;
+
+                    renderProducts();
+
+                    scrollToProductGrid();
+                }
+            });
+
+            container.appendChild(previousButton);
+
+
+            // Page number buttons.
+
+            for (
+                let page = 1;
+                page <= totalPages;
+                page++
+            ) {
+                const button =
+                    document.createElement("button");
+
+                button.type = "button";
+
+                button.className = "page-button";
+
+                button.textContent = page;
+
+
+                if (page === state.page) {
+                    button.classList.add("active");
+
+                    button.setAttribute(
+                        "aria-current",
+                        "page"
+                    );
+                }
+
+
+                button.setAttribute(
+                    "aria-label",
+                    "Page " + page
+                );
+
+
+                button.addEventListener("click", () => {
+                    state.page = page;
+
+                    renderProducts();
+
+                    scrollToProductGrid();
+                });
+
+
+                container.appendChild(button);
+            }
+
+
+            // Next button.
+
+            const nextButton =
+                document.createElement("button");
+
+            nextButton.type = "button";
+
+            nextButton.className = "page-button";
+
+            nextButton.textContent = "→";
+
+            nextButton.setAttribute(
+                "aria-label",
+                "Next page"
+            );
+
+            nextButton.disabled =
+                state.page === totalPages;
+
+            nextButton.addEventListener("click", () => {
+                if (state.page < totalPages) {
+                    state.page++;
+
+                    renderProducts();
+
+                    scrollToProductGrid();
+                }
+            });
+
+            container.appendChild(nextButton);
+        }
+
+
+        function scrollToProductGrid() {
+            elements.productGrid.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
+
+        /* =========================================
+           16. ACTIVE FILTER CHIPS
+        ========================================= */
+
+        function renderActiveFilters() {
+            const container = elements.activeFilters;
+
+            container.replaceChildren();
+
+
+            function createChip(label, callback) {
+                const chip =
+                    document.createElement("span");
+
+                chip.className = "filter-chip";
+
+
+                const text =
+                    document.createElement("span");
+
+                text.textContent = label;
+
+
+                const button =
+                    document.createElement("button");
+
+                button.type = "button";
+
+                button.textContent = "×";
+
+                button.setAttribute(
+                    "aria-label",
+                    "Remove " + label + " filter"
+                );
+
+
+                button.addEventListener("click", callback);
+
+
+                chip.append(text, button);
+
+                container.appendChild(chip);
+            }
+
+
+            if (state.search) {
+                createChip(
+                    "Search: " + state.search,
+                    () => {
+                        state.search = "";
+
+                        if (elements.headerSearch) {
+                            elements.headerSearch.value = "";
+                        }
+
+                        state.page = 1;
+
+                        renderProducts();
+
+                        updateUrlFromState();
+                    }
+                );
+            }
+
+
+            if (state.category) {
+                createChip(
+                    "Category: " + state.category,
+                    () => {
+                        state.category = "";
+
+                        state.page = 1;
+
+                        renderCategoryFilters();
+
+                        renderProducts();
+
+                        updateUrlFromState();
+                    }
+                );
+            }
+
+
+            if (state.maxPrice < 250) {
+                createChip(
+                    "Max price: " + formatPrice(state.maxPrice),
+                    () => {
+                        state.maxPrice = 250;
+
+                        elements.priceRange.value = "250";
+
+                        elements.priceFilterValue.textContent =
+                            formatPrice(250);
+
+                        state.page = 1;
+
+                        renderProducts();
+
+                        updateUrlFromState();
+                    }
+                );
+            }
+
+
+            if (state.minRating > 0) {
+                createChip(
+                    "Rating: " + state.minRating + "+",
+                    () => {
+                        state.minRating = 0;
+
+                        document.querySelector(
+                            'input[name="rating"][value="0"]'
+                        ).checked = true;
+
+                        state.page = 1;
+
+                        renderProducts();
+
+                        updateUrlFromState();
+                    }
+                );
+            }
+
+
+            if (state.inStockOnly) {
+                createChip(
+                    "In stock only",
+                    () => {
+                        state.inStockOnly = false;
+
+                        elements.inStockOnly.checked = false;
+
+                        state.page = 1;
+
+                        renderProducts();
+
+                        updateUrlFromState();
+                    }
+                );
+            }
+
+
+            if (
+                state.search ||
+                state.category ||
+                state.maxPrice < 250 ||
+                state.minRating > 0 ||
+                state.inStockOnly
+            ) {
+                const clearButton =
+                    document.createElement("button");
+
+                clearButton.type = "button";
+
+                clearButton.className = "clear-chip-button";
+
+                clearButton.textContent = "Clear all";
+
+                clearButton.addEventListener(
+                    "click",
+                    resetAllFilters
+                );
+
+                container.appendChild(clearButton);
+            }
+        }
+
+
+        /* =========================================
+           17. RESET FILTERS
+        ========================================= */
+
+        function resetAllFilters() {
+            state.search = "";
+            state.category = "";
+            state.maxPrice = 250;
+            state.minRating = 0;
+            state.inStockOnly = false;
+            state.sort = "featured";
+            state.page = 1;
+
+
+            if (elements.headerSearch) {
+                elements.headerSearch.value = "";
+            }
+
+
+            elements.priceRange.value = "250";
+
+            elements.priceFilterValue.textContent =
+                formatPrice(250);
+
+
+            elements.sortSelect.value = "featured";
+
+
+            elements.inStockOnly.checked = false;
+
+
+            const allRatings = document.querySelector(
+                'input[name="rating"][value="0"]'
+            );
+
+            if (allRatings) {
+                allRatings.checked = true;
+            }
+
+
+            renderCategoryFilters();
+
+            renderProducts();
+
+            updateUrlFromState();
+
+            showToast("All filters have been cleared.");
+        }
+
+
+        /* =========================================
+           18. URL PARAMETERS
+        ========================================= */
+
+        function readUrlParameters() {
+            const params = new URLSearchParams(
+                window.location.search
+            );
+
+
+            const query =
+                params.get("q") || "";
+
+            const category =
+                params.get("category") || "";
+
+
+            state.search = query.trim();
+
+
+            const matchingCategory = getCategories().find(
+                item =>
+                    item.toLowerCase() ===
+                    category.trim().toLowerCase()
+            );
+
+
+            state.category = matchingCategory || "";
+
+
+            if (elements.headerSearch) {
+                elements.headerSearch.value =
+                    state.search;
+            }
+        }
+
+
+        function updateUrlFromState() {
+            const params = new URLSearchParams();
+
+
+            if (state.search) {
+                params.set("q", state.search);
+            }
+
+
+            if (state.category) {
+                params.set("category", state.category);
+            }
+
+
+            const queryString = params.toString();
+
+
+            const newUrl = queryString
+                ? window.location.pathname + "?" + queryString
+                : window.location.pathname;
+
+
+            window.history.replaceState(
+                {},
+                "",
+                newUrl
+            );
+        }
+
+
+        /* =========================================
+           19. HEADER SEARCH
+        ========================================= */
+
+        function initializeSearch() {
+            elements.headerSearchForm.addEventListener(
+                "submit",
+                event => {
+                    event.preventDefault();
+
+
+                    state.search =
+                        elements.headerSearch.value.trim();
+
+
+                    state.page = 1;
+
+
+                    renderProducts();
+
+                    updateUrlFromState();
+
+
+                    document.getElementById("shop").scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+            );
+        }
+
+
+        /* =========================================
+           20. FILTER EVENT LISTENERS
+        ========================================= */
+
+        function initializeFilterControls() {
+
+            // Price range.
+
+            elements.priceRange.addEventListener(
+                "input",
+                () => {
+                    state.maxPrice =
+                        Number(elements.priceRange.value);
+
+                    elements.priceFilterValue.textContent =
+                        formatPrice(state.maxPrice);
+
+                    state.page = 1;
+
+                    renderProducts();
+                }
+            );
+
+
+            elements.priceRange.addEventListener(
+                "change",
+                updateUrlFromState
+            );
+
+
+            // Rating.
+
+            document.querySelectorAll(
+                'input[name="rating"]'
+            ).forEach(input => {
+                input.addEventListener("change", () => {
+                    state.minRating =
+                        Number(input.value);
+
+                    state.page = 1;
+
+                    renderProducts();
+                });
+            });
+
+
+            // In-stock filter.
+
+            elements.inStockOnly.addEventListener(
+                "change",
+                () => {
+                    state.inStockOnly =
+                        elements.inStockOnly.checked;
+
+                    state.page = 1;
+
+                    renderProducts();
+                }
+            );
+
+
+            // Sorting.
+
+            elements.sortSelect.addEventListener(
+                "change",
+                () => {
+                    state.sort =
+                        elements.sortSelect.value;
+
+                    state.page = 1;
+
+                    renderProducts();
+                }
+            );
+
+
+            // Reset.
+
+            elements.resetFilters.addEventListener(
+                "click",
+                resetAllFilters
+            );
+
+
+            elements.emptyResetButton.addEventListener(
+                "click",
+                resetAllFilters
+            );
+        }
+
+
+        /* =========================================
+           21. MOBILE NAVIGATION
+        ========================================= */
+
+        function initializeMobileMenu() {
+            const button =
+                document.getElementById("mobileMenuButton");
+
+            const navigation =
+                document.getElementById("navigationInner");
+
+
+            button.addEventListener("click", () => {
+                const open =
+                    navigation.classList.toggle("open");
+
+
+                button.setAttribute(
+                    "aria-expanded",
+                    String(open)
+                );
+
+
+                button.textContent =
+                    open ? "✕" : "☰";
+            });
+
+
+            navigation.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", () => {
+                    navigation.classList.remove("open");
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    button.textContent = "☰";
+                });
+            });
+        }
+
+
+        /* =========================================
+           22. MOBILE FILTER SIDEBAR
+        ========================================= */
+
+        function initializeMobileFilters() {
+            const button = elements.mobileFilterButton;
+
+            const sidebar = elements.filterSidebar;
+
+
+            button.addEventListener("click", () => {
+                const open =
+                    sidebar.classList.toggle("open");
+
+
+                button.setAttribute(
+                    "aria-expanded",
+                    String(open)
+                );
+
+
+                button.textContent =
+                    open ? "✕ Hide Filters" : "☷ Filters";
+            });
+        }
+
+
+        /* =========================================
+           23. FOOTER YEAR
+        ========================================= */
+
+        function initializeFooterYear() {
+            elements.currentYear.textContent =
+                new Date().getFullYear();
+        }
+
+
+        /* =========================================
+           24. STORAGE SYNCHRONIZATION
+        ========================================= */
+
+        window.addEventListener("storage", event => {
+            if (
+                event.key === STORAGE_KEYS.cart ||
+                event.key === null
+            ) {
+                updateCartCount();
+            }
+        });
+
+
+        /* =========================================
+           25. INITIALIZE APPLICATION
+        ========================================= */
+
+        function initializeNovaMart() {
+            // Load search and category parameters
+            // before rendering filters.
+
+            readUrlParameters();
+
+
+            // Show catalog count.
+
+            document.getElementById(
+                "catalogCount"
+            ).textContent = PRODUCTS.length;
+
+
+            // Initialize interface.
+
+            renderCategoryFilters();
+
+            initializeSearch();
+
+            initializeFilterControls();
+
+            initializeMobileMenu();
+
+            initializeMobileFilters();
+
+            initializeFooterYear();
+
+
+            // Render filtered results.
+
+            if (elements.headerSearch) {
+                elements.headerSearch.value =
+                    state.search;
+            }
+
+
+            elements.priceRange.value =
+                String(state.maxPrice);
+
+
+            elements.priceFilterValue.textContent =
+                formatPrice(state.maxPrice);
+
+
+            renderProducts();
+
+            updateCartCount();
+
+
+            console.log(
+                "NovaMart catalog initialized:",
+                PRODUCTS.length,
+                "products"
+            );
+        }
+
+
+        /* =========================================
+           26. START APPLICATION
+        ========================================= */
+
+        if (document.readyState === "loading") {
+            document.addEventListener(
+                "DOMContentLoaded",
+                initializeNovaMart
+            );
+
+        } else {
+            initializeNovaMart();
+        }
+
+    </script>
+
+</body>
+</html>

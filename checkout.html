@@ -1,0 +1,4635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | NovaMart</title>
+
+    <meta
+        name="description"
+        content="Complete your NovaMart demo order using our simple checkout process."
+    >
+
+    <style>
+        /* =========================================
+           1. GLOBAL STYLES
+        ========================================= */
+
+        :root {
+            --primary: #635bff;
+            --primary-dark: #4941d9;
+            --secondary: #101828;
+            --text: #344054;
+            --muted: #667085;
+            --background: #f8f9fc;
+            --surface: #ffffff;
+            --border: #e4e7ec;
+            --success: #12b76a;
+            --danger: #f04438;
+            --warning: #f79009;
+            --radius: 14px;
+            --shadow: 0 8px 30px rgba(16, 24, 40, 0.07);
+            --transition: 0.25s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+            color: var(--secondary);
+            background: var(--background);
+            line-height: 1.6;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1200px, 92%);
+            margin: 0 auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* =========================================
+           2. ANNOUNCEMENT BAR
+        ========================================= */
+
+        .announcement {
+            padding: 9px 15px;
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .announcement strong {
+            color: #b8b4ff;
+        }
+
+        /* =========================================
+           3. HEADER
+        ========================================= */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(14px);
+        }
+
+        .header-main {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 25px;
+            font-weight: 850;
+            letter-spacing: -1px;
+        }
+
+        .brand-icon {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            font-size: 23px;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .header-links a {
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .header-links a:hover {
+            color: var(--primary);
+        }
+
+        .secure-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-radius: 9px;
+            background: #ecfdf3;
+            color: #027a48;
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+        /* =========================================
+           4. CHECKOUT INTRODUCTION
+        ========================================= */
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            padding: 24px 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .checkout-heading {
+            margin-bottom: 28px;
+        }
+
+        .checkout-heading h1 {
+            font-size: clamp(28px, 4vw, 39px);
+            letter-spacing: -1px;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+
+        .checkout-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================================
+           5. CHECKOUT STEPS
+        ========================================= */
+
+        .checkout-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #f2f4f7;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .step.active {
+            border-color: var(--primary);
+            background: #f5f4ff;
+        }
+
+        .step.active .step-number {
+            background: var(--primary);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background: #d1fadf;
+            color: #027a48;
+        }
+
+        .step-title {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .step-description {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* =========================================
+           6. MAIN CHECKOUT LAYOUT
+        ========================================= */
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 390px;
+            align-items: start;
+            gap: 25px;
+            padding-bottom: 65px;
+        }
+
+        .checkout-main {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            min-width: 0;
+        }
+
+        .checkout-card {
+            padding: 25px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .card-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+            margin-bottom: 23px;
+        }
+
+        .heading-icon {
+            flex-shrink: 0;
+            width: 41px;
+            height: 41px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #f0efff;
+            font-size: 19px;
+        }
+
+        .card-heading h2 {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .card-heading p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .optional {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* =========================================
+           7. FORM ELEMENTS
+        ========================================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .form-group {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 750;
+            color: var(--text);
+        }
+
+        .required {
+            color: var(--danger);
+        }
+
+        .form-control {
+            width: 100%;
+            min-height: 45px;
+            padding: 11px 13px;
+            outline: none;
+            border: 1px solid #d0d5dd;
+            border-radius: 9px;
+            background: white;
+            color: var(--secondary);
+            font-size: 13px;
+            transition:
+                border-color var(--transition),
+                box-shadow var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.12);
+        }
+
+        .form-control::placeholder {
+            color: #98a2b3;
+        }
+
+        textarea.form-control {
+            min-height: 95px;
+            resize: vertical;
+        }
+
+        .field-error {
+            min-height: 14px;
+            color: var(--danger);
+            font-size: 11px;
+        }
+
+        .form-group.invalid .form-control {
+            border-color: var(--danger);
+        }
+
+        .form-help {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* =========================================
+           8. ADDRESS TYPE
+        ========================================= */
+
+        .address-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .address-type {
+            position: relative;
+        }
+
+        .address-type input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .address-type label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .address-type input:checked + label {
+            border-color: var(--primary);
+            background: #f5f4ff;
+            color: var(--primary-dark);
+        }
+
+        /* =========================================
+           9. DELIVERY OPTIONS
+        ========================================= */
+
+        .delivery-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: border-color var(--transition);
+        }
+
+        .delivery-option:hover {
+            border-color: var(--primary);
+        }
+
+        .delivery-option.selected {
+            border-color: var(--primary);
+            background: #f8f7ff;
+        }
+
+        .delivery-option input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .delivery-icon {
+            flex-shrink: 0;
+            font-size: 24px;
+        }
+
+        .delivery-info {
+            flex: 1;
+        }
+
+        .delivery-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .delivery-info span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .delivery-price {
+            white-space: nowrap;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .free-shipping {
+            color: var(--success);
+        }
+
+        /* =========================================
+           10. PAYMENT METHODS
+        ========================================= */
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-option {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .payment-option.selected {
+            border-color: var(--primary);
+        }
+
+        .payment-option-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            cursor: pointer;
+        }
+
+        .payment-option-header input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: #f2f4f7;
+            font-size: 20px;
+        }
+
+        .payment-method-info {
+            flex: 1;
+        }
+
+        .payment-method-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .payment-method-info span {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .payment-content {
+            display: none;
+            padding: 0 16px 18px 68px;
+        }
+
+        .payment-option.selected .payment-content {
+            display: block;
+        }
+
+        .payment-demo-note {
+            padding: 12px;
+            border-radius: 9px;
+            background: #fffaeb;
+            color: #93370d;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .payment-content .form-grid {
+            gap: 12px;
+        }
+
+        .payment-content .form-control {
+            min-height: 41px;
+        }
+
+        .demo-card-label {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 6px;
+            background: #eef4ff;
+            color: #3538cd;
+            font-size: 10px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        /* =========================================
+           11. ORDER SUMMARY
+        ========================================= */
+
+        .order-summary {
+            position: sticky;
+            top: 130px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: white;
+        }
+
+        .summary-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 19px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-title h2 {
+            font-size: 18px;
+        }
+
+        .item-count {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .summary-items {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-height: 370px;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .summary-item {
+            display: grid;
+            grid-template-columns: 65px minmax(0, 1fr) auto;
+            gap: 11px;
+            align-items: center;
+        }
+
+        .summary-item-image {
+            width: 65px;
+            height: 65px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            overflow: hidden;
+            background: #f2f4f7;
+            font-size: 29px;
+        }
+
+        .summary-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .summary-item-info {
+            min-width: 0;
+        }
+
+        .summary-item-info strong {
+            display: block;
+            font-size: 11px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .summary-item-info span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        .summary-item-price {
+            white-space: nowrap;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .coupon-box {
+            padding: 16px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .coupon-box label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .coupon-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .coupon-form input {
+            width: 100%;
+            min-width: 0;
+            padding: 11px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            outline: none;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .coupon-form button {
+            flex-shrink: 0;
+            padding: 0 14px;
+            border: none;
+            border-radius: 9px;
+            background: #eeedff;
+            color: var(--primary-dark);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .coupon-message {
+            margin-top: 8px;
+            font-size: 11px;
+        }
+
+        .coupon-message.success {
+            color: var(--success);
+        }
+
+        .coupon-message.error {
+            color: var(--danger);
+        }
+
+        .summary-calculations {
+            padding: 18px 0;
+        }
+
+        .summary-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 12px 0;
+            color: var(--text);
+            font-size: 12px;
+        }
+
+        .summary-row span:last-child {
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .summary-row.discount-row {
+            color: var(--success);
+        }
+
+        .summary-row.total-row {
+            margin-top: 17px;
+            padding-top: 17px;
+            border-top: 1px solid var(--border);
+            color: var(--secondary);
+            font-size: 16px;
+            font-weight: 850;
+        }
+
+        .summary-row.total-row span:last-child {
+            font-size: 20px;
+        }
+
+        .tax-note {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           12. PLACE ORDER BUTTON
+        ========================================= */
+
+        .place-order-button {
+            width: 100%;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: none;
+            border-radius: 11px;
+            background: var(--primary);
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+            transition:
+                background var(--transition),
+                transform var(--transition);
+        }
+
+        .place-order-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .place-order-button:disabled {
+            background: #98a2b3;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        .checkout-disclaimer {
+            margin-top: 14px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .payment-security {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 13px;
+            padding-top: 18px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* =========================================
+           13. EMPTY CART
+        ========================================= */
+
+        .empty-cart {
+            padding: 70px 25px;
+            margin-bottom: 65px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: white;
+            text-align: center;
+        }
+
+        .empty-cart-icon {
+            margin-bottom: 18px;
+            font-size: 70px;
+        }
+
+        .empty-cart h2 {
+            margin-bottom: 9px;
+            font-size: 25px;
+        }
+
+        .empty-cart p {
+            margin-bottom: 22px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .primary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 19px;
+            border: none;
+            border-radius: 9px;
+            background: var(--primary);
+            color: white;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* =========================================
+           14. ORDER SUCCESS MODAL
+        ========================================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(16, 24, 40, 0.68);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .success-modal {
+            width: min(520px, 100%);
+            padding: 35px;
+            border-radius: 20px;
+            background: white;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+            animation: modalIn 0.25s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #d1fadf;
+            color: #027a48;
+            font-size: 42px;
+        }
+
+        .success-modal h2 {
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+
+        .success-modal > p {
+            margin-bottom: 20px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .order-reference {
+            padding: 17px;
+            margin-bottom: 22px;
+            border: 1px dashed #b9b4ff;
+            border-radius: 12px;
+            background: #f5f4ff;
+        }
+
+        .order-reference span {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .order-reference strong {
+            color: var(--primary-dark);
+            font-size: 21px;
+            letter-spacing: 1px;
+        }
+
+        .success-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .secondary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 17px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+        /* =========================================
+           15. TOAST NOTIFICATIONS
+        ========================================= */
+
+        .toast-container {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 5000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            width: min(350px, calc(100vw - 40px));
+            padding: 14px 17px;
+            border-radius: 11px;
+            background: var(--secondary);
+            color: white;
+            font-size: 12px;
+            box-shadow: var(--shadow);
+            animation: toastIn 0.25s ease;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================================
+           16. FOOTER
+        ========================================= */
+
+        .site-footer {
+            padding: 45px 0 20px;
+            background: #101828;
+            color: white;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 30px;
+            padding-bottom: 30px;
+        }
+
+        .footer-brand {
+            margin-bottom: 13px;
+            font-size: 23px;
+            font-weight: 850;
+        }
+
+        .footer-brand span {
+            color: #a5a0ff;
+        }
+
+        .footer-description {
+            max-width: 280px;
+            color: #b8c0cc;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .footer-column a {
+            display: block;
+            margin: 10px 0;
+            color: #b8c0cc;
+            font-size: 12px;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            padding-top: 20px;
+            border-top: 1px solid #344054;
+            color: #b8c0cc;
+            font-size: 11px;
+        }
+
+        /* =========================================
+           17. RESPONSIVE STYLES
+        ========================================= */
+
+        @media (max-width: 1000px) {
+            .checkout-layout {
+                grid-template-columns: minmax(0, 1fr) 330px;
+                gap: 17px;
+            }
+
+            .checkout-card,
+            .order-summary {
+                padding: 20px;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 780px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+                order: -1;
+            }
+
+            .checkout-steps {
+                gap: 8px;
+            }
+
+            .step {
+                padding: 11px;
+                gap: 8px;
+            }
+
+            .step-number {
+                width: 30px;
+                height: 30px;
+            }
+
+            .step-description {
+                display: none;
+            }
+
+            .header-main {
+                min-height: 67px;
+            }
+
+            .header-links {
+                gap: 14px;
+            }
+
+            .header-links a {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .container {
+                width: 94%;
+            }
+
+            .brand {
+                font-size: 21px;
+            }
+
+            .brand-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .header-links a:nth-child(2) {
+                display: none;
+            }
+
+            .secure-indicator {
+                padding: 7px;
+                font-size: 10px;
+            }
+
+            .checkout-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .step-description {
+                display: block;
+            }
+
+            .checkout-card {
+                padding: 17px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 13px;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .payment-content {
+                padding-left: 16px;
+            }
+
+            .delivery-option {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .delivery-price {
+                margin-left: auto;
+            }
+
+            .summary-item {
+                grid-template-columns: 55px minmax(0, 1fr) auto;
+                gap: 9px;
+            }
+
+            .summary-item-image {
+                width: 55px;
+                height: 55px;
+                font-size: 24px;
+            }
+
+            .success-modal {
+                padding: 25px 18px;
+            }
+
+            .success-modal h2 {
+                font-size: 23px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 25px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ANNOUNCEMENT -->
+    <div class="announcement">
+        🛍️ Welcome to NovaMart — <strong>Simple shopping, smarter living.</strong>
+    </div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+
+        <div class="container header-main">
+
+            <a href="index.html" class="brand">
+                <span class="brand-icon">N</span>
+
+                <span class="brand-name">
+                    Nova<span>Mart</span>
+                </span>
+            </a>
+
+            <div class="header-links">
+                <a href="products.html">Continue Shopping</a>
+                <a href="cart.html">View Cart</a>
+            </div>
+
+            <div class="secure-indicator">
+                🔒 Demo Checkout
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- MAIN -->
+    <main class="container">
+
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>›</span>
+            <a href="cart.html">Cart</a>
+            <span>›</span>
+            <span>Checkout</span>
+        </div>
+
+        <section class="checkout-heading">
+
+            <h1>Complete Your Order</h1>
+
+            <p>
+                Enter your delivery details, choose your payment method,
+                and review your order before placing it.
+            </p>
+
+        </section>
+
+        <!-- CHECKOUT STEPS -->
+        <section class="checkout-steps">
+
+            <div class="step completed">
+
+                <div class="step-number">✓</div>
+
+                <div>
+                    <div class="step-title">Shopping Cart</div>
+                    <div class="step-description">
+                        Review your items
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="step active">
+
+                <div class="step-number">2</div>
+
+                <div>
+                    <div class="step-title">Checkout</div>
+                    <div class="step-description">
+                        Delivery and payment
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="step">
+
+                <div class="step-number">3</div>
+
+                <div>
+                    <div class="step-title">Order Complete</div>
+                    <div class="step-description">
+                        Confirmation and tracking
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- EMPTY CART -->
+        <section class="empty-cart hidden" id="emptyCart">
+
+            <div class="empty-cart-icon">🛒</div>
+
+            <h2>Your cart is empty</h2>
+
+            <p>
+                Add a few products before proceeding to checkout.
+            </p>
+
+            <a href="products.html" class="primary-button">
+                Explore Products
+            </a>
+
+        </section>
+
+        <!-- CHECKOUT CONTENT -->
+        <div class="checkout-layout" id="checkoutLayout">
+
+            <!-- LEFT COLUMN -->
+            <form id="checkoutForm" class="checkout-main" novalidate>
+
+                <!-- CUSTOMER DETAILS -->
+                <section class="checkout-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">👤</div>
+
+                        <div>
+                            <h2>Contact Information</h2>
+
+                            <p>
+                                Where can we send your order updates?
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="firstName">
+                                First Name <span class="required">*</span>
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                placeholder="Enter first name"
+                                autocomplete="given-name"
+                                required
+                                minlength="2"
+                                maxlength="60"
+                            >
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="lastName">
+                                Last Name <span class="required">*</span>
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                placeholder="Enter last name"
+                                autocomplete="family-name"
+                                required
+                                minlength="2"
+                                maxlength="60"
+                            >
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address <span class="required">*</span>
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                required
+                                maxlength="254"
+                            >
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                Mobile Number <span class="required">*</span>
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="10-digit mobile number"
+                                autocomplete="tel"
+                                inputmode="numeric"
+                                pattern="[6-9][0-9]{9}"
+                                maxlength="10"
+                                required
+                            >
+
+                            <span class="field-error"></span>
+
+                            <span class="form-help">
+                                Demo validation for Indian mobile numbers.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- DELIVERY ADDRESS -->
+                <section class="checkout-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">📍</div>
+
+                        <div>
+                            <h2>Delivery Address</h2>
+
+                            <p>
+                                Enter the address where you want your order delivered.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group full-width">
+
+                            <label for="address">
+                                Street Address <span class="required">*</span>
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="address"
+                                name="address"
+                                placeholder="House number, street, locality"
+                                autocomplete="street-address"
+                                required
+                                minlength="5"
+                                maxlength="180"
+                            >
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="landmark">
+                                Landmark <span class="optional">(Optional)</span>
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="landmark"
+                                name="landmark"
+                                placeholder="Near a known location"
+                                maxlength="120"
+                            >
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="city">
+                                City <span class="required">*</span>
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="city"
+                                name="city"
+                                placeholder="Enter city"
+                                autocomplete="address-level2"
+                                required
+                                minlength="2"
+                                maxlength="80"
+                            >
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="state">
+                                State <span class="required">*</span>
+                            </label>
+
+                            <select
+                                class="form-control"
+                                id="state"
+                                name="state"
+                                autocomplete="address-level1"
+                                required
+                            >
+
+                                <option value="">Select state</option>
+
+                                <option>Andhra Pradesh</option>
+                                <option>Arunachal Pradesh</option>
+                                <option>Assam</option>
+                                <option>Bihar</option>
+                                <option>Chhattisgarh</option>
+                                <option>Goa</option>
+                                <option>Gujarat</option>
+                                <option>Haryana</option>
+                                <option>Himachal Pradesh</option>
+                                <option>Jharkhand</option>
+                                <option>Karnataka</option>
+                                <option>Kerala</option>
+                                <option>Madhya Pradesh</option>
+                                <option>Maharashtra</option>
+                                <option>Manipur</option>
+                                <option>Meghalaya</option>
+                                <option>Mizoram</option>
+                                <option>Nagaland</option>
+                                <option>Odisha</option>
+                                <option>Punjab</option>
+                                <option>Rajasthan</option>
+                                <option>Sikkim</option>
+                                <option>Tamil Nadu</option>
+                                <option>Telangana</option>
+                                <option>Tripura</option>
+                                <option>Uttar Pradesh</option>
+                                <option>Uttarakhand</option>
+                                <option>West Bengal</option>
+                                <option>Delhi</option>
+                                <option>Jammu and Kashmir</option>
+                                <option>Ladakh</option>
+                                <option>Puducherry</option>
+
+                            </select>
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="postalCode">
+                                PIN Code <span class="required">*</span>
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="postalCode"
+                                name="postalCode"
+                                placeholder="6-digit PIN code"
+                                autocomplete="postal-code"
+                                inputmode="numeric"
+                                pattern="[0-9]{6}"
+                                maxlength="6"
+                                required
+                            >
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                        <div class="form-group full-width">
+
+                            <label for="orderNotes">
+                                Delivery Instructions
+                                <span class="optional">(Optional)</span>
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                id="orderNotes"
+                                name="orderNotes"
+                                placeholder="Any instructions for delivery?"
+                                maxlength="500"
+                            ></textarea>
+
+                            <span class="field-error"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="address-types">
+
+                        <div class="address-type">
+
+                            <input
+                                type="radio"
+                                id="addressHome"
+                                name="addressType"
+                                value="Home"
+                                checked
+                            >
+
+                            <label for="addressHome">
+                                🏠 Home
+                            </label>
+
+                        </div>
+
+                        <div class="address-type">
+
+                            <input
+                                type="radio"
+                                id="addressWork"
+                                name="addressType"
+                                value="Work"
+                            >
+
+                            <label for="addressWork">
+                                🏢 Work
+                            </label>
+
+                        </div>
+
+                        <div class="address-type">
+
+                            <input
+                                type="radio"
+                                id="addressOther"
+                                name="addressType"
+                                value="Other"
+                            >
+
+                            <label for="addressOther">
+                                📍 Other
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- DELIVERY METHOD -->
+                <section class="checkout-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">🚚</div>
+
+                        <div>
+                            <h2>Delivery Method</h2>
+
+                            <p>
+                                Choose your preferred demo shipping option.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="delivery-options">
+
+                        <label
+                            class="delivery-option selected"
+                            for="standardDelivery"
+                        >
+
+                            <input
+                                type="radio"
+                                id="standardDelivery"
+                                name="delivery"
+                                value="standard"
+                                checked
+                            >
+
+                            <span class="delivery-icon">📦</span>
+
+                            <span class="delivery-info">
+
+                                <strong>Standard Delivery</strong>
+
+                                <span>
+                                    Estimated 4–7 business days
+                                </span>
+
+                            </span>
+
+                            <span
+                                class="delivery-price free-shipping"
+                                id="standardDeliveryPrice"
+                            >
+                                FREE
+                            </span>
+
+                        </label>
+
+                        <label
+                            class="delivery-option"
+                            for="expressDelivery"
+                        >
+
+                            <input
+                                type="radio"
+                                id="expressDelivery"
+                                name="delivery"
+                                value="express"
+                            >
+
+                            <span class="delivery-icon">🚀</span>
+
+                            <span class="delivery-info">
+
+                                <strong>Express Delivery</strong>
+
+                                <span>
+                                    Estimated 1–3 business days
+                                </span>
+
+                            </span>
+
+                            <span class="delivery-price">
+                                ₹149
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </section>
+
+                <!-- PAYMENT -->
+                <section class="checkout-card">
+
+                    <div class="card-heading">
+
+                        <div class="heading-icon">💳</div>
+
+                        <div>
+                            <h2>Payment Method</h2>
+
+                            <p>
+                                Select a simulated payment method for this demo.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="payment-methods">
+
+                        <!-- DEMO CARD -->
+                        <div class="payment-option selected">
+
+                            <label
+                                class="payment-option-header"
+                                for="paymentCard"
+                            >
+
+                                <input
+                                    type="radio"
+                                    id="paymentCard"
+                                    name="paymentMethod"
+                                    value="card"
+                                    checked
+                                >
+
+                                <span class="payment-icon">💳</span>
+
+                                <span class="payment-method-info">
+
+                                    <strong>Credit / Debit Card</strong>
+
+                                    <span>
+                                        Simulated card payment
+                                    </span>
+
+                                </span>
+
+                            </label>
+
+                            <div class="payment-content">
+
+                                <span class="demo-card-label">
+                                    DEMO PAYMENT ONLY
+                                </span>
+
+                                <div class="payment-demo-note">
+                                    Do not enter real payment information.
+                                    Use the demo fields below. This page does
+                                    not connect to a bank or payment gateway.
+                                </div>
+
+                                <div class="form-grid" style="margin-top:15px;">
+
+                                    <div class="form-group full-width">
+
+                                        <label for="cardName">
+                                            Name on Card
+                                        </label>
+
+                                        <input
+                                            class="form-control"
+                                            type="text"
+                                            id="cardName"
+                                            name="cardName"
+                                            placeholder="Demo cardholder"
+                                            maxlength="80"
+                                            autocomplete="off"
+                                        >
+
+                                        <span class="field-error"></span>
+
+                                    </div>
+
+                                    <div class="form-group full-width">
+
+                                        <label for="cardNumber">
+                                            Demo Card Number
+                                        </label>
+
+                                        <input
+                                            class="form-control"
+                                            type="text"
+                                            id="cardNumber"
+                                            name="cardNumber"
+                                            placeholder="4242 4242 4242 4242"
+                                            inputmode="numeric"
+                                            autocomplete="off"
+                                            maxlength="19"
+                                        >
+
+                                        <span class="field-error"></span>
+
+                                        <span class="form-help">
+                                            Demo number: 4242 4242 4242 4242
+                                        </span>
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label for="cardExpiry">
+                                            Expiry (MM/YY)
+                                        </label>
+
+                                        <input
+                                            class="form-control"
+                                            type="text"
+                                            id="cardExpiry"
+                                            name="cardExpiry"
+                                            placeholder="12/30"
+                                            maxlength="5"
+                                            autocomplete="off"
+                                        >
+
+                                        <span class="field-error"></span>
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label for="cardCvv">
+                                            Demo CVV
+                                        </label>
+
+                                        <input
+                                            class="form-control"
+                                            type="password"
+                                            id="cardCvv"
+                                            name="cardCvv"
+                                            placeholder="123"
+                                            inputmode="numeric"
+                                            maxlength="4"
+                                            autocomplete="off"
+                                        >
+
+                                        <span class="field-error"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- UPI -->
+                        <div class="payment-option">
+
+                            <label
+                                class="payment-option-header"
+                                for="paymentUPI"
+                            >
+
+                                <input
+                                    type="radio"
+                                    id="paymentUPI"
+                                    name="paymentMethod"
+                                    value="upi"
+                                >
+
+                                <span class="payment-icon">📱</span>
+
+                                <span class="payment-method-info">
+
+                                    <strong>UPI</strong>
+
+                                    <span>
+                                        Simulated UPI payment
+                                    </span>
+
+                                </span>
+
+                            </label>
+
+                            <div class="payment-content">
+
+                                <div class="payment-demo-note">
+                                    Demo mode: no UPI request will be sent.
+                                    Enter a sample UPI ID to test the form.
+                                </div>
+
+                                <div class="form-group" style="margin-top:15px;">
+
+                                    <label for="upiId">
+                                        Demo UPI ID
+                                    </label>
+
+                                    <input
+                                        class="form-control"
+                                        type="text"
+                                        id="upiId"
+                                        name="upiId"
+                                        placeholder="demo@upi"
+                                        maxlength="100"
+                                        autocomplete="off"
+                                    >
+
+                                    <span class="field-error"></span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- COD -->
+                        <div class="payment-option">
+
+                            <label
+                                class="payment-option-header"
+                                for="paymentCOD"
+                            >
+
+                                <input
+                                    type="radio"
+                                    id="paymentCOD"
+                                    name="paymentMethod"
+                                    value="cod"
+                                >
+
+                                <span class="payment-icon">💵</span>
+
+                                <span class="payment-method-info">
+
+                                    <strong>Cash on Delivery</strong>
+
+                                    <span>
+                                        Pay when the order arrives
+                                    </span>
+
+                                </span>
+
+                            </label>
+
+                            <div class="payment-content">
+
+                                <div class="payment-demo-note">
+                                    Demo COD selection. No courier will be
+                                    dispatched and no money will be collected.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- TERMS -->
+                <section class="checkout-card">
+
+                    <div class="form-group">
+
+                        <label
+                            style="
+                                display:flex;
+                                align-items:flex-start;
+                                gap:10px;
+                                font-weight:600;
+                                line-height:1.8;
+                            "
+                            for="acceptTerms"
+                        >
+
+                            <input
+                                type="checkbox"
+                                id="acceptTerms"
+                                name="acceptTerms"
+                                required
+                                style="
+                                    width:16px;
+                                    height:16px;
+                                    margin-top:5px;
+                                    accent-color:var(--primary);
+                                    flex-shrink:0;
+                                "
+                            >
+
+                            <span>
+                                I confirm that my order and delivery details
+                                are correct, and I agree to the demo checkout
+                                terms. <span class="required">*</span>
+                            </span>
+
+                        </label>
+
+                        <span
+                            class="field-error"
+                            id="termsError"
+                        ></span>
+
+                    </div>
+
+                </section>
+
+            </form>
+
+            <!-- RIGHT COLUMN: ORDER SUMMARY -->
+            <aside class="order-summary">
+
+                <div class="summary-title">
+
+                    <h2>Order Summary</h2>
+
+                    <span
+                        class="item-count"
+                        id="itemCount"
+                    >
+                        0 items
+                    </span>
+
+                </div>
+
+                <div class="summary-items" id="summaryItems">
+                    <!-- Rendered by JavaScript -->
+                </div>
+
+                <!-- COUPON -->
+                <div class="coupon-box">
+
+                    <label for="couponCode">
+                        Have a coupon?
+                    </label>
+
+                    <form class="coupon-form" id="couponForm">
+
+                        <input
+                            type="text"
+                            id="couponCode"
+                            placeholder="Enter code"
+                            maxlength="30"
+                            autocomplete="off"
+                        >
+
+                        <button type="submit">
+                            Apply
+                        </button>
+
+                    </form>
+
+                    <div
+                        class="coupon-message"
+                        id="couponMessage"
+                        aria-live="polite"
+                    ></div>
+
+                    <div class="form-help" style="margin-top:8px;">
+                        Demo codes: SAVE10 or NOVA20
+                    </div>
+
+                </div>
+
+                <!-- CALCULATIONS -->
+                <div class="summary-calculations">
+
+                    <div class="summary-row">
+
+                        <span>Subtotal</span>
+
+                        <span id="subtotalValue">₹0</span>
+
+                    </div>
+
+                    <div class="summary-row">
+
+                        <span>Shipping</span>
+
+                        <span id="shippingValue">FREE</span>
+
+                    </div>
+
+                    <div class="summary-row discount-row">
+
+                        <span>Discount</span>
+
+                        <span id="discountValue">−₹0</span>
+
+                    </div>
+
+                    <div class="summary-row">
+
+                        <span>Estimated tax (included)</span>
+
+                        <span id="taxValue">₹0</span>
+
+                    </div>
+
+                    <div class="summary-row total-row">
+
+                        <span>Total</span>
+
+                        <span id="totalValue">₹0</span>
+
+                    </div>
+
+                    <p class="tax-note">
+                        Tax is displayed as an illustrative estimate for
+                        this demo. No actual tax invoice is generated.
+                    </p>
+
+                </div>
+
+                <!-- PLACE ORDER -->
+                <button
+                    type="button"
+                    class="place-order-button"
+                    id="placeOrderButton"
+                >
+                    <span>🔒</span>
+                    <span id="placeOrderLabel">
+                        Place Demo Order
+                    </span>
+                </button>
+
+                <p class="checkout-disclaimer">
+                    This is a demonstration checkout. No real payment
+                    is processed and no real order is dispatched.
+                </p>
+
+                <div class="payment-security">
+
+                    <span>🔒 Demo mode</span>
+                    <span>✓ Transparent total</span>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div>
+
+                    <div class="footer-brand">
+                        Nova<span>Mart</span>
+                    </div>
+
+                    <p class="footer-description">
+                        Your everyday shopping destination. Discover useful
+                        products and enjoy a simple demo shopping experience.
+                    </p>
+
+                </div>
+
+                <div class="footer-column">
+
+                    <h3>Shop</h3>
+
+                    <a href="products.html">All Products</a>
+                    <a href="products.html?category=Electronics">Electronics</a>
+                    <a href="products.html?category=Fashion">Fashion</a>
+                    <a href="cart.html">Shopping Cart</a>
+
+                </div>
+
+                <div class="footer-column">
+
+                    <h3>Customer Service</h3>
+
+                    <a href="account.html">My Account</a>
+                    <a href="track-order.html">Track Order</a>
+                    <a href="checkout.html">Checkout</a>
+
+                </div>
+
+                <div class="footer-column">
+
+                    <h3>Information</h3>
+
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Products</a>
+                    <a href="admin.html">Admin Demo</a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <span>
+                    © <span id="currentYear"></span> NovaMart. Demo project.
+                </span>
+
+                <span>
+                    HTML · CSS · JavaScript
+                </span>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!-- ORDER SUCCESS MODAL -->
+    <div
+        class="modal-overlay"
+        id="successModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="successTitle"
+    >
+
+        <div class="success-modal">
+
+            <div class="success-icon">✓</div>
+
+            <h2 id="successTitle">
+                Your Demo Order Is Confirmed!
+            </h2>
+
+            <p id="successMessage">
+                Your order has been saved in this browser.
+            </p>
+
+            <div class="order-reference">
+
+                <span>Your Order Number</span>
+
+                <strong id="successOrderNumber">
+                    NM-DEMO-000000
+                </strong>
+
+            </div>
+
+            <div class="success-actions">
+
+                <a
+                    href="track-order.html"
+                    class="primary-button"
+                    id="trackOrderLink"
+                >
+                    Track Order
+                </a>
+
+                <a
+                    href="products.html"
+                    class="secondary-button"
+                >
+                    Continue Shopping
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TOAST -->
+    <div
+        class="toast-container"
+        id="toastContainer"
+        aria-live="polite"
+    ></div>
+
+    <script>
+        "use strict";
+
+        /* =========================================
+           1. CONFIGURATION
+        ========================================= */
+
+        const CONFIG = {
+
+            cartKey: "novamart_cart",
+
+            ordersKey: "novamart_orders",
+
+            userKey: "novamart_user",
+
+            addressKey: "novamart_checkout_address",
+
+            couponKey: "novamart_active_coupon",
+
+            shipping: {
+
+                standard: 0,
+
+                express: 149
+
+            },
+
+            freeShippingMinimum: 1999,
+
+            taxRate: 0.05,
+
+            couponCodes: {
+
+                SAVE10: {
+
+                    type: "percent",
+
+                    value: 10,
+
+                    minimum: 500
+
+                },
+
+                NOVA20: {
+
+                    type: "percent",
+
+                    value: 20,
+
+                    minimum: 2000
+
+                }
+
+            }
+
+        };
+
+        /* =========================================
+           2. STORAGE UTILITIES
+        ========================================= */
+
+        const Storage = {
+
+            get(key, fallback = null) {
+
+                try {
+
+                    const raw = localStorage.getItem(key);
+
+                    if (raw === null) {
+
+                        return fallback;
+
+                    }
+
+                    return JSON.parse(raw);
+
+                } catch (error) {
+
+                    console.error(
+                        "Storage read error:",
+                        key,
+                        error
+                    );
+
+                    return fallback;
+
+                }
+
+            },
+
+            set(key, value) {
+
+                try {
+
+                    localStorage.setItem(
+                        key,
+                        JSON.stringify(value)
+                    );
+
+                    return true;
+
+                } catch (error) {
+
+                    console.error(
+                        "Storage write error:",
+                        key,
+                        error
+                    );
+
+                    showToast(
+                        "Unable to save data in this browser.",
+                        "error"
+                    );
+
+                    return false;
+
+                }
+
+            },
+
+            remove(key) {
+
+                try {
+
+                    localStorage.removeItem(key);
+
+                    return true;
+
+                } catch (error) {
+
+                    console.error(
+                        "Storage removal error:",
+                        key,
+                        error
+                    );
+
+                    return false;
+
+                }
+
+            }
+
+        };
+
+        /* =========================================
+           3. APPLICATION STATE
+        ========================================= */
+
+        const state = {
+
+            cart: [],
+
+            coupon: null,
+
+            couponCode: "",
+
+            subtotal: 0,
+
+            shipping: 0,
+
+            discount: 0,
+
+            tax: 0,
+
+            total: 0,
+
+            placingOrder: false
+
+        };
+
+        /* =========================================
+           4. DOM REFERENCES
+        ========================================= */
+
+        const checkoutForm =
+            document.getElementById("checkoutForm");
+
+        const checkoutLayout =
+            document.getElementById("checkoutLayout");
+
+        const emptyCart =
+            document.getElementById("emptyCart");
+
+        const summaryItems =
+            document.getElementById("summaryItems");
+
+        const placeOrderButton =
+            document.getElementById("placeOrderButton");
+
+        const placeOrderLabel =
+            document.getElementById("placeOrderLabel");
+
+        const couponInput =
+            document.getElementById("couponCode");
+
+        const couponMessage =
+            document.getElementById("couponMessage");
+
+        /* =========================================
+           5. CURRENCY FORMATTER
+        ========================================= */
+
+        function formatPrice(amount) {
+
+            return new Intl.NumberFormat("en-IN", {
+
+                style: "currency",
+
+                currency: "INR",
+
+                maximumFractionDigits: 2
+
+            }).format(amount);
+
+        }
+
+        /* =========================================
+           6. HTML ESCAPING
+        ========================================= */
+
+        function escapeHTML(value) {
+
+            return String(value ?? "").replace(
+                /[&<>"']/g,
+                character => {
+
+                    const map = {
+
+                        "&": "&amp;",
+
+                        "<": "&lt;",
+
+                        ">": "&gt;",
+
+                        '"': "&quot;",
+
+                        "'": "&#39;"
+
+                    };
+
+                    return map[character];
+
+                }
+            );
+
+        }
+
+        /* =========================================
+           7. TOAST NOTIFICATIONS
+        ========================================= */
+
+        function showToast(message, type = "success") {
+
+            const container =
+                document.getElementById("toastContainer");
+
+            const toast = document.createElement("div");
+
+            toast.className = `toast ${type}`;
+
+            toast.textContent = message;
+
+            container.appendChild(toast);
+
+            window.setTimeout(() => {
+
+                toast.remove();
+
+            }, 3500);
+
+        }
+
+        /* =========================================
+           8. NORMALIZE CART
+        ========================================= */
+
+        function normalizeCart(items) {
+
+            if (!Array.isArray(items)) {
+
+                return [];
+
+            }
+
+            return items
+
+                .filter(item => {
+
+                    return (
+
+                        item &&
+
+                        Number.isInteger(Number(item.id)) &&
+
+                        String(item.name || "").trim() &&
+
+                        Number.isFinite(Number(item.price)) &&
+
+                        Number(item.price) >= 0
+
+                    );
+
+                })
+
+                .map(item => {
+
+                    const quantity = Math.max(
+
+                        1,
+
+                        Math.min(
+
+                            99,
+
+                            Math.floor(Number(item.quantity) || 1)
+
+                        )
+
+                    );
+
+                    return {
+
+                        id: Number(item.id),
+
+                        name: String(item.name),
+
+                        category: String(item.category || ""),
+
+                        price: Number(item.price),
+
+                        oldPrice: Number(item.oldPrice) || Number(item.price),
+
+                        emoji: String(item.emoji || "🛍️"),
+
+                        image: String(item.image || ""),
+
+                        quantity
+
+                    };
+
+                });
+
+        }
+
+        /* =========================================
+           9. LOAD CART
+        ========================================= */
+
+        function loadCart() {
+
+            const stored = Storage.get(
+                CONFIG.cartKey,
+                []
+            );
+
+            state.cart = normalizeCart(stored);
+
+            if (state.cart.length === 0) {
+
+                showEmptyCart();
+
+                return false;
+
+            }
+
+            checkoutLayout.classList.remove("hidden");
+
+            emptyCart.classList.add("hidden");
+
+            return true;
+
+        }
+
+        /* =========================================
+           10. EMPTY CART STATE
+        ========================================= */
+
+        function showEmptyCart() {
+
+            checkoutLayout.classList.add("hidden");
+
+            emptyCart.classList.remove("hidden");
+
+            placeOrderButton.disabled = true;
+
+        }
+
+        /* =========================================
+           11. GET CART QUANTITY
+        ========================================= */
+
+        function getTotalQuantity() {
+
+            return state.cart.reduce(
+                (total, item) => {
+
+                    return total + item.quantity;
+
+                },
+                0
+            );
+
+        }
+
+        /* =========================================
+           12. GET SELECTED DELIVERY
+        ========================================= */
+
+        function getSelectedDelivery() {
+
+            const selected = document.querySelector(
+                'input[name="delivery"]:checked'
+            );
+
+            return selected
+                ? selected.value
+                : "standard";
+
+        }
+
+        /* =========================================
+           13. GET SELECTED PAYMENT
+        ========================================= */
+
+        function getSelectedPayment() {
+
+            const selected = document.querySelector(
+                'input[name="paymentMethod"]:checked'
+            );
+
+            return selected
+                ? selected.value
+                : "card";
+
+        }
+
+        /* =========================================
+           14. CALCULATE SUBTOTAL
+        ========================================= */
+
+        function calculateSubtotal() {
+
+            return state.cart.reduce(
+                (total, item) => {
+
+                    return total + (
+                        item.price * item.quantity
+                    );
+
+                },
+                0
+            );
+
+        }
+
+        /* =========================================
+           15. CALCULATE SHIPPING
+        ========================================= */
+
+        function calculateShipping() {
+
+            const delivery = getSelectedDelivery();
+
+            if (delivery === "express") {
+
+                return CONFIG.shipping.express;
+
+            }
+
+            if (
+                state.subtotal >=
+                CONFIG.freeShippingMinimum
+            ) {
+
+                return 0;
+
+            }
+
+            /*
+             * Standard delivery is free in this demo.
+             * Keep the threshold as an example for
+             * adapting the shipping policy later.
+             */
+
+            return CONFIG.shipping.standard;
+
+        }
+
+        /* =========================================
+           16. CALCULATE COUPON DISCOUNT
+        ========================================= */
+
+        function calculateDiscount() {
+
+            if (!state.coupon) {
+
+                return 0;
+
+            }
+
+            if (
+                state.subtotal <
+                state.coupon.minimum
+            ) {
+
+                return 0;
+
+            }
+
+            if (state.coupon.type === "percent") {
+
+                return Math.round(
+
+                    state.subtotal *
+
+                    state.coupon.value /
+
+                    100 *
+
+                    100
+
+                ) / 100;
+
+            }
+
+            if (state.coupon.type === "fixed") {
+
+                return Math.min(
+
+                    state.coupon.value,
+
+                    state.subtotal
+
+                );
+
+            }
+
+            return 0;
+
+        }
+
+        /* =========================================
+           17. CALCULATE TAX
+        ========================================= */
+
+        function calculateTax() {
+
+            /*
+             * Illustrative tax estimate only.
+             * This is not a GST calculation or tax invoice.
+             */
+
+            const taxableAmount = Math.max(
+
+                0,
+
+                state.subtotal - state.discount
+
+            );
+
+            return Math.round(
+
+                taxableAmount *
+
+                CONFIG.taxRate *
+
+                100
+
+            ) / 100;
+
+        }
+
+        /* =========================================
+           18. CALCULATE GRAND TOTAL
+        ========================================= */
+
+        function calculateTotals() {
+
+            state.subtotal = calculateSubtotal();
+
+            state.shipping = calculateShipping();
+
+            state.discount = calculateDiscount();
+
+            state.tax = calculateTax();
+
+            state.total = Math.max(
+
+                0,
+
+                state.subtotal +
+
+                state.shipping +
+
+                state.tax -
+
+                state.discount
+
+            );
+
+        }
+
+        /* =========================================
+           19. PRODUCT IMAGE TEMPLATE
+        ========================================= */
+
+        function getProductImage(item) {
+
+            if (item.image) {
+
+                return `
+
+                    <img
+                        src="${escapeHTML(item.image)}"
+                        alt="${escapeHTML(item.name)}"
+                    >
+
+                `;
+
+            }
+
+            return escapeHTML(item.emoji || "🛍️");
+
+        }
+
+        /* =========================================
+           20. RENDER SUMMARY ITEMS
+        ========================================= */
+
+        function renderSummaryItems() {
+
+            if (state.cart.length === 0) {
+
+                summaryItems.innerHTML = `
+
+                    <p class="muted">
+                        Your cart is empty.
+                    </p>
+
+                `;
+
+                return;
+
+            }
+
+            summaryItems.innerHTML = state.cart.map(item => {
+
+                return `
+
+                    <div class="summary-item">
+
+                        <div class="summary-item-image">
+
+                            ${getProductImage(item)}
+
+                        </div>
+
+                        <div class="summary-item-info">
+
+                            <strong>
+                                ${escapeHTML(item.name)}
+                            </strong>
+
+                            <span>
+                                Qty: ${item.quantity} ×
+                                ${formatPrice(item.price)}
+                            </span>
+
+                        </div>
+
+                        <div class="summary-item-price">
+
+                            ${formatPrice(
+                                item.price * item.quantity
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+            document.getElementById(
+                "itemCount"
+            ).textContent = `${getTotalQuantity()} items`;
+
+        }
+
+        /* =========================================
+           21. RENDER TOTALS
+        ========================================= */
+
+        function renderTotals() {
+
+            calculateTotals();
+
+            document.getElementById(
+                "subtotalValue"
+            ).textContent = formatPrice(state.subtotal);
+
+            document.getElementById(
+                "shippingValue"
+            ).textContent = state.shipping === 0
+
+                ? "FREE"
+
+                : formatPrice(state.shipping);
+
+            document.getElementById(
+                "discountValue"
+            ).textContent =
+                `−${formatPrice(state.discount)}`;
+
+            document.getElementById(
+                "taxValue"
+            ).textContent = formatPrice(state.tax);
+
+            document.getElementById(
+                "totalValue"
+            ).textContent = formatPrice(state.total);
+
+            document.getElementById(
+                "standardDeliveryPrice"
+            ).textContent = "FREE";
+
+            document.querySelectorAll(
+                ".delivery-option"
+            ).forEach(label => {
+
+                const radio = label.querySelector(
+                    'input[name="delivery"]'
+                );
+
+                label.classList.toggle(
+                    "selected",
+                    Boolean(radio && radio.checked)
+                );
+
+            });
+
+            document.querySelectorAll(
+                ".payment-option"
+            ).forEach(option => {
+
+                const radio = option.querySelector(
+                    'input[name="paymentMethod"]'
+                );
+
+                option.classList.toggle(
+                    "selected",
+                    Boolean(radio && radio.checked)
+                );
+
+            });
+
+            updatePlaceOrderLabel();
+
+        }
+
+        /* =========================================
+           22. PLACE ORDER LABEL
+        ========================================= */
+
+        function updatePlaceOrderLabel() {
+
+            const method = getSelectedPayment();
+
+            if (method === "cod") {
+
+                placeOrderLabel.textContent =
+                    "Place Demo COD Order";
+
+                return;
+
+            }
+
+            if (method === "upi") {
+
+                placeOrderLabel.textContent =
+                    "Simulate UPI Payment";
+
+                return;
+
+            }
+
+            placeOrderLabel.textContent =
+                "Simulate Card Payment";
+
+        }
+
+        /* =========================================
+           23. COUPON VALIDATION
+        ========================================= */
+
+        function applyCoupon(code) {
+
+            const normalized = String(code || "")
+                .trim()
+                .toUpperCase();
+
+            couponMessage.className = "coupon-message";
+
+            if (!normalized) {
+
+                state.coupon = null;
+
+                state.couponCode = "";
+
+                Storage.remove(CONFIG.couponKey);
+
+                couponMessage.textContent =
+                    "Enter a coupon code.";
+
+                couponMessage.classList.add("error");
+
+                renderTotals();
+
+                return false;
+
+            }
+
+            const coupon = CONFIG.couponCodes[normalized];
+
+            if (!coupon) {
+
+                couponMessage.textContent =
+                    "Invalid coupon code. Try SAVE10 or NOVA20.";
+
+                couponMessage.classList.add("error");
+
+                return false;
+
+            }
+
+            if (state.subtotal < coupon.minimum) {
+
+                couponMessage.textContent =
+                    `Minimum order subtotal for this code is ${
+                        formatPrice(coupon.minimum)
+                    }.`;
+
+                couponMessage.classList.add("error");
+
+                return false;
+
+            }
+
+            state.coupon = {
+
+                type: coupon.type,
+
+                value: coupon.value,
+
+                minimum: coupon.minimum
+
+            };
+
+            state.couponCode = normalized;
+
+            Storage.set(CONFIG.couponKey, {
+
+                code: normalized
+
+            });
+
+            couponMessage.textContent =
+                `${normalized} applied successfully!`;
+
+            couponMessage.classList.add("success");
+
+            renderTotals();
+
+            showToast("Coupon applied successfully.");
+
+            return true;
+
+        }
+
+        /* =========================================
+           24. REMOVE COUPON
+        ========================================= */
+
+        function removeCoupon() {
+
+            state.coupon = null;
+
+            state.couponCode = "";
+
+            couponInput.value = "";
+
+            couponMessage.textContent = "";
+
+            couponMessage.className = "coupon-message";
+
+            Storage.remove(CONFIG.couponKey);
+
+            renderTotals();
+
+        }
+
+        /* =========================================
+           25. FIELD ERROR HELPERS
+        ========================================= */
+
+        function setFieldError(field, message) {
+
+            const group = field.closest(".form-group");
+
+            if (!group) {
+
+                return;
+
+            }
+
+            group.classList.add("invalid");
+
+            const errorElement =
+                group.querySelector(".field-error");
+
+            if (errorElement) {
+
+                errorElement.textContent = message;
+
+            }
+
+        }
+
+        function clearFieldError(field) {
+
+            const group = field.closest(".form-group");
+
+            if (!group) {
+
+                return;
+
+            }
+
+            group.classList.remove("invalid");
+
+            const errorElement =
+                group.querySelector(".field-error");
+
+            if (errorElement) {
+
+                errorElement.textContent = "";
+
+            }
+
+        }
+
+        /* =========================================
+           26. VALIDATE STANDARD FIELDS
+        ========================================= */
+
+        function validateStandardFields() {
+
+            let valid = true;
+
+            const requiredFields = [
+
+                "firstName",
+
+                "lastName",
+
+                "email",
+
+                "phone",
+
+                "address",
+
+                "city",
+
+                "state",
+
+                "postalCode"
+
+            ];
+
+            requiredFields.forEach(id => {
+
+                const field = document.getElementById(id);
+
+                clearFieldError(field);
+
+                const value = field.value.trim();
+
+                if (!value) {
+
+                    setFieldError(
+                        field,
+                        "This field is required."
+                    );
+
+                    valid = false;
+
+                    return;
+
+                }
+
+                if (!field.checkValidity()) {
+
+                    let message = "Please enter a valid value.";
+
+                    if (id === "email") {
+
+                        message =
+                            "Please enter a valid email address.";
+
+                    }
+
+                    if (id === "phone") {
+
+                        message =
+                            "Enter a valid 10-digit Indian mobile number.";
+
+                    }
+
+                    if (id === "postalCode") {
+
+                        message =
+                            "Enter a valid 6-digit PIN code.";
+
+                    }
+
+                    if (
+                        id === "firstName" ||
+                        id === "lastName"
+                    ) {
+
+                        message =
+                            "Name must contain at least 2 characters.";
+
+                    }
+
+                    if (id === "address") {
+
+                        message =
+                            "Enter a complete street address.";
+
+                    }
+
+                    setFieldError(field, message);
+
+                    valid = false;
+
+                }
+
+            });
+
+            return valid;
+
+        }
+
+        /* =========================================
+           27. VALIDATE PAYMENT DETAILS
+        ========================================= */
+
+        function validatePayment() {
+
+            const method = getSelectedPayment();
+
+            if (method === "cod") {
+
+                return true;
+
+            }
+
+            if (method === "upi") {
+
+                const upiField =
+                    document.getElementById("upiId");
+
+                clearFieldError(upiField);
+
+                const upi = upiField.value.trim();
+
+                /*
+                 * This only checks a demo-format UPI ID.
+                 * It does not verify an actual UPI account.
+                 */
+
+                const upiPattern =
+                    /^[a-zA-Z0-9._-]{2,100}@[a-zA-Z0-9]{2,50}$/;
+
+                if (!upiPattern.test(upi)) {
+
+                    setFieldError(
+
+                        upiField,
+
+                        "Enter a demo UPI ID such as demo@upi."
+
+                    );
+
+                    return false;
+
+                }
+
+                return true;
+
+            }
+
+            if (method === "card") {
+
+                const nameField =
+                    document.getElementById("cardName");
+
+                const numberField =
+                    document.getElementById("cardNumber");
+
+                const expiryField =
+                    document.getElementById("cardExpiry");
+
+                const cvvField =
+                    document.getElementById("cardCvv");
+
+                [
+                    nameField,
+                    numberField,
+                    expiryField,
+                    cvvField
+                ].forEach(clearFieldError);
+
+                let valid = true;
+
+                if (nameField.value.trim().length < 2) {
+
+                    setFieldError(
+
+                        nameField,
+
+                        "Enter the demo cardholder name."
+
+                    );
+
+                    valid = false;
+
+                }
+
+                const digits = numberField.value.replace(
+                    /\D/g,
+                    ""
+                );
+
+                /*
+                 * Accept only the published demo card number.
+                 * No real card information should be entered.
+                 */
+
+                if (digits !== "4242424242424242") {
+
+                    setFieldError(
+
+                        numberField,
+
+                        "Use the demo card number 4242 4242 4242 4242."
+
+                    );
+
+                    valid = false;
+
+                }
+
+                const expiry =
+                    expiryField.value.trim();
+
+                const expiryMatch =
+                    expiry.match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
+
+                if (!expiryMatch) {
+
+                    setFieldError(
+
+                        expiryField,
+
+                        "Use a valid demo expiry in MM/YY format."
+
+                    );
+
+                    valid = false;
+
+                } else {
+
+                    const month = Number(expiryMatch[1]);
+
+                    const year =
+                        2000 + Number(expiryMatch[2]);
+
+                    const now = new Date();
+
+                    const expiryDate = new Date(
+
+                        year,
+
+                        month,
+
+                        0,
+
+                        23,
+
+                        59,
+
+                        59
+
+                    );
+
+                    if (expiryDate < now) {
+
+                        setFieldError(
+
+                            expiryField,
+
+                            "The demo expiry date must be in the future."
+
+                        );
+
+                        valid = false;
+
+                    }
+
+                }
+
+                if (!/^\d{3,4}$/.test(cvvField.value.trim())) {
+
+                    setFieldError(
+
+                        cvvField,
+
+                        "Enter a 3- or 4-digit demo CVV."
+
+                    );
+
+                    valid = false;
+
+                }
+
+                return valid;
+
+            }
+
+            return false;
+
+        }
+
+        /* =========================================
+           28. VALIDATE TERMS
+        ========================================= */
+
+        function validateTerms() {
+
+            const checkbox =
+                document.getElementById("acceptTerms");
+
+            const error =
+                document.getElementById("termsError");
+
+            if (!checkbox.checked) {
+
+                error.textContent =
+                    "Please confirm the demo checkout terms.";
+
+                return false;
+
+            }
+
+            error.textContent = "";
+
+            return true;
+
+        }
+
+        /* =========================================
+           29. COLLECT CUSTOMER DETAILS
+        ========================================= */
+
+        function collectCustomerDetails() {
+
+            return {
+
+                firstName: document.getElementById(
+                    "firstName"
+                ).value.trim(),
+
+                lastName: document.getElementById(
+                    "lastName"
+                ).value.trim(),
+
+                email: document.getElementById(
+                    "email"
+                ).value.trim(),
+
+                phone: document.getElementById(
+                    "phone"
+                ).value.trim(),
+
+                address: document.getElementById(
+                    "address"
+                ).value.trim(),
+
+                landmark: document.getElementById(
+                    "landmark"
+                ).value.trim(),
+
+                city: document.getElementById(
+                    "city"
+                ).value.trim(),
+
+                state: document.getElementById(
+                    "state"
+                ).value,
+
+                postalCode: document.getElementById(
+                    "postalCode"
+                ).value.trim(),
+
+                orderNotes: document.getElementById(
+                    "orderNotes"
+                ).value.trim(),
+
+                addressType: document.querySelector(
+                    'input[name="addressType"]:checked'
+                )?.value || "Home"
+
+            };
+
+        }
+
+        /* =========================================
+           30. SAVE ADDRESS FOR CONVENIENCE
+        ========================================= */
+
+        function saveAddressDetails(customer) {
+
+            /*
+             * The demo stores delivery details in this browser.
+             * Do not use localStorage for sensitive production data.
+             */
+
+            const address = {
+
+                firstName: customer.firstName,
+
+                lastName: customer.lastName,
+
+                email: customer.email,
+
+                phone: customer.phone,
+
+                address: customer.address,
+
+                landmark: customer.landmark,
+
+                city: customer.city,
+
+                state: customer.state,
+
+                postalCode: customer.postalCode,
+
+                addressType: customer.addressType
+
+            };
+
+            return Storage.set(
+                CONFIG.addressKey,
+                address
+            );
+
+        }
+
+        /* =========================================
+           31. RESTORE SAVED ADDRESS
+        ========================================= */
+
+        function restoreAddressDetails() {
+
+            const address = Storage.get(
+                CONFIG.addressKey,
+                null
+            );
+
+            if (!address || typeof address !== "object") {
+
+                return;
+
+            }
+
+            const allowedFields = [
+
+                "firstName",
+
+                "lastName",
+
+                "email",
+
+                "phone",
+
+                "address",
+
+                "landmark",
+
+                "city",
+
+                "state",
+
+                "postalCode"
+
+            ];
+
+            allowedFields.forEach(key => {
+
+                const field =
+                    document.getElementById(key);
+
+                if (
+                    field &&
+                    typeof address[key] === "string"
+                ) {
+
+                    field.value = address[key];
+
+                }
+
+            });
+
+            if (address.addressType) {
+
+                const radio = document.querySelector(
+
+                    `input[name="addressType"][value="${
+                        CSS.escape(address.addressType)
+                    }"]`
+
+                );
+
+                if (radio) {
+
+                    radio.checked = true;
+
+                }
+
+            }
+
+        }
+
+        /* =========================================
+           32. LOAD ACCOUNT DETAILS
+        ========================================= */
+
+        function restoreAccountDetails() {
+
+            const user = Storage.get(
+                CONFIG.userKey,
+                null
+            );
+
+            if (!user || typeof user !== "object") {
+
+                return;
+
+            }
+
+            const name = String(
+                user.name || user.fullName || ""
+            ).trim();
+
+            if (name) {
+
+                const parts = name.split(/\s+/);
+
+                const firstName =
+                    document.getElementById("firstName");
+
+                const lastName =
+                    document.getElementById("lastName");
+
+                if (!firstName.value) {
+
+                    firstName.value = parts.shift() || "";
+
+                }
+
+                if (!lastName.value) {
+
+                    lastName.value = parts.join(" ");
+
+                }
+
+            }
+
+            const emailField =
+                document.getElementById("email");
+
+            if (
+                !emailField.value &&
+                typeof user.email === "string"
+            ) {
+
+                emailField.value = user.email;
+
+            }
+
+            const phoneField =
+                document.getElementById("phone");
+
+            if (
+                !phoneField.value &&
+                typeof user.phone === "string"
+            ) {
+
+                phoneField.value = user.phone;
+
+            }
+
+        }
+
+        /* =========================================
+           33. CREATE ORDER NUMBER
+        ========================================= */
+
+        function createOrderNumber() {
+
+            const timestamp = Date.now().toString(36)
+                .toUpperCase();
+
+            const random = Math.random()
+                .toString(36)
+                .slice(2, 7)
+                .toUpperCase();
+
+            return `NM-${timestamp}-${random}`;
+
+        }
+
+        /* =========================================
+           34. GENERATE TRACKING NUMBER
+        ========================================= */
+
+        function createTrackingNumber() {
+
+            const random = Math.random()
+                .toString(36)
+                .slice(2, 10)
+                .toUpperCase();
+
+            return `TRK-${random}`;
+
+        }
+
+        /* =========================================
+           35. SIMULATE PAYMENT
+        ========================================= */
+
+        async function simulatePayment(method) {
+
+            /*
+             * This function does not contact a payment gateway.
+             * The result is only a local demonstration.
+             */
+
+            await new Promise(resolve => {
+
+                window.setTimeout(resolve, 900);
+
+            });
+
+            if (method === "cod") {
+
+                return {
+
+                    success: true,
+
+                    status: "Pending",
+
+                    reference: null
+
+                };
+
+            }
+
+            if (method === "upi") {
+
+                return {
+
+                    success: true,
+
+                    status: "Demo Paid",
+
+                    reference: `DEMO-UPI-${Date.now()}`
+
+                };
+
+            }
+
+            if (method === "card") {
+
+                return {
+
+                    success: true,
+
+                    status: "Demo Paid",
+
+                    reference: `DEMO-CARD-${Date.now()}`
+
+                };
+
+            }
+
+            return {
+
+                success: false,
+
+                status: "Failed",
+
+                reference: null
+
+            };
+
+        }
+
+        /* =========================================
+           36. BUILD ORDER OBJECT
+        ========================================= */
+
+        function buildOrder(customer, payment) {
+
+            const orderNumber = createOrderNumber();
+
+            const trackingNumber = createTrackingNumber();
+
+            const now = new Date();
+
+            const delivery = getSelectedDelivery();
+
+            const estimatedDays = delivery === "express"
+                ? 2
+                : 5;
+
+            const estimatedDelivery = new Date(now);
+
+            estimatedDelivery.setDate(
+
+                estimatedDelivery.getDate() + estimatedDays
+
+            );
+
+            const orderItems = state.cart.map(item => {
+
+                return {
+
+                    id: item.id,
+
+                    name: item.name,
+
+                    category: item.category,
+
+                    price: item.price,
+
+                    quantity: item.quantity,
+
+                    emoji: item.emoji,
+
+                    image: item.image
+
+                };
+
+            });
+
+            return {
+
+                id: orderNumber,
+
+                orderNumber,
+
+                trackingNumber,
+
+                createdAt: now.toISOString(),
+
+                updatedAt: now.toISOString(),
+
+                status: "Confirmed",
+
+                paymentStatus: payment.status,
+
+                paymentMethod: getSelectedPayment(),
+
+                paymentReference: payment.reference,
+
+                customer,
+
+                items: orderItems,
+
+                subtotal: state.subtotal,
+
+                shipping: state.shipping,
+
+                discount: state.discount,
+
+                couponCode: state.couponCode || null,
+
+                tax: state.tax,
+
+                total: state.total,
+
+                deliveryMethod: delivery,
+
+                estimatedDelivery:
+                    estimatedDelivery.toISOString(),
+
+                statusHistory: [
+
+                    {
+
+                        status: "Confirmed",
+
+                        timestamp: now.toISOString(),
+
+                        message:
+                            "Demo order created successfully."
+
+                    }
+
+                ],
+
+                isDemo: true
+
+            };
+
+        }
+
+        /* =========================================
+           37. READ EXISTING ORDERS
+        ========================================= */
+
+        function getExistingOrders() {
+
+            const orders = Storage.get(
+                CONFIG.ordersKey,
+                []
+            );
+
+            return Array.isArray(orders)
+                ? orders
+                : [];
+
+        }
+
+        /* =========================================
+           38. SAVE ORDER
+        ========================================= */
+
+        function saveOrder(order) {
+
+            const orders = getExistingOrders();
+
+            orders.unshift(order);
+
+            /*
+             * Keep a reasonable number of local demo orders.
+             */
+
+            const limitedOrders = orders.slice(0, 100);
+
+            return Storage.set(
+                CONFIG.ordersKey,
+                limitedOrders
+            );
+
+        }
+
+        /* =========================================
+           39. ORDER SUCCESS MODAL
+        ========================================= */
+
+        function showOrderSuccess(order) {
+
+            document.getElementById(
+                "successOrderNumber"
+            ).textContent = order.orderNumber;
+
+            const message = order.paymentMethod === "cod"
+
+                ? "Your demo order has been saved. Payment is marked pending for the cash-on-delivery demo."
+
+                : "Your demo order has been saved. The payment result is simulated and no money was charged.";
+
+            document.getElementById(
+                "successMessage"
+            ).textContent = message;
+
+            const trackLink = document.getElementById(
+                "trackOrderLink"
+            );
+
+            trackLink.href =
+                `track-order.html?order=${encodeURIComponent(
+                    order.orderNumber
+                )}`;
+
+            document.getElementById(
+                "successModal"
+            ).classList.add("open");
+
+            document.body.style.overflow = "hidden";
+
+        }
+
+        /* =========================================
+           40. RESET BUTTON STATE
+        ========================================= */
+
+        function setPlacingOrder(value) {
+
+            state.placingOrder = value;
+
+            placeOrderButton.disabled = value;
+
+            placeOrderLabel.textContent = value
+
+                ? "Processing Demo Order..."
+
+                : getSelectedPayment() === "cod"
+
+                    ? "Place Demo COD Order"
+
+                    : getSelectedPayment() === "upi"
+
+                        ? "Simulate UPI Payment"
+
+                        : "Simulate Card Payment";
+
+        }
+
+        /* =========================================
+           41. PROCESS CHECKOUT
+        ========================================= */
+
+        async function processCheckout() {
+
+            if (state.placingOrder) {
+
+                return;
+
+            }
+
+            if (!loadCart()) {
+
+                showToast(
+                    "Your cart is empty.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+            const standardValid =
+                validateStandardFields();
+
+            const paymentValid =
+                validatePayment();
+
+            const termsValid =
+                validateTerms();
+
+            if (
+                !standardValid ||
+                !paymentValid ||
+                !termsValid
+            ) {
+
+                showToast(
+                    "Please correct the highlighted fields.",
+                    "error"
+                );
+
+                const firstInvalid =
+                    checkoutForm.querySelector(
+                        ".form-group.invalid .form-control"
+                    );
+
+                if (firstInvalid) {
+
+                    firstInvalid.focus();
+
+                    firstInvalid.scrollIntoView({
+
+                        behavior: "smooth",
+
+                        block: "center"
+
+                    });
+
+                }
+
+                return;
+
+            }
+
+            /*
+             * Calculate fresh totals immediately before
+             * building the order.
+             */
+
+            renderTotals();
+
+            if (
+                !Number.isFinite(state.total) ||
+                state.total < 0
+            ) {
+
+                showToast(
+                    "Unable to calculate the order total.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+            setPlacingOrder(true);
+
+            try {
+
+                const payment = await simulatePayment(
+                    getSelectedPayment()
+                );
+
+                if (!payment.success) {
+
+                    showToast(
+                        "Demo payment could not be completed.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+                const customer = collectCustomerDetails();
+
+                const order = buildOrder(
+                    customer,
+                    payment
+                );
+
+                /*
+                 * Do not clear the cart unless the order was
+                 * successfully written to browser storage.
+                 */
+
+                const saved = saveOrder(order);
+
+                if (!saved) {
+
+                    showToast(
+                        "Could not save your order. Your cart has been retained.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+                saveAddressDetails(customer);
+
+                Storage.remove(CONFIG.couponKey);
+
+                state.cart = [];
+
+                state.coupon = null;
+
+                state.couponCode = "";
+
+                if (!Storage.set(CONFIG.cartKey, [])) {
+
+                    showToast(
+                        "Order saved, but the cart could not be cleared.",
+                        "error"
+                    );
+
+                }
+
+                showOrderSuccess(order);
+
+            } catch (error) {
+
+                console.error(
+                    "Checkout processing error:",
+                    error
+                );
+
+                showToast(
+                    "Something went wrong while processing the demo order.",
+                    "error"
+                );
+
+            } finally {
+
+                setPlacingOrder(false);
+
+            }
+
+        }
+
+        /* =========================================
+           42. PAYMENT METHOD CHANGE
+        ========================================= */
+
+        document.querySelectorAll(
+            'input[name="paymentMethod"]'
+        ).forEach(radio => {
+
+            radio.addEventListener("change", () => {
+
+                renderTotals();
+
+            });
+
+        });
+
+        /* =========================================
+           43. DELIVERY METHOD CHANGE
+        ========================================= */
+
+        document.querySelectorAll(
+            'input[name="delivery"]'
+        ).forEach(radio => {
+
+            radio.addEventListener("change", () => {
+
+                renderTotals();
+
+            });
+
+        });
+
+        /* =========================================
+           44. COUPON FORM
+        ========================================= */
+
+        document.getElementById(
+            "couponForm"
+        ).addEventListener("submit", event => {
+
+            event.preventDefault();
+
+            applyCoupon(couponInput.value);
+
+        });
+
+        /* =========================================
+           45. PLACE ORDER BUTTON
+        ========================================= */
+
+        placeOrderButton.addEventListener("click", () => {
+
+            processCheckout();
+
+        });
+
+        /* =========================================
+           46. INLINE VALIDATION
+        ========================================= */
+
+        checkoutForm.querySelectorAll(
+            "input, select, textarea"
+        ).forEach(field => {
+
+            field.addEventListener("input", () => {
+
+                clearFieldError(field);
+
+            });
+
+            field.addEventListener("change", () => {
+
+                clearFieldError(field);
+
+            });
+
+        });
+
+        /* =========================================
+           47. CARD NUMBER FORMATTING
+        ========================================= */
+
+        document.getElementById(
+            "cardNumber"
+        ).addEventListener("input", event => {
+
+            const field = event.target;
+
+            const digits = field.value
+
+                .replace(/\D/g, "")
+
+                .slice(0, 16);
+
+            field.value = digits.replace(
+                /(\d{4})(?=\d)/g,
+                "$1 "
+            );
+
+            clearFieldError(field);
+
+        });
+
+        /* =========================================
+           48. CARD EXPIRY FORMATTING
+        ========================================= */
+
+        document.getElementById(
+            "cardExpiry"
+        ).addEventListener("input", event => {
+
+            const field = event.target;
+
+            const digits = field.value
+
+                .replace(/\D/g, "")
+
+                .slice(0, 4);
+
+            field.value = digits.length > 2
+
+                ? digits.slice(0, 2) + "/" + digits.slice(2)
+
+                : digits;
+
+            clearFieldError(field);
+
+        });
+
+        /* =========================================
+           49. MOBILE NUMBER INPUT
+        ========================================= */
+
+        document.getElementById(
+            "phone"
+        ).addEventListener("input", event => {
+
+            event.target.value = event.target.value
+
+                .replace(/\D/g, "")
+
+                .slice(0, 10);
+
+            clearFieldError(event.target);
+
+        });
+
+        /* =========================================
+           50. PIN CODE INPUT
+        ========================================= */
+
+        document.getElementById(
+            "postalCode"
+        ).addEventListener("input", event => {
+
+            event.target.value = event.target.value
+
+                .replace(/\D/g, "")
+
+                .slice(0, 6);
+
+            clearFieldError(event.target);
+
+        });
+
+        /* =========================================
+           51. CVV INPUT
+        ========================================= */
+
+        document.getElementById(
+            "cardCvv"
+        ).addEventListener("input", event => {
+
+            event.target.value = event.target.value
+
+                .replace(/\D/g, "")
+
+                .slice(0, 4);
+
+            clearFieldError(event.target);
+
+        });
+
+        /* =========================================
+           52. UPDATE FOOTER YEAR
+        ========================================= */
+
+        function initializeFooter() {
+
+            document.getElementById(
+                "currentYear"
+            ).textContent = new Date().getFullYear();
+
+        }
+
+        /* =========================================
+           53. INITIALIZE CHECKOUT
+        ========================================= */
+
+        function initializeCheckout() {
+
+            initializeFooter();
+
+            restoreAddressDetails();
+
+            restoreAccountDetails();
+
+            const cartExists = loadCart();
+
+            if (!cartExists) {
+
+                return;
+
+            }
+
+            const savedCoupon = Storage.get(
+                CONFIG.couponKey,
+                null
+            );
+
+            renderSummaryItems();
+
+            renderTotals();
+
+            if (
+                savedCoupon &&
+                typeof savedCoupon.code === "string"
+            ) {
+
+                couponInput.value = savedCoupon.code;
+
+                applyCoupon(savedCoupon.code);
+
+            }
+
+        }
+
+        /* =========================================
+           54. CROSS-TAB CART UPDATES
+        ========================================= */
+
+        window.addEventListener("storage", event => {
+
+            if (event.key === CONFIG.cartKey) {
+
+                loadCart();
+
+                renderSummaryItems();
+
+                renderTotals();
+
+            }
+
+        });
+
+        /* =========================================
+           55. START APPLICATION
+        ========================================= */
+
+        initializeCheckout();
+
+    </script>
+
+</body>
+</html>

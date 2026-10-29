@@ -1,0 +1,3826 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Shop electronics, fashion, home essentials and more at NovaMart."
+    >
+
+    <title>NovaMart | Smart Shopping, Better Living</title>
+
+    <style>
+        /* =========================================
+           1. GLOBAL VARIABLES
+        ========================================= */
+
+        :root {
+            --primary: #5b4bdb;
+            --primary-dark: #4335b8;
+            --primary-light: #eeeaff;
+
+            --secondary: #ff8a4c;
+            --success: #16875b;
+            --danger: #dc3545;
+
+            --dark: #19172b;
+            --text: #55536a;
+            --muted: #89879a;
+
+            --background: #f8f8fc;
+            --surface: #ffffff;
+            --border: #e9e7f2;
+
+            --shadow-sm:
+                0 4px 15px rgba(28, 23, 65, 0.05);
+
+            --shadow-md:
+                0 12px 35px rgba(28, 23, 65, 0.09);
+
+            --shadow-lg:
+                0 20px 55px rgba(28, 23, 65, 0.14);
+
+            --radius-sm: 10px;
+            --radius-md: 18px;
+            --radius-lg: 28px;
+
+            --container: 1200px;
+
+            --transition: 0.25s ease;
+        }
+
+        /* =========================================
+           2. RESET AND BASE STYLES
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family:
+                Inter,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            background: var(--background);
+            color: var(--dark);
+
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: min(
+                var(--container),
+                calc(100% - 40px)
+            );
+
+            margin-inline: auto;
+        }
+
+        .section {
+            padding: 75px 0;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 25px;
+
+            margin-bottom: 32px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+
+            color: var(--primary);
+
+            font-size: 0.78rem;
+            font-weight: 800;
+
+            letter-spacing: 2px;
+            text-transform: uppercase;
+
+            margin-bottom: 9px;
+        }
+
+        .section-title {
+            color: var(--dark);
+
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+
+            font-weight: 800;
+            line-height: 1.2;
+
+            letter-spacing: -1px;
+        }
+
+        .section-description {
+            color: var(--muted);
+
+            max-width: 560px;
+
+            margin-top: 12px;
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        /* =========================================
+           3. ANNOUNCEMENT BAR
+        ========================================= */
+
+        .announcement {
+            background: var(--dark);
+            color: #ffffff;
+
+            padding: 10px 20px;
+
+            text-align: center;
+
+            font-size: 0.83rem;
+            font-weight: 500;
+        }
+
+        .announcement strong {
+            color: #ffd2b8;
+        }
+
+        /* =========================================
+           4. HEADER
+        ========================================= */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border-bottom: 1px solid var(--border);
+
+            backdrop-filter: blur(18px);
+        }
+
+        .header-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+
+            min-height: 82px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+
+            flex-shrink: 0;
+        }
+
+        .brand-icon {
+            display: grid;
+            place-items: center;
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #8d7dff
+                );
+
+            color: white;
+
+            font-size: 1.35rem;
+            font-weight: 900;
+
+            box-shadow:
+                0 7px 18px rgba(91, 75, 219, 0.25);
+        }
+
+        .brand-name {
+            font-size: 1.45rem;
+            font-weight: 900;
+
+            letter-spacing: -0.8px;
+        }
+
+        .brand-name span {
+            color: var(--primary);
+        }
+
+        .desktop-search {
+            display: flex;
+            align-items: center;
+
+            width: min(390px, 35vw);
+            height: 46px;
+
+            padding: 0 15px;
+
+            background: #f6f5fb;
+
+            border: 1px solid transparent;
+            border-radius: 12px;
+
+            transition: var(--transition);
+        }
+
+        .desktop-search:focus-within {
+            background: #ffffff;
+
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 4px rgba(91, 75, 219, 0.08);
+        }
+
+        .desktop-search span {
+            font-size: 1.1rem;
+            margin-right: 10px;
+        }
+
+        .desktop-search input {
+            width: 100%;
+
+            background: transparent;
+
+            border: none;
+            outline: none;
+
+            color: var(--dark);
+
+            font-size: 0.9rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            min-height: 44px;
+
+            padding: 0 12px;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            background: white;
+
+            color: var(--dark);
+
+            font-size: 0.85rem;
+            font-weight: 700;
+
+            transition: var(--transition);
+        }
+
+        .header-action:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .cart-link {
+            position: relative;
+        }
+
+        .cart-count {
+            display: grid;
+            place-items: center;
+
+            min-width: 21px;
+            height: 21px;
+
+            padding: 0 5px;
+
+            border-radius: 50px;
+
+            background: var(--primary);
+            color: white;
+
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        /* =========================================
+           5. NAVIGATION
+        ========================================= */
+
+        .navigation {
+            border-top: 1px solid #f1eff7;
+        }
+
+        .navigation-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 35px;
+
+            min-height: 48px;
+        }
+
+        .navigation a {
+            position: relative;
+
+            color: var(--text);
+
+            font-size: 0.86rem;
+            font-weight: 650;
+
+            transition: var(--transition);
+        }
+
+        .navigation a:hover,
+        .navigation a.active {
+            color: var(--primary);
+        }
+
+        .navigation a.active::after {
+            content: "";
+
+            position: absolute;
+
+            bottom: -15px;
+            left: 0;
+
+            width: 100%;
+            height: 3px;
+
+            border-radius: 5px;
+
+            background: var(--primary);
+        }
+
+        .mobile-menu-button {
+            display: none;
+
+            width: 43px;
+            height: 43px;
+
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            font-size: 1.3rem;
+        }
+
+        /* =========================================
+           6. BUTTONS
+        ========================================= */
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            min-height: 49px;
+
+            padding: 0 23px;
+
+            border: 1px solid transparent;
+            border-radius: 12px;
+
+            font-size: 0.9rem;
+            font-weight: 750;
+
+            transition:
+                transform var(--transition),
+                background var(--transition),
+                box-shadow var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+
+            box-shadow:
+                0 8px 20px rgba(91, 75, 219, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+
+            box-shadow:
+                0 12px 26px rgba(91, 75, 219, 0.28);
+        }
+
+        .btn-outline {
+            background: white;
+
+            border-color: var(--border);
+
+            color: var(--dark);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-dark {
+            background: var(--dark);
+            color: white;
+        }
+
+        .btn-dark:hover {
+            background: #302b4c;
+        }
+
+        /* =========================================
+           7. HERO SECTION
+        ========================================= */
+
+        .hero {
+            padding: 35px 0 25px;
+        }
+
+        .hero-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.1fr)
+                minmax(0, 0.9fr);
+
+            gap: 25px;
+        }
+
+        .hero-main {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            min-height: 440px;
+
+            padding: 55px;
+
+            overflow: hidden;
+
+            border-radius: var(--radius-lg);
+
+            background:
+                radial-gradient(
+                    circle at 85% 25%,
+                    rgba(255, 255, 255, 0.16),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #282044,
+                    #5b4bdb
+                );
+
+            color: white;
+        }
+
+        .hero-main::before {
+            content: "";
+
+            position: absolute;
+
+            width: 340px;
+            height: 340px;
+
+            right: -90px;
+            bottom: -140px;
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 0 35px rgba(255, 255, 255, 0.035),
+                0 0 0 70px rgba(255, 255, 255, 0.025);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 510px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+
+            margin-bottom: 23px;
+
+            background: rgba(255, 255, 255, 0.13);
+
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+
+            color: #ffffff;
+
+            font-size: 0.77rem;
+            font-weight: 700;
+        }
+
+        .hero-label span {
+            color: #ffcb7a;
+        }
+
+        .hero-title {
+            max-width: 500px;
+
+            font-size: clamp(2.5rem, 5vw, 4.25rem);
+
+            line-height: 1.04;
+            letter-spacing: -2.5px;
+
+            font-weight: 900;
+        }
+
+        .hero-title span {
+            color: #d4cbff;
+        }
+
+        .hero-description {
+            max-width: 430px;
+
+            margin-top: 20px;
+            margin-bottom: 28px;
+
+            color: #e0dcff;
+
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero-main .btn-primary {
+            background: white;
+            color: var(--primary);
+
+            box-shadow: none;
+        }
+
+        .hero-main .btn-primary:hover {
+            background: #f2efff;
+        }
+
+        .hero-main .btn-outline {
+            background: transparent;
+
+            border-color: rgba(255, 255, 255, 0.35);
+
+            color: white;
+        }
+
+        .hero-main .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-side {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .hero-card {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            padding: 28px;
+
+            overflow: hidden;
+
+            border-radius: var(--radius-lg);
+        }
+
+        .hero-card-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 65%;
+        }
+
+        .hero-card-small-title {
+            color: var(--muted);
+
+            font-size: 0.75rem;
+            font-weight: 800;
+
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .hero-card h2 {
+            margin-top: 8px;
+
+            font-size: clamp(1.4rem, 2.5vw, 2rem);
+
+            line-height: 1.2;
+            letter-spacing: -0.8px;
+        }
+
+        .hero-card p {
+            margin-top: 9px;
+
+            color: var(--text);
+
+            font-size: 0.86rem;
+        }
+
+        .hero-card a {
+            display: inline-flex;
+
+            margin-top: 16px;
+
+            color: var(--primary);
+
+            font-size: 0.86rem;
+            font-weight: 800;
+        }
+
+        .hero-card-fashion {
+            background:
+                linear-gradient(
+                    125deg,
+                    #fff0e8,
+                    #ffe0d1
+                );
+        }
+
+        .hero-card-electronics {
+            background:
+                linear-gradient(
+                    125deg,
+                    #e5f1ff,
+                    #d8e4ff
+                );
+        }
+
+        .hero-card-visual {
+            position: absolute;
+
+            right: 12px;
+            bottom: 10px;
+
+            width: 42%;
+            height: 90%;
+
+            display: grid;
+            place-items: center;
+
+            font-size: clamp(4rem, 8vw, 7rem);
+
+            opacity: 0.9;
+
+            transform: rotate(-8deg);
+
+            filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.1));
+        }
+
+        .hero-card-electronics .hero-card-visual {
+            transform: rotate(8deg);
+        }
+
+        /* =========================================
+           8. TRUST STRIP
+        ========================================= */
+
+        .trust-strip {
+            padding: 22px 0 35px;
+        }
+
+        .trust-grid {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 19px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 15px;
+        }
+
+        .trust-icon {
+            display: grid;
+            place-items: center;
+
+            flex-shrink: 0;
+
+            width: 43px;
+            height: 43px;
+
+            background: var(--primary-light);
+
+            border-radius: 12px;
+
+            font-size: 1.25rem;
+        }
+
+        .trust-item h3 {
+            font-size: 0.88rem;
+            font-weight: 800;
+        }
+
+        .trust-item p {
+            margin-top: 3px;
+
+            color: var(--muted);
+
+            font-size: 0.75rem;
+        }
+
+        /* =========================================
+           9. CATEGORY CARDS
+        ========================================= */
+
+        .categories-section {
+            background: white;
+        }
+
+        .category-grid {
+            display: grid;
+
+            grid-template-columns: repeat(6, 1fr);
+
+            gap: 18px;
+        }
+
+        .category-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            padding: 24px 12px;
+
+            background: #faf9ff;
+
+            border: 1px solid transparent;
+            border-radius: 18px;
+
+            text-align: center;
+
+            transition: var(--transition);
+        }
+
+        .category-card:hover {
+            background: white;
+
+            border-color: var(--primary);
+
+            transform: translateY(-5px);
+
+            box-shadow: var(--shadow-md);
+        }
+
+        .category-icon {
+            display: grid;
+            place-items: center;
+
+            width: 75px;
+            height: 75px;
+
+            margin-bottom: 15px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 23px;
+
+            font-size: 2.1rem;
+
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-icon {
+            background: var(--primary-light);
+
+            border-color: transparent;
+
+            transform: scale(1.05);
+        }
+
+        .category-card h3 {
+            font-size: 0.88rem;
+            font-weight: 800;
+        }
+
+        .category-card p {
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-size: 0.76rem;
+        }
+
+        /* =========================================
+           10. PRODUCT CARDS
+        ========================================= */
+
+        .product-grid {
+            display: grid;
+
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+
+            gap: 22px;
+        }
+
+        .product-card {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 19px;
+
+            overflow: hidden;
+
+            transition:
+                transform var(--transition),
+                box-shadow var(--transition),
+                border-color var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+
+            border-color: #ded8ff;
+
+            box-shadow: var(--shadow-md);
+        }
+
+        .product-image {
+            position: relative;
+
+            display: grid;
+            place-items: center;
+
+            height: 220px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f8f7ff,
+                    #efedff
+                );
+
+            overflow: hidden;
+        }
+
+        .product-image .product-emoji {
+            display: grid;
+            place-items: center;
+
+            width: 130px;
+            height: 130px;
+
+            background: rgba(255, 255, 255, 0.7);
+
+            border-radius: 50%;
+
+            font-size: 4.4rem;
+
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-emoji {
+            transform: scale(1.12) rotate(-5deg);
+        }
+
+        .product-badge {
+            position: absolute;
+
+            top: 14px;
+            left: 14px;
+
+            padding: 6px 10px;
+
+            background: var(--primary);
+
+            border-radius: 7px;
+
+            color: white;
+
+            font-size: 0.68rem;
+            font-weight: 800;
+        }
+
+        .product-badge.sale {
+            background: var(--secondary);
+        }
+
+        .product-wishlist {
+            position: absolute;
+
+            top: 12px;
+            right: 12px;
+
+            display: grid;
+            place-items: center;
+
+            width: 35px;
+            height: 35px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 50%;
+
+            color: var(--text);
+
+            font-size: 1rem;
+
+            transition: var(--transition);
+        }
+
+        .product-wishlist:hover,
+        .product-wishlist.active {
+            background: #fff0f2;
+
+            border-color: #ffd0d7;
+
+            color: #e44764;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            padding: 19px;
+        }
+
+        .product-category {
+            color: var(--muted);
+
+            font-size: 0.72rem;
+            font-weight: 750;
+
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .product-name {
+            margin-top: 7px;
+
+            color: var(--dark);
+
+            font-size: 1rem;
+            font-weight: 800;
+
+            line-height: 1.4;
+        }
+
+        .product-name a:hover {
+            color: var(--primary);
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 9px;
+
+            color: #f4a623;
+
+            font-size: 0.82rem;
+        }
+
+        .product-rating span {
+            color: var(--muted);
+
+            font-size: 0.75rem;
+        }
+
+        .product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 12px;
+
+            margin-top: auto;
+            padding-top: 17px;
+        }
+
+        .product-price {
+            color: var(--dark);
+
+            font-size: 1.22rem;
+            font-weight: 900;
+        }
+
+        .old-price {
+            display: block;
+
+            color: #a4a1b1;
+
+            font-size: 0.77rem;
+            font-weight: 500;
+
+            text-decoration: line-through;
+        }
+
+        .add-cart-button {
+            display: grid;
+            place-items: center;
+
+            flex-shrink: 0;
+
+            width: 43px;
+            height: 43px;
+
+            background: var(--primary);
+
+            border: none;
+            border-radius: 12px;
+
+            color: white;
+
+            font-size: 1.25rem;
+
+            transition: var(--transition);
+        }
+
+        .add-cart-button:hover {
+            background: var(--primary-dark);
+
+            transform: scale(1.06);
+        }
+
+        .view-all-wrapper {
+            display: flex;
+            justify-content: center;
+
+            margin-top: 38px;
+        }
+
+        /* =========================================
+           11. PROMOTIONAL BANNER
+        ========================================= */
+
+        .promo-section {
+            padding: 25px 0 80px;
+        }
+
+        .promo-banner {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 35px;
+
+            padding: 50px 60px;
+
+            overflow: hidden;
+
+            border-radius: var(--radius-lg);
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #ffe9dd,
+                    #fff4ed
+                );
+        }
+
+        .promo-banner::after {
+            content: "✦";
+
+            position: absolute;
+
+            right: 30%;
+            top: -65px;
+
+            color: rgba(255, 138, 76, 0.13);
+
+            font-size: 18rem;
+            line-height: 1;
+
+            pointer-events: none;
+        }
+
+        .promo-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 600px;
+        }
+
+        .promo-content h2 {
+            margin-top: 8px;
+
+            font-size: clamp(2rem, 4vw, 3.2rem);
+
+            line-height: 1.12;
+            letter-spacing: -1.5px;
+        }
+
+        .promo-content p {
+            margin-top: 15px;
+
+            color: var(--text);
+        }
+
+        .promo-content .btn {
+            margin-top: 25px;
+        }
+
+        .promo-visual {
+            position: relative;
+            z-index: 2;
+
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            width: 190px;
+            height: 190px;
+
+            background: white;
+
+            border: 10px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+
+            box-shadow: var(--shadow-md);
+
+            font-size: 6.5rem;
+
+            transform: rotate(-10deg);
+        }
+
+        /* =========================================
+           12. NEWSLETTER
+        ========================================= */
+
+        .newsletter-section {
+            padding: 65px 0;
+
+            background: var(--dark);
+            color: white;
+        }
+
+        .newsletter-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 35px;
+        }
+
+        .newsletter-copy {
+            max-width: 480px;
+        }
+
+        .newsletter-copy h2 {
+            font-size: clamp(1.7rem, 3vw, 2.3rem);
+
+            line-height: 1.2;
+        }
+
+        .newsletter-copy p {
+            margin-top: 12px;
+
+            color: #c1bfd3;
+
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+
+            width: min(480px, 100%);
+
+            padding: 6px;
+
+            background: white;
+
+            border-radius: 14px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 0 15px;
+
+            background: transparent;
+
+            border: none;
+            outline: none;
+
+            color: var(--dark);
+
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form .btn {
+            flex-shrink: 0;
+        }
+
+        /* =========================================
+           13. FOOTER
+        ========================================= */
+
+        .site-footer {
+            padding-top: 65px;
+
+            background: #ffffff;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.6fr
+                1fr
+                1fr
+                1fr;
+
+            gap: 45px;
+
+            padding-bottom: 50px;
+        }
+
+        .footer-about {
+            max-width: 310px;
+        }
+
+        .footer-about > p {
+            margin-top: 20px;
+
+            color: var(--muted);
+
+            font-size: 0.88rem;
+            line-height: 1.9;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+
+            margin-top: 22px;
+        }
+
+        .social-links a {
+            display: grid;
+            place-items: center;
+
+            width: 38px;
+            height: 38px;
+
+            background: #f6f5fb;
+
+            border: 1px solid var(--border);
+            border-radius: 11px;
+
+            font-size: 0.85rem;
+            font-weight: 800;
+
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+
+            border-color: var(--primary);
+
+            color: white;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+
+            font-size: 0.96rem;
+            font-weight: 850;
+        }
+
+        .footer-column ul {
+            display: grid;
+            gap: 13px;
+        }
+
+        .footer-column a {
+            color: var(--muted);
+
+            font-size: 0.86rem;
+
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: var(--primary);
+
+            padding-left: 3px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 23px 0;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-bottom p {
+            color: var(--muted);
+
+            font-size: 0.8rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+        .payment-methods span {
+            padding: 6px 9px;
+
+            background: #f8f7fc;
+
+            border: 1px solid var(--border);
+            border-radius: 6px;
+
+            color: var(--text);
+
+            font-size: 0.68rem;
+            font-weight: 800;
+        }
+
+        /* =========================================
+           14. TOAST NOTIFICATION
+        ========================================= */
+
+        .toast-container {
+            position: fixed;
+
+            right: 22px;
+            bottom: 22px;
+
+            z-index: 3000;
+
+            display: grid;
+            gap: 10px;
+
+            width: min(360px, calc(100% - 44px));
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 16px 18px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--success);
+            border-radius: 13px;
+
+            box-shadow: var(--shadow-lg);
+
+            animation: toast-in 0.25s ease;
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast-icon {
+            font-size: 1.2rem;
+        }
+
+        .toast-message {
+            color: var(--dark);
+
+            font-size: 0.87rem;
+            font-weight: 700;
+        }
+
+        @keyframes toast-in {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================================
+           15. LOADING AND ACCESSIBILITY
+        ========================================= */
+
+        .visually-hidden {
+            position: absolute;
+
+            width: 1px;
+            height: 1px;
+
+            padding: 0;
+            margin: -1px;
+
+            overflow: hidden;
+
+            clip: rect(0, 0, 0, 0);
+
+            white-space: nowrap;
+
+            border: 0;
+        }
+
+        :focus-visible {
+            outline: 3px solid rgba(91, 75, 219, 0.5);
+            outline-offset: 3px;
+        }
+
+        /* =========================================
+           16. TABLET RESPONSIVE DESIGN
+        ========================================= */
+
+        @media (max-width: 1050px) {
+            .header-main {
+                gap: 15px;
+            }
+
+            .desktop-search {
+                width: 270px;
+            }
+
+            .navigation-inner {
+                gap: 25px;
+            }
+
+            .hero-main {
+                padding: 38px;
+            }
+
+            .hero-card {
+                padding: 23px;
+            }
+
+            .trust-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* =========================================
+           17. MOBILE RESPONSIVE DESIGN
+        ========================================= */
+
+        @media (max-width: 760px) {
+            .container {
+                width: calc(100% - 28px);
+            }
+
+            .section {
+                padding: 55px 0;
+            }
+
+            .announcement {
+                font-size: 0.72rem;
+            }
+
+            .header-main {
+                min-height: 72px;
+
+                gap: 10px;
+            }
+
+            .brand {
+                gap: 8px;
+            }
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+
+                border-radius: 11px;
+            }
+
+            .brand-name {
+                font-size: 1.25rem;
+            }
+
+            .desktop-search {
+                display: none;
+            }
+
+            .header-action {
+                min-height: 40px;
+
+                padding: 0 9px;
+
+                font-size: 0.78rem;
+            }
+
+            .header-action .action-label {
+                display: none;
+            }
+
+            .header-actions {
+                gap: 7px;
+            }
+
+            .mobile-menu-button {
+                display: inline-flex;
+            }
+
+            .navigation-inner {
+                display: none;
+
+                align-items: stretch;
+                flex-direction: column;
+
+                gap: 0;
+
+                padding: 10px 0 18px;
+            }
+
+            .navigation-inner.open {
+                display: flex;
+            }
+
+            .navigation a {
+                padding: 12px 6px;
+
+                border-bottom: 1px solid var(--border);
+            }
+
+            .navigation a.active::after {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 20px;
+            }
+
+            .hero-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-main {
+                min-height: 390px;
+
+                padding: 32px 25px;
+
+                border-radius: 22px;
+            }
+
+            .hero-title {
+                font-size: clamp(2.4rem, 10vw, 3.4rem);
+
+                letter-spacing: -1.8px;
+            }
+
+            .hero-description {
+                font-size: 0.9rem;
+            }
+
+            .hero-side {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr;
+                gap: 12px;
+            }
+
+            .hero-card {
+                min-height: 220px;
+
+                padding: 17px;
+            }
+
+            .hero-card-content {
+                max-width: 100%;
+            }
+
+            .hero-card h2 {
+                font-size: 1.3rem;
+            }
+
+            .hero-card p {
+                font-size: 0.78rem;
+            }
+
+            .hero-card-visual {
+                width: 100%;
+                height: 75%;
+
+                right: 0;
+                bottom: -28px;
+
+                justify-content: flex-end;
+
+                padding-right: 8px;
+
+                font-size: 4.5rem;
+
+                opacity: 0.35;
+            }
+
+            .hero-card a {
+                position: relative;
+                z-index: 2;
+            }
+
+            .trust-grid {
+                gap: 10px;
+            }
+
+            .trust-item {
+                padding: 13px;
+
+                gap: 10px;
+            }
+
+            .trust-icon {
+                width: 36px;
+                height: 36px;
+
+                font-size: 1rem;
+            }
+
+            .trust-item h3 {
+                font-size: 0.77rem;
+            }
+
+            .trust-item p {
+                font-size: 0.68rem;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(3, 1fr);
+
+                gap: 10px;
+            }
+
+            .category-card {
+                padding: 17px 7px;
+
+                border-radius: 14px;
+            }
+
+            .category-icon {
+                width: 58px;
+                height: 58px;
+
+                border-radius: 17px;
+
+                font-size: 1.7rem;
+            }
+
+            .category-card h3 {
+                font-size: 0.78rem;
+            }
+
+            .category-card p {
+                font-size: 0.68rem;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+
+                gap: 12px;
+            }
+
+            .product-image {
+                height: 165px;
+            }
+
+            .product-image .product-emoji {
+                width: 100px;
+                height: 100px;
+
+                font-size: 3.3rem;
+            }
+
+            .product-info {
+                padding: 13px;
+            }
+
+            .product-name {
+                font-size: 0.86rem;
+            }
+
+            .product-price {
+                font-size: 1.02rem;
+            }
+
+            .product-rating {
+                gap: 4px;
+
+                font-size: 0.72rem;
+            }
+
+            .product-rating span {
+                font-size: 0.67rem;
+            }
+
+            .add-cart-button {
+                width: 37px;
+                height: 37px;
+
+                border-radius: 10px;
+            }
+
+            .product-badge {
+                top: 9px;
+                left: 9px;
+
+                padding: 5px 7px;
+
+                font-size: 0.6rem;
+            }
+
+            .product-wishlist {
+                top: 8px;
+                right: 8px;
+
+                width: 30px;
+                height: 30px;
+
+                font-size: 0.9rem;
+            }
+
+            .promo-section {
+                padding-bottom: 55px;
+            }
+
+            .promo-banner {
+                align-items: flex-start;
+
+                padding: 32px 24px;
+
+                border-radius: 22px;
+            }
+
+            .promo-visual {
+                position: absolute;
+
+                right: -35px;
+                bottom: -35px;
+
+                width: 140px;
+                height: 140px;
+
+                opacity: 0.45;
+
+                font-size: 4.5rem;
+            }
+
+            .promo-content {
+                max-width: 100%;
+            }
+
+            .promo-content h2 {
+                max-width: 400px;
+
+                font-size: 2rem;
+            }
+
+            .promo-content p {
+                max-width: 300px;
+
+                font-size: 0.88rem;
+            }
+
+            .newsletter-inner {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 25px;
+            }
+
+            .newsletter-form {
+                width: 100%;
+            }
+
+            .newsletter-form input {
+                padding: 0 10px;
+
+                font-size: 0.8rem;
+            }
+
+            .newsletter-form .btn {
+                padding: 0 13px;
+
+                font-size: 0.8rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+
+                gap: 35px 22px;
+            }
+
+            .footer-about {
+                grid-column: 1 / -1;
+
+                max-width: 100%;
+            }
+
+            .footer-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        /* =========================================
+           18. SMALL MOBILE DEVICES
+        ========================================= */
+
+        @media (max-width: 390px) {
+            .brand-name {
+                font-size: 1.1rem;
+            }
+
+            .brand-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .header-main {
+                gap: 6px;
+            }
+
+            .header-actions {
+                gap: 5px;
+            }
+
+            .header-action {
+                padding: 0 7px;
+            }
+
+            .hero-main {
+                min-height: 420px;
+            }
+
+            .hero-side {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card {
+                min-height: 190px;
+            }
+
+            .trust-item {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .product-image {
+                height: 145px;
+            }
+
+            .product-bottom {
+                gap: 6px;
+            }
+
+            .product-price {
+                font-size: 0.92rem;
+            }
+
+            .add-cart-button {
+                width: 33px;
+                height: 33px;
+            }
+
+            .category-icon {
+                width: 50px;
+                height: 50px;
+
+                font-size: 1.5rem;
+            }
+        }
+
+        /* =========================================
+           19. REDUCED MOTION
+        ========================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        .admin-link {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #6c4cff;
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.admin-link:hover {
+    background: #5035d4;
+    transform: translateY(-2px);
+}
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         ANNOUNCEMENT BAR
+    ========================================== -->
+
+    <div class="announcement">
+        ✨ Welcome to NovaMart —
+        <strong>Free shipping on orders over $100</strong>
+        · Shop smarter today!
+    </div>
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="site-header">
+
+        <div class="container">
+
+            <div class="header-main">
+
+                <a
+                    href="index.html"
+                    class="brand"
+                    aria-label="NovaMart homepage"
+                >
+                    <span class="brand-icon">N</span>
+
+                    <span class="brand-name">
+                        Nova<span>Mart</span>
+                    </span>
+                </a>
+
+
+                <form
+                    class="desktop-search"
+                    id="headerSearchForm"
+                    role="search"
+                >
+                    <label
+                        class="visually-hidden"
+                        for="headerSearch"
+                    >
+                        Search products
+                    </label>
+
+                    <span aria-hidden="true">⌕</span>
+
+                    <input
+                        type="search"
+                        id="headerSearch"
+                        placeholder="Search products..."
+                        autocomplete="off"
+                    >
+                </form>
+
+
+                <div class="header-actions">
+
+                    <a
+                        href="account.html"
+                        class="header-action"
+                        aria-label="My account"
+                    >
+                        <span aria-hidden="true">♙</span>
+                        <span class="action-label">Account</span>
+                    </a>
+
+                    <a
+                        href="cart.html"
+                        class="header-action cart-link"
+                        aria-label="Shopping cart"
+                    >
+                        <span aria-hidden="true">🛒</span>
+
+                        <span class="action-label">Cart</span>
+
+                        <span
+                            class="cart-count"
+                            id="cartCount"
+                        >
+                            0
+                        </span>
+                    </a>
+                    <a href="admin.html" class="admin-link">Admin</a>
+
+                    <button
+                        type="button"
+                        class="mobile-menu-button"
+                        id="mobileMenuButton"
+                        aria-label="Toggle navigation"
+                        aria-expanded="false"
+                    >
+                        ☰
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <nav
+            class="navigation"
+            aria-label="Main navigation"
+        >
+            <div
+                class="container navigation-inner"
+                id="navigationInner"
+            >
+                <a href="index.html" class="active">
+                    Home
+                </a>
+
+                <a href="products.html">
+                    All Products
+                </a>
+
+                <a href="products.html?category=Electronics">
+                    Electronics
+                </a>
+
+                <a href="products.html?category=Fashion">
+                    Fashion
+                </a>
+
+                <a href="products.html?category=Home">
+                    Home & Living
+                </a>
+
+                <a href="track-order.html">
+                    Track Order
+                </a>
+
+                <a href="account.html">
+                    My Account
+                </a>
+            </div>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <!-- =========================================
+             HERO SECTION
+        ========================================== -->
+
+        <section class="hero">
+
+            <div class="container">
+
+                <div class="hero-layout">
+
+                    <div class="hero-main">
+
+                        <div class="hero-content">
+
+                            <div class="hero-label">
+                                <span>✦</span>
+                                THE SMARTER WAY TO SHOP
+                            </div>
+
+                            <h1 class="hero-title">
+                                Find your next
+                                <span>favorite</span>
+                                thing.
+                            </h1>
+
+                            <p class="hero-description">
+                                Discover products you'll love,
+                                explore everyday essentials, and
+                                enjoy a shopping experience designed
+                                around you.
+                            </p>
+
+                            <div class="hero-buttons">
+
+                                <a
+                                    href="products.html"
+                                    class="btn btn-primary"
+                                >
+                                    Explore Products
+                                    <span aria-hidden="true">→</span>
+                                </a>
+
+                                <a
+                                    href="#categories"
+                                    class="btn btn-outline"
+                                >
+                                    Browse Categories
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="hero-side">
+
+                        <article class="hero-card hero-card-fashion">
+
+                            <div class="hero-card-content">
+
+                                <span class="hero-card-small-title">
+                                    Fresh arrivals
+                                </span>
+
+                                <h2>
+                                    Style that
+                                    speaks.
+                                </h2>
+
+                                <p>
+                                    Refresh your wardrobe.
+                                </p>
+
+                                <a href="products.html?category=Fashion">
+                                    Shop fashion →
+                                </a>
+
+                            </div>
+
+                            <div
+                                class="hero-card-visual"
+                                aria-hidden="true"
+                            >
+                                👟
+                            </div>
+
+                        </article>
+
+
+                        <article class="hero-card hero-card-electronics">
+
+                            <div class="hero-card-content">
+
+                                <span class="hero-card-small-title">
+                                    Tech essentials
+                                </span>
+
+                                <h2>
+                                    Upgrade your
+                                    everyday.
+                                </h2>
+
+                                <p>
+                                    Discover smarter technology.
+                                </p>
+
+                                <a href="products.html?category=Electronics">
+                                    Explore tech →
+                                </a>
+
+                            </div>
+
+                            <div
+                                class="hero-card-visual"
+                                aria-hidden="true"
+                            >
+                                🎧
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             TRUST STRIP
+        ========================================== -->
+
+        <section class="trust-strip">
+
+            <div class="container">
+
+                <div class="trust-grid">
+
+                    <article class="trust-item">
+
+                        <div class="trust-icon">
+                            🚚
+                        </div>
+
+                        <div>
+                            <h3>Fast Delivery</h3>
+                            <p>On eligible orders</p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="trust-item">
+
+                        <div class="trust-icon">
+                            🔒
+                        </div>
+
+                        <div>
+                            <h3>Secure Demo Checkout</h3>
+                            <p>Test the shopping flow</p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="trust-item">
+
+                        <div class="trust-icon">
+                            ↩️
+                        </div>
+
+                        <div>
+                            <h3>Easy Returns</h3>
+                            <p>Demo store policy</p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="trust-item">
+
+                        <div class="trust-icon">
+                            💬
+                        </div>
+
+                        <div>
+                            <h3>Customer Support</h3>
+                            <p>Here to help you</p>
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             CATEGORIES
+        ========================================== -->
+
+        <section
+            class="section categories-section"
+            id="categories"
+        >
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            Find your style
+                        </span>
+
+                        <h2 class="section-title">
+                            Shop by category
+                        </h2>
+
+                        <p class="section-description">
+                            Everything you need, organized
+                            into categories that make shopping easy.
+                        </p>
+                    </div>
+
+                    <a
+                        href="products.html"
+                        class="btn btn-outline"
+                    >
+                        View All Categories →
+                    </a>
+
+                </div>
+
+
+                <div class="category-grid">
+
+                    <a
+                        href="products.html?category=Electronics"
+                        class="category-card"
+                    >
+                        <span class="category-icon">
+                            🎧
+                        </span>
+
+                        <h3>Electronics</h3>
+
+                        <p>Gadgets & tech</p>
+                    </a>
+
+
+                    <a
+                        href="products.html?category=Fashion"
+                        class="category-card"
+                    >
+                        <span class="category-icon">
+                            👕
+                        </span>
+
+                        <h3>Fashion</h3>
+
+                        <p>Style essentials</p>
+                    </a>
+
+
+                    <a
+                        href="products.html?category=Home"
+                        class="category-card"
+                    >
+                        <span class="category-icon">
+                            🛋️
+                        </span>
+
+                        <h3>Home & Living</h3>
+
+                        <p>Make it cozy</p>
+                    </a>
+
+
+                    <a
+                        href="products.html?category=Beauty"
+                        class="category-card"
+                    >
+                        <span class="category-icon">
+                            ✨
+                        </span>
+
+                        <h3>Beauty</h3>
+
+                        <p>Self-care picks</p>
+                    </a>
+
+
+                    <a
+                        href="products.html?category=Sports"
+                        class="category-card"
+                    >
+                        <span class="category-icon">
+                            🏀
+                        </span>
+
+                        <h3>Sports</h3>
+
+                        <p>Move more</p>
+                    </a>
+
+
+                    <a
+                        href="products.html?category=Accessories"
+                        class="category-card"
+                    >
+                        <span class="category-icon">
+                            🎒
+                        </span>
+
+                        <h3>Accessories</h3>
+
+                        <p>Little extras</p>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             FEATURED PRODUCTS
+        ========================================== -->
+
+        <section class="section" id="featured">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            Handpicked for you
+                        </span>
+
+                        <h2 class="section-title">
+                            Featured products
+                        </h2>
+
+                        <p class="section-description">
+                            Check out some of our favorite
+                            finds from across the store.
+                        </p>
+                    </div>
+
+                    <a
+                        href="products.html"
+                        class="btn btn-outline"
+                    >
+                        Shop All Products →
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="product-grid"
+                    id="featuredProductGrid"
+                >
+
+                    <!-- Product cards are generated by JavaScript. -->
+
+                </div>
+
+
+                <div class="view-all-wrapper">
+
+                    <a
+                        href="products.html"
+                        class="btn btn-primary"
+                    >
+                        Discover All Products
+                        <span aria-hidden="true">→</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             PROMOTIONAL BANNER
+        ========================================== -->
+
+        <section class="promo-section">
+
+            <div class="container">
+
+                <div class="promo-banner">
+
+                    <div class="promo-content">
+
+                        <span class="eyebrow">
+                            A little something special
+                        </span>
+
+                        <h2>
+                            Your next great find
+                            is waiting.
+                        </h2>
+
+                        <p>
+                            Explore our demo catalog and
+                            discover products for your everyday life.
+                        </p>
+
+                        <a
+                            href="products.html"
+                            class="btn btn-primary"
+                        >
+                            Start Shopping →
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        class="promo-visual"
+                        aria-hidden="true"
+                    >
+                        🎁
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             NEWSLETTER
+        ========================================== -->
+
+        <section class="newsletter-section">
+
+            <div class="container">
+
+                <div class="newsletter-inner">
+
+                    <div class="newsletter-copy">
+
+                        <span class="eyebrow">
+                            Stay in the loop
+                        </span>
+
+                        <h2>
+                            Good finds.
+                            Great updates.
+                        </h2>
+
+                        <p>
+                            Subscribe to our demo newsletter
+                            for updates and shopping inspiration.
+                        </p>
+
+                    </div>
+
+
+                    <form
+                        class="newsletter-form"
+                        id="newsletterForm"
+                    >
+
+                        <label
+                            class="visually-hidden"
+                            for="newsletterEmail"
+                        >
+                            Your email address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="newsletterEmail"
+                            placeholder="Enter your email address"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Subscribe
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <footer class="site-footer">
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-about">
+
+                    <a
+                        href="index.html"
+                        class="brand"
+                    >
+                        <span class="brand-icon">N</span>
+
+                        <span class="brand-name">
+                            Nova<span>Mart</span>
+                        </span>
+                    </a>
+
+                    <p>
+                        A modern demo shopping experience
+                        built to explore products, manage a cart,
+                        complete a simulated checkout, and track orders.
+                    </p>
+
+                    <div class="social-links">
+
+                        <a
+                            href="#"
+                            aria-label="Facebook demo link"
+                            data-demo-link
+                        >
+                            f
+                        </a>
+
+                        <a
+                            href="#"
+                            aria-label="Instagram demo link"
+                            data-demo-link
+                        >
+                            ◎
+                        </a>
+
+                        <a
+                            href="#"
+                            aria-label="X demo link"
+                            data-demo-link
+                        >
+                            X
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Explore</h3>
+
+                    <ul>
+                        <li>
+                            <a href="index.html">
+                                Home
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="products.html">
+                                All Products
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="products.html?category=Electronics">
+                                Electronics
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="products.html?category=Fashion">
+                                Fashion
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="products.html?category=Home">
+                                Home & Living
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Your Account</h3>
+
+                    <ul>
+                        <li>
+                            <a href="account.html">
+                                Sign In / Register
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="cart.html">
+                                Shopping Cart
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="checkout.html">
+                                Checkout
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="track-order.html">
+                                Track Order
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="account.html#orders">
+                                Order History
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h3>Store Information</h3>
+
+                    <ul>
+                        <li>
+                            <a href="track-order.html">
+                                Delivery Tracking
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#newsletter">
+                                Newsletter
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="admin.html">
+                                Demo Admin Panel
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#top">
+                                Back to Top ↑
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <p>
+                    © <span id="currentYear"></span>
+                    NovaMart. Educational demo project.
+                </p>
+
+                <div class="payment-methods">
+                    <span>VISA</span>
+                    <span>MASTER CARD</span>
+                    <span>UPI DEMO</span>
+                    <span>COD DEMO</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================
+         TOAST CONTAINER
+    ========================================== -->
+
+    <div
+        class="toast-container"
+        id="toastContainer"
+        aria-live="polite"
+        aria-atomic="true"
+    ></div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script>
+        "use strict";
+
+        /* =========================================
+           1. STORAGE KEYS
+        ========================================= */
+
+        const STORAGE_KEYS = {
+            cart: "novamart_cart",
+            orders: "novamart_orders",
+            users: "novamart_users",
+            currentUser: "novamart_current_user",
+            wishlist: "novamart_wishlist",
+            newsletter: "novamart_newsletter"
+        };
+
+
+        /* =========================================
+           2. DUMMY PRODUCT CATALOG
+           
+           The next products.html file will use
+           the same product data structure.
+        ========================================= */
+
+        const PRODUCTS = [
+
+            {
+                id: 1,
+                name: "Wireless Headphones",
+                category: "Electronics",
+                price: 59.99,
+                oldPrice: 79.99,
+                rating: 4.8,
+                reviews: 124,
+                emoji: "🎧",
+                badge: "BESTSELLER",
+                description:
+                    "Comfortable wireless headphones for music, calls and everyday listening."
+            },
+
+            {
+                id: 2,
+                name: "Smart Watch Pro",
+                category: "Electronics",
+                price: 89.99,
+                oldPrice: 119.99,
+                rating: 4.7,
+                reviews: 98,
+                emoji: "⌚",
+                badge: "POPULAR",
+                description:
+                    "A stylish smart watch for everyday activity and notifications."
+            },
+
+            {
+                id: 3,
+                name: "Classic Cotton T-Shirt",
+                category: "Fashion",
+                price: 19.99,
+                oldPrice: 24.99,
+                rating: 4.5,
+                reviews: 72,
+                emoji: "👕",
+                badge: "NEW",
+                description:
+                    "A versatile cotton T-shirt designed for everyday comfort."
+            },
+
+            {
+                id: 4,
+                name: "Everyday Sneakers",
+                category: "Fashion",
+                price: 64.99,
+                oldPrice: 84.99,
+                rating: 4.6,
+                reviews: 86,
+                emoji: "👟",
+                badge: "SALE",
+                description:
+                    "Versatile everyday sneakers with a comfortable fit."
+            },
+
+            {
+                id: 5,
+                name: "Modern Table Lamp",
+                category: "Home",
+                price: 34.99,
+                oldPrice: 44.99,
+                rating: 4.4,
+                reviews: 51,
+                emoji: "💡",
+                badge: "",
+                description:
+                    "A modern table lamp for a warm and inviting room."
+            },
+
+            {
+                id: 6,
+                name: "Minimal Backpack",
+                category: "Accessories",
+                price: 39.99,
+                oldPrice: 49.99,
+                rating: 4.7,
+                reviews: 64,
+                emoji: "🎒",
+                badge: "POPULAR",
+                description:
+                    "A practical backpack for commuting, work and travel."
+            },
+
+            {
+                id: 7,
+                name: "Hydrating Face Serum",
+                category: "Beauty",
+                price: 24.99,
+                oldPrice: 29.99,
+                rating: 4.3,
+                reviews: 38,
+                emoji: "🧴",
+                badge: "",
+                description:
+                    "A lightweight beauty product for a simple self-care routine."
+            },
+
+            {
+                id: 8,
+                name: "Fitness Yoga Mat",
+                category: "Sports",
+                price: 29.99,
+                oldPrice: 39.99,
+                rating: 4.6,
+                reviews: 57,
+                emoji: "🧘",
+                badge: "SALE",
+                description:
+                    "A comfortable exercise mat for stretching and home workouts."
+            }
+
+        ];
+
+
+        /* =========================================
+           3. SAFE LOCAL STORAGE HELPERS
+        ========================================= */
+
+        function readStorage(key, fallback = []) {
+            try {
+                const raw = localStorage.getItem(key);
+
+                if (raw === null) {
+                    return fallback;
+                }
+
+                const parsed = JSON.parse(raw);
+
+                return parsed ?? fallback;
+
+            } catch (error) {
+                console.warn(
+                    "Could not read storage key:",
+                    key,
+                    error
+                );
+
+                return fallback;
+            }
+        }
+
+
+        function writeStorage(key, value) {
+            try {
+                localStorage.setItem(
+                    key,
+                    JSON.stringify(value)
+                );
+
+                return true;
+
+            } catch (error) {
+                console.error(
+                    "Could not save storage key:",
+                    key,
+                    error
+                );
+
+                showToast(
+                    "Could not save your changes. Check browser storage.",
+                    "error"
+                );
+
+                return false;
+            }
+        }
+
+
+        /* =========================================
+           4. CART HELPERS
+        ========================================= */
+
+        function getCart() {
+            const cart = readStorage(
+                STORAGE_KEYS.cart,
+                []
+            );
+
+            return Array.isArray(cart) ? cart : [];
+        }
+
+
+        function saveCart(cart) {
+            return writeStorage(
+                STORAGE_KEYS.cart,
+                cart
+            );
+        }
+
+
+        function getCartQuantity() {
+            return getCart().reduce(
+                (total, item) => {
+                    const quantity = Number(item.quantity) || 0;
+
+                    return total + quantity;
+                },
+                0
+            );
+        }
+
+
+        function updateCartCount() {
+            const countElement =
+                document.getElementById("cartCount");
+
+            if (!countElement) {
+                return;
+            }
+
+            countElement.textContent =
+                getCartQuantity();
+        }
+
+
+        function addToCart(productId) {
+            const product = PRODUCTS.find(
+                item => item.id === Number(productId)
+            );
+
+            if (!product) {
+                showToast(
+                    "This product could not be found.",
+                    "error"
+                );
+
+                return;
+            }
+
+            const cart = getCart();
+
+            const existingItem = cart.find(
+                item => Number(item.id) === product.id
+            );
+
+            if (existingItem) {
+                existingItem.quantity =
+                    (Number(existingItem.quantity) || 0) + 1;
+
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    emoji: product.emoji,
+                    category: product.category,
+                    quantity: 1
+                });
+            }
+
+            if (!saveCart(cart)) {
+                return;
+            }
+
+            updateCartCount();
+
+            showToast(
+                product.name + " added to your cart."
+            );
+        }
+
+
+        /* =========================================
+           5. CURRENCY FORMATTING
+        ========================================= */
+
+        function formatPrice(amount) {
+            const safeAmount = Number(amount) || 0;
+
+            return new Intl.NumberFormat(
+                "en-US",
+                {
+                    style: "currency",
+                    currency: "USD"
+                }
+            ).format(safeAmount);
+        }
+
+
+        /* =========================================
+           6. TOAST NOTIFICATIONS
+        ========================================= */
+
+        function showToast(message, type = "success") {
+            const container =
+                document.getElementById("toastContainer");
+
+            if (!container) {
+                return;
+            }
+
+            const toast =
+                document.createElement("div");
+
+            toast.className = "toast";
+
+            if (type === "error") {
+                toast.classList.add("error");
+            }
+
+            const icon =
+                document.createElement("span");
+
+            icon.className = "toast-icon";
+
+            icon.textContent =
+                type === "error" ? "⚠️" : "✓";
+
+            const text =
+                document.createElement("span");
+
+            text.className = "toast-message";
+
+            text.textContent = message;
+
+            toast.append(icon, text);
+
+            container.appendChild(toast);
+
+            window.setTimeout(() => {
+                toast.remove();
+            }, 3200);
+        }
+
+
+        /* =========================================
+           7. SAFE PRODUCT CARD CREATION
+        ========================================= */
+
+        function createProductCard(product) {
+            const card =
+                document.createElement("article");
+
+            card.className = "product-card";
+
+            const image =
+                document.createElement("div");
+
+            image.className = "product-image";
+
+            const emoji =
+                document.createElement("span");
+
+            emoji.className = "product-emoji";
+
+            emoji.textContent = product.emoji;
+
+            emoji.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            image.appendChild(emoji);
+
+
+            if (product.badge) {
+                const badge =
+                    document.createElement("span");
+
+                badge.className = "product-badge";
+
+                if (product.badge === "SALE") {
+                    badge.classList.add("sale");
+                }
+
+                badge.textContent = product.badge;
+
+                image.appendChild(badge);
+            }
+
+
+            const wishlistButton =
+                document.createElement("button");
+
+            wishlistButton.type = "button";
+
+            wishlistButton.className = "product-wishlist";
+
+            wishlistButton.textContent = "♡";
+
+            wishlistButton.setAttribute(
+                "aria-label",
+                "Toggle wishlist for " + product.name
+            );
+
+            wishlistButton.addEventListener(
+                "click",
+                () => toggleWishlist(product.id, wishlistButton)
+            );
+
+            image.appendChild(wishlistButton);
+
+
+            const info =
+                document.createElement("div");
+
+            info.className = "product-info";
+
+
+            const category =
+                document.createElement("span");
+
+            category.className = "product-category";
+
+            category.textContent = product.category;
+
+
+            const name =
+                document.createElement("h3");
+
+            name.className = "product-name";
+
+
+            const nameLink =
+                document.createElement("a");
+
+            nameLink.href =
+                "product-details.html?id=" + product.id;
+
+            nameLink.textContent = product.name;
+
+            name.appendChild(nameLink);
+
+
+            const rating =
+                document.createElement("div");
+
+            rating.className = "product-rating";
+
+            const stars =
+                document.createElement("strong");
+
+            stars.textContent = "★★★★★";
+
+            const ratingText =
+                document.createElement("span");
+
+            ratingText.textContent =
+                product.rating + " (" + product.reviews + ")";
+
+            rating.append(stars, ratingText);
+
+
+            const bottom =
+                document.createElement("div");
+
+            bottom.className = "product-bottom";
+
+
+            const priceBlock =
+                document.createElement("div");
+
+
+            const price =
+                document.createElement("div");
+
+            price.className = "product-price";
+
+            price.textContent =
+                formatPrice(product.price);
+
+            priceBlock.appendChild(price);
+
+
+            if (product.oldPrice > product.price) {
+                const oldPrice =
+                    document.createElement("span");
+
+                oldPrice.className = "old-price";
+
+                oldPrice.textContent =
+                    formatPrice(product.oldPrice);
+
+                priceBlock.appendChild(oldPrice);
+            }
+
+
+            const addButton =
+                document.createElement("button");
+
+            addButton.type = "button";
+
+            addButton.className = "add-cart-button";
+
+            addButton.textContent = "+";
+
+            addButton.setAttribute(
+                "aria-label",
+                "Add " + product.name + " to cart"
+            );
+
+            addButton.addEventListener(
+                "click",
+                () => addToCart(product.id)
+            );
+
+
+            bottom.append(priceBlock, addButton);
+
+            info.append(
+                category,
+                name,
+                rating,
+                bottom
+            );
+
+            card.append(image, info);
+
+            return card;
+        }
+
+
+        /* =========================================
+           8. RENDER FEATURED PRODUCTS
+        ========================================= */
+
+        function renderFeaturedProducts() {
+            const grid =
+                document.getElementById("featuredProductGrid");
+
+            if (!grid) {
+                return;
+            }
+
+            grid.replaceChildren();
+
+            PRODUCTS.slice(0, 4).forEach(product => {
+                grid.appendChild(
+                    createProductCard(product)
+                );
+            });
+
+            refreshWishlistButtons();
+        }
+
+
+        /* =========================================
+           9. WISHLIST
+        ========================================= */
+
+        function getWishlist() {
+            const wishlist = readStorage(
+                STORAGE_KEYS.wishlist,
+                []
+            );
+
+            return Array.isArray(wishlist)
+                ? wishlist
+                : [];
+        }
+
+
+        function toggleWishlist(productId, button) {
+            let wishlist = getWishlist();
+
+            const id = Number(productId);
+
+            const exists = wishlist.includes(id);
+
+            if (exists) {
+                wishlist = wishlist.filter(
+                    item => Number(item) !== id
+                );
+
+                showToast(
+                    "Product removed from your wishlist."
+                );
+
+            } else {
+                wishlist.push(id);
+
+                showToast(
+                    "Product added to your wishlist."
+                );
+            }
+
+            if (!writeStorage(
+                STORAGE_KEYS.wishlist,
+                wishlist
+            )) {
+                return;
+            }
+
+            if (button) {
+                button.classList.toggle(
+                    "active",
+                    !exists
+                );
+
+                button.textContent =
+                    exists ? "♡" : "♥";
+            }
+        }
+
+
+        function refreshWishlistButtons() {
+            const wishlist = getWishlist();
+
+            document.querySelectorAll(
+                ".product-wishlist"
+            ).forEach(button => {
+                const label =
+                    button.getAttribute("aria-label") || "";
+
+                const product = PRODUCTS.find(item =>
+                    label.endsWith(item.name)
+                );
+
+                if (!product) {
+                    return;
+                }
+
+                const active =
+                    wishlist.includes(product.id);
+
+                button.classList.toggle(
+                    "active",
+                    active
+                );
+
+                button.textContent =
+                    active ? "♥" : "♡";
+            });
+        }
+
+
+        /* =========================================
+           10. HEADER SEARCH
+        ========================================= */
+
+        function initializeSearch() {
+            const form =
+                document.getElementById("headerSearchForm");
+
+            const input =
+                document.getElementById("headerSearch");
+
+            if (!form || !input) {
+                return;
+            }
+
+            form.addEventListener("submit", event => {
+                event.preventDefault();
+
+                const query = input.value.trim();
+
+                if (!query) {
+                    showToast(
+                        "Enter a product name to search.",
+                        "error"
+                    );
+
+                    input.focus();
+
+                    return;
+                }
+
+                window.location.href =
+                    "products.html?q=" +
+                    encodeURIComponent(query);
+            });
+        }
+
+
+        /* =========================================
+           11. MOBILE NAVIGATION
+        ========================================= */
+
+        function initializeMobileMenu() {
+            const button =
+                document.getElementById("mobileMenuButton");
+
+            const navigation =
+                document.getElementById("navigationInner");
+
+            if (!button || !navigation) {
+                return;
+            }
+
+            button.addEventListener("click", () => {
+                const isOpen =
+                    navigation.classList.toggle("open");
+
+                button.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+                button.textContent =
+                    isOpen ? "✕" : "☰";
+            });
+
+
+            navigation.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", () => {
+                    navigation.classList.remove("open");
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                    button.textContent = "☰";
+                });
+            });
+        }
+
+
+        /* =========================================
+           12. NEWSLETTER FORM
+        ========================================= */
+
+        function initializeNewsletter() {
+            const form =
+                document.getElementById("newsletterForm");
+
+            const emailInput =
+                document.getElementById("newsletterEmail");
+
+            if (!form || !emailInput) {
+                return;
+            }
+
+            form.addEventListener("submit", event => {
+                event.preventDefault();
+
+                const email =
+                    emailInput.value.trim().toLowerCase();
+
+                if (!emailInput.checkValidity()) {
+                    emailInput.reportValidity();
+
+                    return;
+                }
+
+                const subscribers = readStorage(
+                    STORAGE_KEYS.newsletter,
+                    []
+                );
+
+                if (!Array.isArray(subscribers)) {
+                    showToast(
+                        "Newsletter storage is invalid.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                if (subscribers.includes(email)) {
+                    showToast(
+                        "This email is already subscribed.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                subscribers.push(email);
+
+                if (!writeStorage(
+                    STORAGE_KEYS.newsletter,
+                    subscribers
+                )) {
+                    return;
+                }
+
+                form.reset();
+
+                showToast(
+                    "Thanks for subscribing to NovaMart!"
+                );
+            });
+        }
+
+
+        /* =========================================
+           13. DEMO SOCIAL LINKS
+        ========================================= */
+
+        function initializeDemoLinks() {
+            document.querySelectorAll(
+                "[data-demo-link]"
+            ).forEach(link => {
+                link.addEventListener("click", event => {
+                    event.preventDefault();
+
+                    showToast(
+                        "This social link is a demo placeholder."
+                    );
+                });
+            });
+        }
+
+
+        /* =========================================
+           14. FOOTER YEAR
+        ========================================= */
+
+        function initializeFooterYear() {
+            const yearElement =
+                document.getElementById("currentYear");
+
+            if (yearElement) {
+                yearElement.textContent =
+                    new Date().getFullYear();
+            }
+        }
+
+
+        /* =========================================
+           15. APPLICATION INITIALIZATION
+        ========================================= */
+
+        function initializeNovaMart() {
+            updateCartCount();
+
+            renderFeaturedProducts();
+
+            initializeSearch();
+
+            initializeMobileMenu();
+
+            initializeNewsletter();
+
+            initializeDemoLinks();
+
+            initializeFooterYear();
+
+            console.log(
+                "NovaMart homepage initialized successfully."
+            );
+        }
+
+
+        /* =========================================
+           16. KEEP CART COUNT UPDATED
+           
+           The storage event fires when another
+           browser tab changes localStorage.
+        ========================================= */
+
+        window.addEventListener("storage", event => {
+            if (
+                event.key === STORAGE_KEYS.cart ||
+                event.key === null
+            ) {
+                updateCartCount();
+            }
+        });
+
+
+        /* =========================================
+           17. START APPLICATION
+        ========================================= */
+
+        if (document.readyState === "loading") {
+            document.addEventListener(
+                "DOMContentLoaded",
+                initializeNovaMart
+            );
+
+        } else {
+            initializeNovaMart();
+        }
+
+    </script>
+
+</body>
+</html>
